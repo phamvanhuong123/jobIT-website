@@ -1,0 +1,29 @@
+.header{
+    
+    background:linear-gradient(90deg,#1e272e,#2C5364);
+    display: flex;
+    padding: 15px 10px;
+    color: aliceblue;
+    border-bottom: #352A2C 1px solid ;
+}
+.header__left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.header__logo {
+  font-size: 30px;
+  font-weight: 600;
+}
+.header__menu__item{
+    color: #a6a6a6;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    
+    position: relative;
+}
+
+.header__menu__item__title{
+    color: #ffffff;
+}

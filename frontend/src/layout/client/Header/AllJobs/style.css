@@ -1,0 +1,56 @@
+.all-jobs{
+    position: absolute;
+    top: 43px;
+    left: 0;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s;
+    border-right: #352A2C 1px solid;
+}
+.header__menu__item:hover .all-jobs{
+    visibility: visible;
+    opacity: 1;
+}
+.all-jobs__item__content{
+    width: 300px;
+    padding: 15px;
+    background: #1e272e;
+    border-bottom: #352A2C 1px solid ;
+    transition: 0.1s;
+   
+}
+.all-jobs__item__content:hover{
+   color: white;
+   background-color: #414042;
+}
+.all-jobs__item__content{
+    display: flex;
+    justify-content: space-between;
+}
+
+.all-jobs__item__sub-item{
+    
+    z-index: 999;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.2s;
+    top: 0;
+    left: calc(100% + 1px);
+}
+.all-jobs__item:hover ul{
+    opacity: 1;
+    visibility: visible;
+ }
+.all-jobs__item__sub-item li{
+    width: 100px;
+    padding: 15px;
+    background: #1e272e;
+    border-bottom: #352A2C 1px solid ;
+    transition: 0.1s;
+}
+.all-jobs__item__sub-item li:hover{
+    color: white;
+    background-color: #414042;
+}
