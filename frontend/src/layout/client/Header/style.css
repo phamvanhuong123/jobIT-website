@@ -1,10 +1,16 @@
+/*  header */
 .header{
     
     background:linear-gradient(90deg,#1e272e,#2C5364);
     display: flex;
+    justify-content: space-between;
     padding: 15px 10px;
     color: aliceblue;
     border-bottom: #352A2C 1px solid ;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 .header__left{
     display: flex;
@@ -27,3 +33,17 @@
 .header__menu__item__title{
     color: #ffffff;
 }
+
+.header__right__menu{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.header__right__menu li{
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+/* End HEader */
