@@ -1,0 +1,65 @@
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 24px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    button {
+        border-radius: 6px;
+        height: 40px;
+    }
+}
+
+.job-card {
+    border-left: 3px solid transparent;
+    transition: 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        border-left: 3px solid #ff4d4f;
+        background-color: #fafafa;
+    }
+
+    &.selected {
+        border-left: 3px solid #ff4d4f;
+        box-shadow: 0 0 0 1px #ff4d4f;
+    }
+}
+
+
+.job-container {
+    display: flex;
+    gap: 24px;
+    padding: 24px;
+    overflow: visible;
+
+    box-sizing: content-box;
+}
+
+.job-list {
+    flex: 0 0 40%;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.detail-column {
+    flex: 0 0 60%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: sticky;
+
+}
+
+
+.detail-card-scroll {
+    flex: 1;
+    /* nhập scroll riêng */
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    padding-right: 12px;
+}
