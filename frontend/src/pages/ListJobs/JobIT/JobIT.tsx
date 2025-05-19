@@ -9,11 +9,11 @@ interface Job  {
     posted: string;
     description: string;
 };
-function JobDetail({job} : {job: Job}) {
+function JobIT({job} : {job: Job}) {
     return <>
      <div className="detail-column">
         <div className="detail-card-scroll">
-            <Card title={job.title} bordered>
+            <Card title={job.title} >
                 <Text strong>{job.company}</Text>
                 <Divider />
                 <p><strong>Địa điểm:</strong> {job.location}</p>
@@ -30,4 +30,4 @@ function JobDetail({job} : {job: Job}) {
     </div>
     </>
 }
-export default JobDetail
+export default JobIT

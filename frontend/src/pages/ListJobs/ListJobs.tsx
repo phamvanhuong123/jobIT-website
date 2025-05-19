@@ -1,9 +1,7 @@
 import {
-    Row,
-    Col,
+    
     Card,
     Typography,
-    Divider,
     Space,
     Tag,
     Button,
@@ -14,6 +12,8 @@ import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import SearchBox from "~/components/SearchBox/SearchBox";
 import "./ListJobs.css";
+import JobIT from "./JobIT/JobIT";
+
 
 const { Title, Text } = Typography;
 
@@ -155,26 +155,6 @@ const JobList = ({ jobs, selectedId, onSelect }: {
     </Space>
 );
 
-// COMPONENT CON: CHI TIẾT JOB
-const JobDetail = ({ job }: { job: Job }) => (
-    <div className="detail-column">
-        <div className="detail-card-scroll">
-            <Card title={job.title} bordered>
-                <Text strong>{job.company}</Text>
-                <Divider />
-                <p><strong>Địa điểm:</strong> {job.location}</p>
-                <p><strong>Đăng:</strong> {job.posted}</p>
-                <p><strong>Mô tả:</strong><br />{job.description.repeat(10)}</p>
-                <div style={{ marginTop: 12 }}>
-                    {job.tags.map((tag, idx) => (
-                        <Tag key={idx} color="blue">{tag}</Tag>
-                    ))}
-                </div>
-                <Button type="primary" style={{ marginTop: 16 }}>Ứng tuyển</Button>
-            </Card>
-        </div>
-    </div>
-);
 
 function ListJobs() {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -219,7 +199,7 @@ function ListJobs() {
                 <div className="job-list">
                     <JobList jobs={jobList} selectedId={selectedJob?.id || null} onSelect={setSelectedJob} />
                 </div>
-                {selectedJob && <JobDetail job={selectedJob} />}
+                {selectedJob && <JobIT job={selectedJob} />}
             </div>
         </>
     );
