@@ -1,0 +1,58 @@
+
+
+/* DetailJob/HeaderSection/HeaderSection.module.css */
+
+.wrapper {
+  position: sticky;
+  top: 65px;
+  background-color: white;
+  z-index: 100;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.company {
+  font-size: 18px;
+  margin-top: 5px;
+}
+
+.salary {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.salary a {
+  text-decoration: underline;
+  color: black;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.applyButton {
+  background-color: red;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1;
+  font-size: 16px;
+}
+
+.heart {
+  font-size: 50px;
+  color: red;
+  cursor: pointer;
+}

@@ -1,0 +1,75 @@
+/* Container sticky của cột phải */
+.stickyWrapper {
+  position: sticky;
+  top: 66px;
+  align-self: flex-start;
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  flex: 1;
+}
+
+/* Thẻ chính bọc nội dung công ty */
+.card {
+  flex: 1;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.star {
+  color: #f39c12;
+  font-size: 18px;
+}
+
+.ratingText {
+  font-weight: 500;
+}
+
+.tagline {
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.infoTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  color: #666;
+}
+
+.infoRow {
+  border-bottom: 1px dashed #eee;
+}
+
+.label {
+  padding: 10px 16px 10px 0;
+  color: #999;
+  white-space: nowrap;
+  width: 160px;
+  vertical-align: top;
+}
+
+.value {
+  padding: 10px 0;
+  color: #000;
+  font-weight: 500;
+}

@@ -1,0 +1,193 @@
+/* Container chính */
+.wrapper {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Hình ảnh công ty */
+.imageContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.companyImage {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Địa điểm và thông tin chung */
+.locationContainer {
+  margin-bottom: 20px;
+}
+
+.locationRow,
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.infoRow {
+  margin-top: 6px;
+}
+
+.skillsContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.skillBadge {
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+/* Chi tiết công việc */
+.detailContainer {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  line-height: 1.7;
+  font-size: 16px;
+  color: #333;
+  margin-top: 30px;
+}
+
+.sectionBlock {
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  margin-top: 32px;
+}
+
+.bulletList {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.bulletItem {
+  margin-bottom: 8px;
+  list-style-position: inside;
+}
+
+.boldItem {
+  font-weight: 600;
+  list-style-type: "\25CF";
+}
+
+.normalItem {
+  font-weight: normal;
+  list-style-type: "\25CB";
+  padding-left: 12px;
+}
+
+.sectionDivider {
+  border-top: 1px dashed #ccc;
+  margin: 24px 0;
+}
+
+/* Việc làm tương tự */
+.similarJobContainer {
+  margin-top: 40px;
+}
+
+.alertBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fafafa;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.alertButton {
+  border: 1px solid red;
+  color: red;
+  background: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.similarList {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.similarCard {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 20px;
+  width: calc(50% - 10px);
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.posted {
+  color: #999;
+  font-size: 14px;
+}
+
+.similarTitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.similarCompany {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.similarLogo {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.salary a {
+  color: black;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.skillList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.hotTag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
