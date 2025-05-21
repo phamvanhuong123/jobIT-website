@@ -8,5 +8,7 @@ export default defineConfig({
     alias : [
       {find : '~',replacement : '/src'}
     ]
-  }
+  },
+  define :{
+    'import.meta.env': {}  }
 })
