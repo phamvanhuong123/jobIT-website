@@ -1,0 +1,589 @@
+/* Trang Company Page */
+.company-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Header của công ty */
+.company-card-header {
+    background: linear-gradient(90deg, #1e272e, #2C5364);
+    padding: 24px;
+    color: white;
+    width: 100%;
+}
+
+.company-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.left-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.company-name {
+    text-transform: uppercase;
+    color: #000;
+    margin: 0 3px;
+}
+
+.company-name-info {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+}
+
+.company-location {
+    margin: 0;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.job-link {
+    color: white;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.review-button {
+    padding: 11px 24px;
+    background-color: #e11d48;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.follow-button {
+    padding: 11px 24px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.right-section {
+    border-radius: 10px;
+    padding: 16px 20px;
+    color: #fff;
+    width: fit-content;
+    background: #ffffff0d;
+
+}
+
+.rating-box {
+    display: flex;
+    gap: 6px;
+}
+
+.rating-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.rating-score {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.rating-stars .ant-rate-star {
+    margin-right: 2px;
+    font-size: 20px;
+    color: #fadb14;
+}
+
+.rating-detail {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+.recommend-rate {
+    font-size: 16px;
+    margin-top: 4px;
+}
+
+.recommend-percent {
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+/* Layout chính chia 7:3 */
+.company-card-container {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+/* Phần bên trái chiếm 70% */
+.left-content {
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Phần bên phải chiếm 30% */
+.right-content {
+    flex: 3;
+}
+
+/* Tabs */
+.company-tabs-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    margin: 0 24px;
+}
+
+.company-tab {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+.company-tab:hover {
+    background-color: #f3f4f6;
+}
+
+.company-tab.active {
+    background-color: #1890ff;
+    color: white;
+}
+
+.tab-content {
+    background-color: #f5f5f5;
+    width: 100%;
+}
+
+/* Phần List Job thuộc công ty*/
+.company-job-container {
+    display: flex;
+    gap: 24px;
+    height: 100vh;
+    overflow: visible;
+    flex-direction: column;
+    box-sizing: content-box;
+    margin-right: 30px;
+    position: sticky;
+    top: 75px;
+}
+
+.company-job-list {
+    overflow-y: auto;
+    padding-right: 8px;
+    flex: 1;
+    margin-top: 10px;
+
+}
+
+.company-job-container .ant-card-head {
+    position: sticky;
+    top: 0;
+}
+
+.company-job-container .ant-card-body {
+    height: 300px;
+    overflow: auto;
+}
+
+/* Phần giới thiệu */
+.company-info-card {
+    margin: 20px auto;
+    max-width: 1000px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.company-logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.company-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.company-introduction,
+.company-links,
+.why-love-section {
+    margin-top: 24px;
+}
+
+.intro-text {
+    font-size: 18px;
+}
+
+.why-love-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.love-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 8px;
+}
+
+.love-list li {
+    margin-bottom: 6px;
+    font-size: 16px;
+    color: #000;
+}
+
+.love-list li::marker {
+    color: #d32f2f;
+}
+
+
+p {
+    font-size: 18px;
+}
+
+.section-box {
+    margin-bottom: 40px;
+}
+
+.company-info-card,
+.company-intro-card,
+.company-links-card,
+.company-love-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Phần đánh giá  */
+.review-container {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f5f5f5;
+    padding: 24px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.review-title {
+    font-size: 20px;
+    font-weight: 700;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+
+.review-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.score-section {
+    width: 20%;
+    text-align: center;
+}
+
+.score {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.star-rating .ant-rate-star-full .anticon {
+    color: #f59e0b;
+}
+
+.review-count {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.distribution-section {
+    width: 50%;
+}
+
+.distribution-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.star-label {
+    width: 16px;
+    font-weight: 500;
+}
+
+.star-icon {
+    color: #f59e0b;
+    margin: 0 8px;
+}
+
+.progress-bar {
+    flex: 1;
+    background-color: #ffeccc;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    background-color: #f59e0b;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.percent-label {
+    width: 40px;
+    text-align: right;
+    font-size: 13px;
+    color: #555;
+    margin-left: 8px;
+}
+
+.recommend-section {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.recommend-label {
+    margin-top: 12px;
+    font-size: 14px;
+    text-align: center;
+    color: #333;
+}
+
+.user-review-box {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 24px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.review-box {
+    margin-bottom: 20px;
+}
+
+.review-box-commnet {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.review-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.review-content-comment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.review-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.review-hint {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.review-anonymous {
+    font-size: 14px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    color: #6b7280;
+}
+
+.warning {
+    margin-right: 4px;
+}
+
+.user-review-box {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.user-review-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.user-review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.review-date {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.review-subtitle {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1f2937;
+}
+
+.review-description {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.6;
+}
+
+.review-advantage,
+.review-disadvantage {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.label-green {
+    color: #16a34a;
+    font-weight: 500;
+}
+
+.label-red {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+/* Phần bài viết */
+.company-posts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+}
+
+.employer-invite-card,
+.feature-info-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 16px;
+}
+
+.employer-content {
+    display: flex;
+    gap: 16px;
+}
+
+.employer-image {
+    width: 120px;
+    height: auto;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #6b21a8;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.invite-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+ul {
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.highlight-link {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
+.info-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.feature-image {
+    width: 100px;
+    height: auto;
+    align-self: flex-start;
+}
+
+.info-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.note {
+    color: #dc2626;
+    font-size: 14px;
+}
