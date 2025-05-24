@@ -4,7 +4,7 @@ import CompanyIntro from "./CompanyIntro";
 import CompanyReviews from "./CompanyReviews";
 import CompanyPosts from "./CompanyPosts";
 import CompanyJobList from "./CompanyJobList";
-import "./CompanyPage.css";
+import "./Company.css"
 
 const CompanyPage = () => {
   const [activeTab, setActiveTab] = useState("intro");
