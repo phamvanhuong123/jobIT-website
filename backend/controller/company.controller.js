@@ -1,4 +1,4 @@
-const Company = require("../../model/company.model");
+const Company = require("../model/company.model");
 
 
 // Hiển thị danh sách công ty

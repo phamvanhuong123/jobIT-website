@@ -16,7 +16,7 @@ database.connectMongoDB(URL_MONGO);
 app.use(express.json())
 
 //định nghĩa Router
-const routeClient = require("./routes/client/index.route");
+const routeClient = require("./routes/index.route");
 routeClient(app);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

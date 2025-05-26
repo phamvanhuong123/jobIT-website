@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const companyController = require('../../controller/client/company.controller')
+const companyController = require('../controller/company.controller')
 
 // [Get] api/companies
 route.get('/companies',companyController.getAllCompany);
