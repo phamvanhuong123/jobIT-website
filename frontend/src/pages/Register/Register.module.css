@@ -1,0 +1,66 @@
+.registerContainer {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.requirements {
+  font-size: 14px;
+  color: #444;
+  margin-left: 20px;
+  list-style-type: circle;
+}
+
+.checkbox {
+  font-size: 14px;
+}
+
+.submitBtn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.loginRedirect {
+  text-align: center;
+  margin-top: 20px;
+}
+.errorInput {
+  border: 1px solid red;
+  background-color: #fff0f0;
+}
+
+.errorText {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}

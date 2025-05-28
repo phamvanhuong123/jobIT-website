@@ -1,14 +1,9 @@
-import AllRoutes from './routes/AllRoutes'
-
+import ClientRoute from "./routes/ClientRoute";
 
 function App() {
- 
   return (
-    <>
-   
-      <AllRoutes/>
-    </>
-  )
+    <ClientRoute />
+  );
 }
 
-export default App
+export default App;

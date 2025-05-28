@@ -1,0 +1,117 @@
+.loginContainer {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.itviec {
+  font-weight: bold;
+  font-size: 24px;
+}
+
+.red {
+  color: red;
+}
+
+.googleLogin {
+  width: 100%;
+  background: white;
+  color: #333;
+  border: 1px solid red;
+  padding: 10px;
+  font-size: 16px;
+  margin: 15px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #555;
+  margin: 20px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider::before {
+  margin-right: 10px;
+}
+
+.divider::after {
+  margin-left: 10px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.loginForm label {
+  margin: 6px 0 4px;
+  font-weight: bold;
+}
+
+.loginForm input {
+  padding: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.passwordField {
+  position: relative;     /* 👈 Cho phép icon định vị tuyệt đối bên trong */
+  width: 100%;
+}
+
+.passwordField input {
+  width: 100%;            /* 👈 Input chiếm toàn bộ chiều ngang */
+  padding-right: 40px;    /* 👈 Chừa chỗ để icon không đè lên chữ */
+}
+
+.eyeIcon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+
+.forgotPassword {
+  font-size: 13px;
+  text-align: right;
+  color: #007bff;
+  margin-bottom: 15px;
+  display: block;
+  text-decoration: none;
+}
+
+.emailLogin {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  border: none;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.register {
+  margin-top: 20px;
+  font-size: 14px;
+}

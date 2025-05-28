@@ -4,6 +4,9 @@ import DetailJob from "~/pages/DetailJob/DetailJob"
 import Home from "~/pages/Home/Home"
 import ListJobs from "~/pages/ListJobs/ListJobs"
 import CompanyPage from '~/pages/Company/Company';
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+
 function ClientRoute() {
     let element = useRoutes([
         {
@@ -25,9 +28,22 @@ function ClientRoute() {
                 path: "company",
                 element: <CompanyPage />
             }
+            
             ]
+             },
+             {
+                path: 'dang-nhap', 
+                element: <Login />
+             }, 
 
-        }
+             {
+                path: 'dang-ki', 
+                element: <Register/>
+             }
+
+
+
+       
     ])
     return <>
         {element}
