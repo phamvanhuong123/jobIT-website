@@ -7,6 +7,8 @@
     visibility: hidden;
     transition: 0.2s;
     border-right: #352A2C 1px solid;
+    margin: 0;
+    padding-left: 0;
 }
 .header__menu__item:hover .all-jobs{
     visibility: visible;
@@ -38,6 +40,8 @@
     transition: 0.2s;
     top: 0;
     left: calc(100% + 1px);
+    margin: 0;
+    padding: 0;
 }
 .all-jobs__item:hover ul{
     opacity: 1;
