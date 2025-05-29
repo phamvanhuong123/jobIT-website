@@ -1,10 +1,10 @@
-import Header from "~/layout/client/Header/Header";
-import Footer from "~/layout/client/Footer/Footer";
+
+import { Link } from "react-router";
 import styles from "./Login.module.css";
 
 const Login = () => (
     <>
-        <Header />
+
 
         <div className={styles.loginContainer}>
             <h2>
@@ -36,10 +36,10 @@ const Login = () => (
             </form>
 
             <p className={styles.register}>
-                Bạn chưa có tài khoản? <a href="#">Đăng ký ngay</a>
+                Bạn chưa có tài khoản? <Link to="/dang-ki">Đăng ký ngay</Link>
             </p>
         </div>
-        <Footer />
+        
     </>
 );
 

@@ -65,9 +65,7 @@ function ClientRoute() {
             }
           ],
         },
-      ],
-    },
-    {
+        {
       path: "dang-nhap",
       element: <Login />,
     },
@@ -76,6 +74,9 @@ function ClientRoute() {
       path: "dang-ki",
       element: <Register />,
     },
+      ],
+    },
+    
   ]);
   return <>{element}</>;
 }

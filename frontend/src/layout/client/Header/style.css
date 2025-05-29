@@ -20,6 +20,15 @@
 .header__logo {
   font-size: 30px;
   font-weight: 600;
+  
+}
+.header__logo a{
+  color: #f6f6f6;
+  
+}
+.header__logo span{
+  color: #5636f8;
+  
 }
 .header__menu__item{
     color: #a6a6a6;

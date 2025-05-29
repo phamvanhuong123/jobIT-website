@@ -1,7 +1,7 @@
-import Header from "~/layout/client/Header/Header";
-import Footer from "~/layout/client/Footer/Footer";
+
 import styles from "./Register.module.css";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const Register = () => {
   const [password, setPassword] = useState("");
@@ -22,8 +22,8 @@ const Register = () => {
   
   return (
     <>
-        <Header />
-         <div className={styles.registerContainer}>
+      
+      <div className={styles.registerContainer}>
       <h2 className={styles.title}>Đăng ký tài khoản</h2>
  
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -73,11 +73,9 @@ const Register = () => {
       </form>
 
       <p className={styles.loginRedirect}>
-        Bạn đã có tài khoản? <a href="/dang-nhap">Đăng nhập ngay!</a>
+        Bạn đã có tài khoản? <Link to="/dang-nhap">Đăng nhập ngay!</Link>
       </p>
     </div>
-
-        <Footer />
     </>
 );
 };

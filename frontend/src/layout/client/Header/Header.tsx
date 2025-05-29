@@ -2,6 +2,7 @@ import { Space } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import './style.css'
 import ALlJobs from './AllJobs/AllJobs';
+import { Link } from 'react-router';
 
   
 function Header(){
@@ -10,7 +11,7 @@ function Header(){
         <header className='header'>
             <div className='header__left'>
                 <div className='header__logo'>
-                    <div>JobIT</div>
+                    <Link to="/">Job<span>IT</span></Link>
                 </div>
                 <div className='header__menu'>
                         <Space className='header__menu__item'>
@@ -22,12 +23,12 @@ function Header(){
             </div>
             <div className='header__right'>
                 <ul className='header__right__menu'>
-                    <li>
+                    <Link to={''}>
                         Nhà tuyển dụng
-                    </li>
-                    <li>
+                    </Link>
+                    <Link to={'/dang-nhap'}>
                         Đăng nhập/Đăng kí
-                    </li>
+                    </Link>
                 </ul>
             </div>
         </header>
