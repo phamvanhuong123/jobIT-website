@@ -38,9 +38,10 @@ function ClientRoute() {
           path: "user",
           element: <Account />,
           children: [
-            {
+            { 
               path: "tong-quan-ho-so",
               element: <Overview />,
+              
             },
             {
               path: "quan-li-cv",
@@ -57,7 +58,11 @@ function ClientRoute() {
             {
               path: "cai-dat",
               element: <Settings />,
-            },
+            },{
+              path : '',
+              element: <Overview />,
+              
+            }
           ],
         },
       ],
