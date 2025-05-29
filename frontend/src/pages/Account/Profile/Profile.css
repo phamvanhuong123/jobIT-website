@@ -1,0 +1,141 @@
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.profile-header {
+    padding: 24px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+.profile-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.avatar-section {
+    display: flex;
+    gap: 16px;
+}
+
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.name {
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.sub-title {
+    color: #999;
+}
+
+.info-grid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 8px 24px;
+    font-size: 14px;
+    color: #444;
+}
+
+.edit-icon-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 18px;
+    color: #e53935;
+}
+
+/* Section cards */
+
+.section-list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.section-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+    transition: all 0.2s;
+}
+
+.section-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-icon {
+    font-size: 24px;
+    background: #fff4f2;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #ff7875;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.section-title {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.section-desc {
+    font-size: 13px;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* Đưa nút edit lên góc phải */
+.edit-button {
+    position: absolute;
+    top: -8px;
+    right: 1px;
+    font-size: 18px;
+    color: #ff4d4f;
+}
+
+.add-icon {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid #ff4d4f;
+    background-color: #ffffff;
+    color: #ff4d4f;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.add-icon:hover {
+    background-color: #ffeaea;
+}
