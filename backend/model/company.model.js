@@ -15,7 +15,7 @@ const companySchema = new mongoose.Schema({
     contactPhone : String,
     keySkills : [String],
     description : String,
-    whyLove : String,
+    whyLove : [String],
     deleted : {
         type : Boolean,
         default : false
