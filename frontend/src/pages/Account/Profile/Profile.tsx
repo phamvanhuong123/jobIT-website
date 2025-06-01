@@ -1,4 +1,15 @@
-import { Card, Typography, Button } from "antd";
+import {
+    Card,
+    Typography,
+    Button,
+    Modal,
+    Form,
+    Input,
+    DatePicker,
+    Select,
+    Row,
+    Col,
+} from "antd";
 import {
     EditOutlined,
     MailOutlined,
@@ -7,8 +18,13 @@ import {
     UserOutlined,
     EnvironmentOutlined,
     LinkOutlined,
+    DeleteOutlined,
+    CameraOutlined,
 } from "@ant-design/icons";
+
+import { useState } from "react";
 import "./Profile.css";
+import SectionModals from "./SectionModals.tsx";
 
 const { Title, Text } = Typography;
 
@@ -39,7 +55,7 @@ const sections = [
         icon: "🈯",
     },
     {
-        title: "Dự án nổi bật",
+        title: "Dự án nổi bật",
         desc: "Giới thiệu dự án nổi bật của bạn",
         icon: "🚀",
     },
@@ -55,7 +71,29 @@ const sections = [
     },
 ];
 
+
+
 function Profile() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSave = () => {
+        form.validateFields().then((values) => {
+            console.log("Thông tin đã lưu:", values);
+            setIsModalOpen(false);
+        });
+    };
+    const [openSection, setOpenSection] = useState<number | null>(null);
+
+
     return (
         <div className="profile-container">
             {/* Header */}
@@ -85,9 +123,94 @@ function Profile() {
                         className="edit-icon-btn"
                         type="text"
                         icon={<EditOutlined />}
+                        onClick={handleOpenModal}
                     />
                 </div>
             </Card>
+            {/* Modal cho phần trên */}
+            <Modal
+                title="Thông tin cá nhân"
+                open={isModalOpen}
+                onCancel={handleCloseModal}
+                footer={[
+                    <Button key="cancel" onClick={handleCloseModal}>
+                        Hủy
+                    </Button>,
+                    <Button key="submit" type="primary" onClick={handleSave} style={{ backgroundColor: "#ff4d4f", borderColor: "#fa8c16" }}>
+                        Lưu
+                    </Button>,
+                ]}
+                width={800}
+            >
+                <Form form={form} layout="vertical">
+                    <Row gutter={24}>
+                        <Col span={6} style={{ textAlign: "center" }}>
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                                alt="avatar"
+                                style={{ width: 80, marginBottom: 8 }}
+                            />
+                            <div>
+                                <Button type="link" icon={<CameraOutlined />}>Sửa</Button>
+                                <Button type="link" icon={<DeleteOutlined />}>Xoá</Button>
+                            </div>
+                        </Col>
+                        <Col span={18}>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Form.Item name="fullName" label="Họ và Tên" validateTrigger="onBlur" rules={[{
+                                        required: true, message: 'Vui lòng điền họ và tên của bạn'
+                                    }]}>
+                                        <Input defaultValue="Nguyễn Văn A" />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="position" label="Chức danh" validateTrigger="onBlur" rules={[{
+                                        required: true, message: 'Vui lòng điền chức danh của bạn'
+                                    }]}>
+                                        <Input placeholder="Nhập chức danh" />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="email" label="Địa chỉ email">
+                                        <Input disabled defaultValue="vanA1@gmail.com" />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="phone" label="Số điện thoại" validateTrigger="onBlur" rules={[{ required: true, message: 'Vui lòng điền số điện thoại của bạn' }]}>
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="dob" label="Ngày sinh" validateTrigger="onBlur" rules={[{ required: true, message: 'Vui lòng điền ngày sinh của bạn' }]}>
+                                        <DatePicker style={{ width: "100%" }} />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="gender" label="Giới tính">
+                                        <Select defaultValue="Nam" options={[{ value: "Nam" }, { value: "Nữ" }]} />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="city" label="Tỉnh/Thành phố hiện tại" rules={[{ required: true }]}>
+                                        <Select placeholder="Chọn tỉnh/thành phố" />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12}>
+                                    <Form.Item name="address" label="Địa chỉ(Tên đường, quận/huyện">
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={24}>
+                                    <Form.Item name="link" label="Link cá nhân (Linkedin, portfolio,...)">
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Form>
+            </Modal >
 
 
             {/* Section list */}
@@ -101,11 +224,12 @@ function Profile() {
                                 <div className="section-desc">{section.desc}</div>
                             </div>
                         </div>
-                        <div className="add-icon">+</div>
+                        <div className="add-icon" onClick={() => setOpenSection(idx)}>+</div>
                     </div>
                 ))}
             </div>
-        </div>
+            <SectionModals openSection={openSection} onClose={() => setOpenSection(null)} />
+        </div >
     );
 }
 
