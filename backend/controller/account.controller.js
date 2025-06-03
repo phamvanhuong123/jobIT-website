@@ -3,6 +3,22 @@ const dotenv = require("dotenv").config();
 const Account = require('../model/account.model')
 const Candidate = require('../model/candicate.model')
 const JWT_SECRECT = dotenv.parsed.JWT_SECRECT
+const moment = require('moment')
+
+// Xác thực token
+module.exports.verifyToken = (req,res)=>{
+    res.json({
+      status : 200,
+      message : "verify token successfull",
+      data : {
+        dateNow : moment(Date.now()).format("DD/MM/YYYY HH-mm"),
+        dateExp : moment(req.user.exp *1000).format("DD/MM/YYYY HH-mm"),
+        dateIat : moment(req.user.iat *1000).format("DD/MM/YYYY HH-mm")
+      }
+    })
+}
+
+// Đăng kí
 module.exports.RegisterCandicate = async (req,res) =>{
     
     try{
@@ -45,6 +61,8 @@ module.exports.RegisterCandicate = async (req,res) =>{
     
     
 }
+
+// Đăng nhập 
 module.exports.loginCandidate = async (req,res) =>{
     try{
         const {email,password} = req.body;
@@ -59,9 +77,8 @@ module.exports.loginCandidate = async (req,res) =>{
         }
 
         // dữ liệu trả về
-        const token = jwt.sign({id : existAccount._id, role : existAccount.role},JWT_SECRECT,{expiresIn : 1000 * 60*60});
+        const token = jwt.sign({id : existAccount._id, role : existAccount.role},JWT_SECRECT,{ expiresIn: '1h' });
         const candidate = await Candidate.findOne({idAccount : existAccount._id})
-       
         res.json({
             status : 200,
             message : "Đăng nhập thành công",
