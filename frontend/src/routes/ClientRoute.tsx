@@ -13,7 +13,7 @@ import Account from "~/pages/Account/Account";
 import Login from "~/pages/Login/Login";
 import Register from "~/pages/Register/Register";
 import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
-
+import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 
 function ClientRoute() {
   let element = useRoutes([
@@ -38,53 +38,55 @@ function ClientRoute() {
           element: <CompanyPage />,
         },
         {
-          path: "user",
-          element: <Account />,
+          element: <PriveRoutes />,
           children: [
-            { 
-              path: "tong-quan-ho-so",
-              element: <Overview />,
-              
-            },
             {
-              path: "quan-li-cv",
-              element: <AttachedCV />,
-            },
-            {
-              path: "ho-so-cv",
-              element: <Profile />,
-            },
-            {
-              path: "viec-lam-cua-toi",
-              element: <MyJobs />,
-            },
-            {
-              path: "cai-dat",
-              element: <Settings />,
-            },
-            {
-              path : '',
-              element: <Overview />,
-              
+              path: "user",
+              element: <Account />,
+              children: [
+                {
+                  path: "tong-quan-ho-so",
+                  element: <Overview />,
+                },
+                {
+                  path: "quan-li-cv",
+                  element: <AttachedCV />,
+                },
+                {
+                  path: "ho-so-cv",
+                  element: <Profile />,
+                },
+                {
+                  path: "viec-lam-cua-toi",
+                  element: <MyJobs />,
+                },
+                {
+                  path: "cai-dat",
+                  element: <Settings />,
+                },
+                {
+                  path: "",
+                  element: <Overview />,
+                },
+              ],
             },
           ],
         },
-         {
-              path: "xac-nhan-xoa",
-              element: <ConfirmDelete />
-            },
         {
-      path: "dang-nhap",
-      element: <Login />,
-    },
+          path: "xac-nhan-xoa",
+          element: <ConfirmDelete />,
+        },
+        {
+          path: "dang-nhap",
+          element: <Login />,
+        },
 
-    {
-      path: "dang-ki",
-      element: <Register />,
-    },
+        {
+          path: "dang-ki",
+          element: <Register />,
+        },
       ],
     },
-    
   ]);
   return <>{element}</>;
 }

@@ -9,7 +9,6 @@ module.exports.verifyJWT = (req,res,next) =>{
         res.status(400).json({
             status : 400,
             message : "Khong có token"
-
         })
         return;
     }

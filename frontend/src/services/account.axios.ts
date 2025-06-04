@@ -14,7 +14,7 @@ interface ILogin  {
 }
 
 export  const register = (data : any)=>{
-    return axios.post("register",data);
+    return axios.post<IDataResponse<any>>("register",data);
 }
 
 export const login = (data : any) =>{
@@ -22,7 +22,7 @@ export const login = (data : any) =>{
 }
 export const verifitoken = () =>{
     const token = localStorage.getItem('token');
-    return axios.get('auth/verify-token',{
+    return axios.get<IDataResponse<any>>('auth/verify-token',{
         headers :  {
             'Authorization': `Bearer ${token}`
         }

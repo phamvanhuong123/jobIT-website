@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import styles from "./Login.module.css";
 import { FormEvent, useState } from "react";
 import { login, verifitoken } from "~/services/account.axios";
+import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -25,8 +26,7 @@ const Login = () => {
     
     if (res.data) {
       localStorage.setItem("token",res.data.token);
-      const resData = await verifitoken();
-      console.log(resData)
+      navigate('/')
       return
     }
     setMessage(res.message.toString());
