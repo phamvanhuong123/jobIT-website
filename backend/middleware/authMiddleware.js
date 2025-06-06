@@ -23,7 +23,7 @@ module.exports.verifyJWT = (req,res,next) =>{
     catch(e){
         res.status(400).json({
             status  :400,
-            message : `Token không hợp lệ hoặc đã hết hạn ${e}`
+            message : `Unauthorized :  ${e}`
         })
     }
     
