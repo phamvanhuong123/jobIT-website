@@ -1,0 +1,124 @@
+.apply-form-container {
+    max-width: 800px;
+    margin: 24px auto;
+    padding: 24px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.apply-form-container .ant-typography {
+    margin-bottom: 8px;
+}
+
+.apply-form-container .ant-typography.secondary {
+    color: #666;
+}
+
+.apply-form-container .ant-form-item-label>label {
+    font-weight: 600;
+    color: #333;
+}
+
+.apply-form-container .ant-form-item-control-input-content {
+    max-width: 100%;
+}
+
+.apply-form-container .circle-checkbox .ant-checkbox-inner {
+    border-radius: 50%;
+}
+
+.apply-form-container .ant-upload {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.apply-form-container .upload-icon {
+    font-size: 20px;
+    color: #999;
+}
+
+.apply-form-container .ant-upload-list-item-info {
+    font-size: 14px;
+}
+
+.apply-form-container .ant-btn {
+    background-color: #ff4d4f;
+    border-color: #fa8c16;
+    color: white;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+}
+
+.apply-form-container .ant-btn:hover,
+.apply-form-container .ant-btn:focus {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+    color: white;
+}
+
+.apply-form-container .ant-select-selector {
+    border-radius: 6px !important;
+    padding: 4px 12px !important;
+    min-height: 38px !important;
+}
+
+.apply-form-container .ant-select-selection-item {
+    font-size: 14px;
+}
+
+.apply-form-container .ant-typography.danger {
+    color: #ff4d4f !important;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+}
+
+.apply-form-container .ant-input,
+.apply-form-container .ant-input-textarea {
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #d9d9d9;
+    transition: border-color 0.3s ease;
+}
+
+.apply-form-container .ant-input:focus,
+.apply-form-container .ant-input-textarea:focus {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.apply-form-container .tip-icon {
+    color: #fa8c16;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.apply-form-container .tip-text {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.upload-container>* {
+    margin-bottom: 8px;
+}
+
+.upload-container>*:last-child {
+    margin-bottom: 0;
+}
+
+.upload-note {
+    margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+    .apply-form-container {
+        margin: 12px;
+        padding: 16px;
+    }
+}

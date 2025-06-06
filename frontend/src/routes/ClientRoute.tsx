@@ -14,7 +14,7 @@ import Login from "~/pages/Login/Login";
 import Register from "~/pages/Register/Register";
 import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
 import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
-
+import ApplyForm from "~/pages/ApplyJob";
 function ClientRoute() {
   let element = useRoutes([
     {
@@ -36,6 +36,10 @@ function ClientRoute() {
         {
           path: "company",
           element: <CompanyPage />,
+        },
+        {
+          path: "apply",
+          element: <ApplyForm />,
         },
         {
           element: <PriveRoutes />,
