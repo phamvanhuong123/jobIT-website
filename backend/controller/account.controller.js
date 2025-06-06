@@ -48,7 +48,7 @@ module.exports.RegisterCandicate = async (req,res) =>{
         await candidate.save();
         res.json({
             status : 200,
-            message : 'Dang kí thanh cong',
+            message : 'Đăng kí thành công',
         })
         
     }

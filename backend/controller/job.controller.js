@@ -1,6 +1,6 @@
 
 const Job = require("../model/job.model");
-
+const Company = require('../model/company.model')
 // Lấy danh sách job theo công ty
 module.exports.getJobsbyCompany = async (req,res) =>{
     try{
@@ -49,6 +49,11 @@ module.exports.getAllJobs = async (req,res) =>{
 module.exports.createJoByCompany =async (req,res) =>{
     try{
         const idCompany = req.params.idCompany;
+        
+        // kiểm tra xem công ty có tồn tại hay không
+        await Company.findOne({_id : idCompany});
+        
+
         req.body.idCompany = idCompany;
         const job = new Job(req.body);
         await job.save();
