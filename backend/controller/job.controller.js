@@ -32,7 +32,7 @@ module.exports.getAllJobs = async (req, res) => {
     const sort = {
         createdAt : 'desc'
     }
-    //Lọc lương từ khoảng min => max
+    //Lọc lương từ khoảng min => max (CÒn lỗi fix sau)
     if (req?.query?.minSalary && req?.query?.maxSalary) {
       const minSalary = parseInt(req?.query?.minSalary);
       const maxSalary = parseInt(req?.query?.maxSalary);
