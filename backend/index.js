@@ -2,8 +2,7 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv").config();
 const port = dotenv.parsed.POR || 5000;
-const sendEmail = require('./utils/sendEmail')
-sendEmail()
+
 // cấu hình cors
 const cors = require('cors');
 app.use(cors())
