@@ -1,9 +1,15 @@
 import { Bounce, ToastContainer } from "react-toastify";
 import ClientRoute from "./routes/ClientRoute";
 
+
+
 function App() {
+
   return (
     <>
+
+
+
       <ClientRoute />
       <ToastContainer
         position="top-right"

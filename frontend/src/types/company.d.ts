@@ -1,4 +1,6 @@
-interface Company {
+export {}
+declare global{
+ interface ICompany {
   _id: String;
   name: string;
   logo: string;
@@ -18,4 +20,6 @@ interface Company {
   deleted?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
 }
