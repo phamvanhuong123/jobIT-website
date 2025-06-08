@@ -54,6 +54,6 @@ const candidateSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-const Candidate = mongoose.model(Candidate, candidateSchema, candidates);
+const Candidate = mongoose.model("Candidate", candidateSchema, "candidates");
 
 module.exports = Candidate;
