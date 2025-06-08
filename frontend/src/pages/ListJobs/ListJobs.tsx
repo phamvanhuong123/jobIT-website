@@ -1,5 +1,4 @@
 import {
-    
     Card,
     Typography,
     Space,
@@ -7,92 +6,27 @@ import {
     Button,
     Dropdown,
     Checkbox,
+    message,
 } from "antd";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBox from "~/components/SearchBox/SearchBox";
 import "./ListJobs.css";
 import JobIT from "./JobIT/JobIT";
-
+import axios from "axios";
 
 const { Title, Text } = Typography;
 
 type Job = {
-    id: number;
+    id: string;
     title: string;
     company: string;
     location: string;
     tags: string[];
     posted: string;
     description: string;
+    rawData: any; // giữ dữ liệu gốc để truyền cho JobIT nếu cần
 };
-
-const jobList: Job[] = [
-    {
-        id: 1,
-        title: "Project Manager",
-        company: "NAL Viet Nam",
-        location: "Da Nang",
-        tags: ["Agile", "Scrum", "Management"],
-        posted: "1 ngày trước",
-        description: "Quản lý dự án phần mềm, phối hợp các team phát triển.",
-    },
-    {
-        id: 2,
-        title: "Fullstack Developer",
-        company: "FPT Software",
-        location: "Ha Noi",
-        tags: ["React", "Node.js", "JavaScript"],
-        posted: "2 ngày trước",
-        description: "Phát triển hệ thống web bằng React và Node.js.",
-    },
-    {
-        id: 3,
-        title: "Backend Developer",
-        company: "VNPT Technology",
-        location: "Hồ Chí Minh",
-        tags: ["Java", "Spring Boot", "MySQL"],
-        posted: "3 ngày trước",
-        description: "Thiết kế và phát triển API backend sử dụng Java và Spring Boot.",
-    },
-    {
-        id: 4,
-        title: "Mobile Developer",
-        company: "CMC Global",
-        location: "Da Nang",
-        tags: ["Flutter", "Dart", "Android"],
-        posted: "4 ngày trước",
-        description: "Phát triển ứng dụng di động đa nền tảng bằng Flutter.",
-    },
-    {
-        id: 5,
-        title: "AI Engineer",
-        company: "VNG Corporation",
-        location: "Hồ Chí Minh",
-        tags: ["Python", "TensorFlow", "Machine Learning"],
-        posted: "1 tuần trước",
-        description: "Phân tích dữ liệu và xây dựng mô hình học máy cho các dự án AI.",
-    },
-    {
-        id: 6,
-        title: "DevOps Engineer",
-        company: "TMA Solutions",
-        location: "Ha Noi",
-        tags: ["AWS", "Docker", "CI/CD"],
-        posted: "5 ngày trước",
-        description: "Triển khai và duy trì hệ thống CI/CD, quản lý hạ tầng trên AWS.",
-    },
-    {
-        id: 7,
-        title: "UI/UX Designer",
-        company: "Axon Active",
-        location: "Da Nang",
-        tags: ["Figma", "Design Thinking", "Wireframe"],
-        posted: "2 tuần trước",
-        description: "Thiết kế giao diện người dùng và cải thiện trải nghiệm người dùng.",
-    }
-
-];
 
 const FilterDropdown = ({
     label,
@@ -107,31 +41,43 @@ const FilterDropdown = ({
 }) => (
     <Dropdown
         trigger={["click"]}
-        overlay={
-            <div style={{ padding: 10, background: "#fff", borderRadius: 8 }}>
-                <Checkbox.Group
-                    value={selected}
-                    onChange={onChange}
-                    style={{ display: "flex", flexDirection: "column" }}
-                >
-                    {options.map((opt) => (
-                        <Checkbox key={opt} value={opt}>
-                            {opt}
-                        </Checkbox>
-                    ))}
-                </Checkbox.Group>
-            </div>
-        }
+        menu={{
+            items: [
+                {
+                    key: 'checkbox-group',
+                    label: (
+                        <div style={{ padding: 10, background: "#fff", borderRadius: 8 }}>
+                            <Checkbox.Group
+                                value={selected}
+                                onChange={onChange}
+                                style={{ display: "flex", flexDirection: "column" }}
+                            >
+                                {options.map(opt => (
+                                    <Checkbox key={opt} value={opt}>
+                                        {opt}
+                                    </Checkbox>
+                                ))}
+                            </Checkbox.Group>
+                        </div>
+                    ),
+                },
+            ],
+        }}
     >
         <Button>
             {label} <DownOutlined />
         </Button>
     </Dropdown>
+
 );
-// COMPONENT CON: DANH SÁCH JOB
-const JobList = ({ jobs, selectedId, onSelect }: {
+
+const JobList = ({
+    jobs,
+    selectedId,
+    onSelect,
+}: {
     jobs: Job[];
-    selectedId: number | null;
+    selectedId: string | null;
     onSelect: (job: Job) => void;
 }) => (
     <Space direction="vertical" size="large" style={{ width: "100%" }}>
@@ -140,13 +86,15 @@ const JobList = ({ jobs, selectedId, onSelect }: {
                 key={job.id}
                 hoverable
                 onClick={() => onSelect(job)}
-                className={`job-card ${selectedId === job.id ? 'selected' : ''}`}
+                className={`job-card ${selectedId === job.id ? "selected" : ""}`}
             >
                 <Title level={5}>{job.title}</Title>
                 <Text strong>{job.company}</Text> - <Text>{job.location}</Text>
                 <div style={{ marginTop: 8 }}>
                     {job.tags.map((tag, idx) => (
-                        <Tag key={idx} color="blue">{tag}</Tag>
+                        <Tag key={idx} color="blue">
+                            {tag}
+                        </Tag>
                     ))}
                 </div>
                 <Text type="secondary">{job.posted}</Text>
@@ -155,13 +103,55 @@ const JobList = ({ jobs, selectedId, onSelect }: {
     </Space>
 );
 
-
 function ListJobs() {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+    const [jobList, setJobList] = useState<Job[]>([]);
     const [levels, setLevels] = useState<string[]>([]);
     const [types, setTypes] = useState<string[]>([]);
     const [salaries, setSalaries] = useState<string[]>([]);
     const [fields, setFields] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/jobs");
+                const data = res.data;
+                console.log("Dữ liệu nhận được từ API:", data);
+
+                const jobsData = data.data; // Lấy đúng mảng công việc từ data.data
+
+                if (!Array.isArray(jobsData)) {
+                    throw new Error("Dữ liệu nhận được không phải mảng công việc");
+                }
+
+                const jobs: Job[] = jobsData
+                    .filter((job: any) => !job.deleted)
+                    .sort(
+                        (a: any, b: any) =>
+                            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    )
+                    .slice(0, 20)
+                    .map((job: any) => ({
+                        id: job._id,
+                        title: job.name || "Không rõ",
+                        company: job.idCompany || "Chưa có tên công ty",
+                        location: job.locations?.[0] || "Không rõ",
+                        tags: job.skills || [],
+                        posted: new Date(job.createdAt).toLocaleDateString("vi-VN"),
+                        description: job.jobDescription?.[0] || "Không có mô tả",
+                        rawData: job,
+                    }));
+
+                setJobList(jobs);
+            } catch (error) {
+                console.error("Lỗi khi lấy danh sách công việc:", error);
+                message.error("Không thể tải danh sách công việc.");
+            }
+        };
+
+        fetchJobs();
+    }, []);
+
 
     return (
         <>
@@ -176,7 +166,7 @@ function ListJobs() {
                 />
                 <FilterDropdown
                     label="Hình thức làm việc"
-                    options={["Full-time", "Part-time", "Remote"]}
+                    options={["Full-time", "Part-time", "Remote", "Onsite"]}
                     selected={types}
                     onChange={setTypes}
                 />
@@ -197,7 +187,11 @@ function ListJobs() {
 
             <div className="job-container">
                 <div className="job-list">
-                    <JobList jobs={jobList} selectedId={selectedJob?.id || null} onSelect={setSelectedJob} />
+                    <JobList
+                        jobs={jobList}
+                        selectedId={selectedJob?.id || null}
+                        onSelect={setSelectedJob}
+                    />
                 </div>
                 {selectedJob && <JobIT job={selectedJob} />}
             </div>

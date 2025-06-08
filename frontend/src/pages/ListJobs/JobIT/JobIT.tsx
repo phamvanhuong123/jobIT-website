@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const { Text } = Typography;
 
 interface Job {
-    id: number;
+    id: string;
     title: string;
     company: string;
     location: string;
@@ -20,6 +20,8 @@ function JobIT({ job }: { job: Job }) {
         navigate("/apply", { state: { job } });
     };
 
+    const descriptionText = (job.description ?? "").repeat(10);
+
     return (
         <div className="detail-column">
             <div className="detail-card-scroll">
@@ -28,9 +30,9 @@ function JobIT({ job }: { job: Job }) {
                     <Divider />
                     <p><strong>Địa điểm:</strong> {job.location}</p>
                     <p><strong>Đăng:</strong> {job.posted}</p>
-                    <p><strong>Mô tả:</strong><br />{job.description.repeat(10)}</p>
+                    <p><strong>Mô tả:</strong><br />{descriptionText}</p>
                     <div style={{ marginTop: 12 }}>
-                        {job.tags.map((tag, idx) => (
+                        {(job.tags ?? []).map((tag, idx) => (
                             <Tag key={idx} color="blue">{tag}</Tag>
                         ))}
                     </div>

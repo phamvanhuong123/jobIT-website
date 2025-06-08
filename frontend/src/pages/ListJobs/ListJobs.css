@@ -50,7 +50,6 @@
     flex: 0 0 60%;
     display: flex;
     flex-direction: column;
-    
 }
 
 
@@ -60,13 +59,15 @@
     padding-right: 12px;
     position: sticky;
     top: 75px;
-    
+
 }
-.detail-card-scroll .ant-card-head{
+
+.detail-card-scroll .ant-card-head {
     position: sticky;
     top: 0;
 }
-.detail-card-scroll .ant-card-body{
-   height: 300px;
-   overflow: auto;
+
+.detail-card-scroll .ant-card-body {
+    height: 300px;
+    overflow: auto;
 }
