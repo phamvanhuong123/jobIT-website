@@ -113,6 +113,13 @@ module.exports.deleteJob = async (req, res) => {
 module.exports.updateJob = async (req, res) => {
   try {
     const id = req.params.id;
+    if (!req.body) {
+      res.status(400).json({
+        status: 400,
+        message: "Thất bại không có body",
+      });
+      return;
+    }
     await Job.updateOne({ _id: id }, { $set: req.body });
     res.json({
       status: 200,

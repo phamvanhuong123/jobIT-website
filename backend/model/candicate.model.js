@@ -26,8 +26,8 @@ const candidateSchema = new mongoose.Schema(
       description: String,
       projects: [
         {
-          name: { type: String, required: true },
-          description: { type: String },
+          name: String,
+          description: String,
         },
       ],
     },

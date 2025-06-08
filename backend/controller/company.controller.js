@@ -78,7 +78,13 @@ module.exports.updateCompany =async (req,res)=>{
 
   const id = req.params.id
   try{
-
+    if (!req.body) {
+      res.status(400).json({
+        status: 400,
+        message: "Thất bại không có body",
+      });
+      return;
+    }
     await Company.updateOne({_id : id}, req.body)
     res.status(200).json({
       status : 200,
