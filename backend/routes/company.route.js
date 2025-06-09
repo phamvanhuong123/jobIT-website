@@ -5,6 +5,9 @@ const companyController = require('../controller/company.controller')
 // [Get] api/companies
 route.get('/companies',companyController.getAllCompany);
 
+// [Get] api/companies/top
+route.get('/companies/top',companyController.getTopCompany);
+
 // [Get] api/companies/:id
 route.get('/companies/:id',companyController.detailCompany);
 

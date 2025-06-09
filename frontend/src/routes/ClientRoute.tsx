@@ -14,7 +14,8 @@ import Login from "~/pages/Login/Login";
 import Register from "~/pages/Register/Register";
 import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
 import VerifyCode from "~/pages/Register/VerifyCode";
-
+import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
+import ApplyForm from "~/pages/ApplyJob";
 
 function ClientRoute() {
   console.log("✅ ClientRoute active");
@@ -40,13 +41,41 @@ function ClientRoute() {
           element: <CompanyPage />,
         },
         {
+          path: "apply",
+          element: <ApplyForm />,
+        },
+        {
+          element: <PriveRoutes />,
+          children: [
+            {
+              path: "quan-li-cv",
+              element: <AttachedCV />,
+            },
+            {
+              path: "ho-so-cv",
+              element: <Profile />,
+            },
+            {
+              path: "viec-lam-cua-toi",
+              element: <MyJobs />,
+            },
+            {
+              path: "cai-dat",
+              element: <Settings />,
+            },
+            {
+              path: "",
+              element: <Overview />,
+            },
+          ],
+        },
+        {
           path: "user",
           element: <Account />,
           children: [
-            { 
+            {
               path: "tong-quan-ho-so",
               element: <Overview />,
-              
             },
             {
               path: "quan-li-cv",
@@ -65,32 +94,29 @@ function ClientRoute() {
               element: <Settings />,
             },
             {
-              path : '',
+              path: "",
               element: <Overview />,
             },
-            
           ],
         },
-       {
-              path: "xac-nhan-xoa",
-              element: <ConfirmDelete />
-       },
         {
-              path: "dang-nhap",
-              element: <Login />,
+          path: "xac-nhan-xoa",
+          element: <ConfirmDelete />,
         },
-
+        {
+          path: "dang-nhap",
+          element: <Login />,
+        },
         {
           path: "dang-ki",
           element: <Register />,
         },
         {
-          path: "xac-thuc-email", 
+          path: "xac-thuc-email",
           element: <VerifyCode />,
         },
       ],
     },
-    
   ]);
   return <>{element}</>;
 }

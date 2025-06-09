@@ -6,8 +6,13 @@ const jobSchema = new mongoose.Schema({
     skills : [String],
     logo : String,
     locations : [String],
+    salary : {
+        min : Number,
+        max : Number,
+        currency : String
+    },
     workplace : String,
-    jobDescription : String,
+    jobDescription : [String],
     level : String,
     requirements : {
         degree : [String],

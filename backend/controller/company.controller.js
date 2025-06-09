@@ -93,3 +93,22 @@ module.exports.updateCompany =async (req,res)=>{
     })
   }
 }
+
+// top công ty nổi bật
+module.exports.getTopCompany = async (req, res) => {
+  try {
+    
+    const companies = await Company.find({deleted : false}).sort({'infor.size' : 'desc'}).limit(3);
+   
+    res.json({
+      status: 200,
+      message: "Thành công",
+      data: companies
+    });
+  } catch(error) {
+        res.json({
+            status : 500,
+            message : error
+        })
+  }
+};
