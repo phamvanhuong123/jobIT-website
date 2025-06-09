@@ -1,8 +1,9 @@
-import { AuditOutlined, ClockCircleOutlined, DollarOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { AuditOutlined, ClockCircleOutlined, CompassOutlined, DollarOutlined, HeartFilled, HeartOutlined } from "@ant-design/icons";
 import { Button, Card, Divider, Tag, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 
 const { Text } = Typography;
 
@@ -39,7 +40,6 @@ const convertDMYToISO = (dateStr: string): string | null => {
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
 };
 
-// Format time ago
 const timeAgo = (dateString: string): string => {
     const isoDateString = convertDMYToISO(dateString);
     if (!isoDateString) return dateString;
@@ -51,16 +51,18 @@ const timeAgo = (dateString: string): string => {
     const diffInMs = now.getTime() - postedDate.getTime();
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-    if (diffInHours < 1) return "1 hour ago";
-    if (diffInHours < 24) return `${diffInHours} hour${diffInHours > 1 ? "s" : ""} ago`;
+    if (diffInHours < 1) return "1 giờ trước";
+    if (diffInHours < 24) return `${diffInHours} giờ trước`;
 
     const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
+    return `${diffInDays} ngày trước`;
 };
 
 function JobIT({ job }: { job: Job }) {
     const navigate = useNavigate();
     const [liked, setLiked] = useState(false);
+    const [hover, setHover] = useState(false);
+    const [isHoverCompany, setIsHoverCompany] = useState(false);
 
     const handleApplyClick = () => {
         navigate("/apply", { state: { job } });
@@ -87,8 +89,34 @@ function JobIT({ job }: { job: Job }) {
                     }}
                 >
                     <div style={{ flex: 5, minWidth: 200 }}>
-                        <Title level={4} style={{ margin: 0, fontSize: "20px" }}>{job.title}</Title>
-                        <Text strong style={{ fontSize: "16px" }}>{job.company}</Text>
+                        <Title
+                            level={4}
+                            style={{
+                                color: hover ? "#ff4500" : "", // đỏ cam khi hover, xanh khi bình thường
+                                cursor: "pointer",
+                                transition: "color 0.3s ease",
+                            }}
+                            onMouseEnter={() => setHover(true)}
+                            onMouseLeave={() => setHover(false)}
+
+                            onClick={() => navigate("/viec-lam-it/chi-tiet")}
+                        >
+                            {job.title}
+                        </Title>
+                        <Text
+                            strong
+                            style={{
+                                fontSize: "16px",
+                                cursor: "pointer",
+                                textDecoration: isHoverCompany ? "underline" : "none",
+                            }}
+                            onClick={() => navigate("/company")}
+                            onMouseEnter={() => setIsHoverCompany(true)}
+                            onMouseLeave={() => setIsHoverCompany(false)}
+                        >
+                            {job.company}
+                        </Text>
+
                         <div
                             style={{
                                 display: "flex",
@@ -100,9 +128,14 @@ function JobIT({ job }: { job: Job }) {
                             }}
                         >
                             <DollarOutlined style={{ fontSize: "16px" }} />
-                            <a className="job-salary-link" href="#">
-                                Sign in to view salary
+                            <a
+                                className="job-salary-link"
+                                style={{ color: "#1677ff", cursor: "pointer" }}
+                                onClick={() => navigate("/dang-nhap")}
+                            >
+                                Đăng nhập để xem mức lương
                             </a>
+
                         </div>
                     </div>
 
@@ -125,7 +158,7 @@ function JobIT({ job }: { job: Job }) {
                             }}
                             onClick={handleApplyClick}
                         >
-                            Apply Now
+                            Ứng tuyển
                         </Button>
 
                         <div style={{ marginTop: 4 }}>
@@ -142,16 +175,12 @@ function JobIT({ job }: { job: Job }) {
 
             <div className="detail-card-scroll">
                 <Card>
-
-
-
-
                     {/* Location & Posted & Level & Workplace  */}
-                    <p style={{ fontSize: "14px" }}><strong>Location:</strong> {job.location}</p>
+                    <p style={{ fontSize: "14px" }}><CompassOutlined /> {job.location}</p>
                     <div>
-                        <ClockCircleOutlined /> <span className="job-posted">Posted {timeAgo(job.posted)}</span>
+                        <ClockCircleOutlined /> <span className="job-posted">Đăng {timeAgo(job.posted)}</span>
                     </div>
-                    <p style={{ fontSize: "14px" }}><strong>Level:</strong> {job.rawData.level}</p>
+                    <p style={{ fontSize: "14px" }}><strong>Cấp bậc:</strong> {job.rawData.level}</p>
                     <div>
                         <AuditOutlined /><span className="job-workplace"> {job.rawData.workplace}</span>
                     </div>
@@ -160,16 +189,16 @@ function JobIT({ job }: { job: Job }) {
 
                     {/* Tags & Metadata */}
                     <div className="job-tags" style={{ marginBottom: 12, display: "flex", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-                        <Text strong style={{ fontSize: "16px", marginRight: 8 }}>Skills:</Text>
+                        <Text strong style={{ fontSize: "16px", marginRight: 8 }}>Kỹ năng:</Text>
                         {job.tags.map((skill, idx) => (
                             <Tag key={idx} color="blue">{skill}</Tag>
                         ))}
                     </div>
-                    <p><strong>Job Expertise:</strong> {job.title}</p>
+                    <p><strong>Chuyên môn công việc:</strong> {job.title}</p>
                     <Divider style={{ borderColor: "#dedede", borderTopWidth: 3, margin: "24px 0" }} />
 
                     {/* Job Description */}
-                    <Title level={5}>Job Description</Title>
+                    <Title level={5}>Mô tả công việc</Title>
                     <ul>
                         {(job.jobDescription ?? []).map((item, idx) => (
                             <li key={idx}>{item}</li>
@@ -179,15 +208,15 @@ function JobIT({ job }: { job: Job }) {
                     <Divider style={{ borderColor: "#dedede", borderTopWidth: 3, margin: "24px 0" }} />
 
                     {/* Skills and Experience */}
-                    <Title level={5}>Your Skills and Experience</Title>
+                    <Title level={5}>Yêu cầu công việc</Title>
                     {job.rawData.requirements.degree?.length > 0 && (
-                        <p><strong>Degree:</strong> {job.rawData.requirements.degree.join(", ")}</p>
+                        <p><strong>Trình độ học vấn:</strong> {job.rawData.requirements.degree.join(", ")}</p>
                     )}
                     {job.rawData.requirements.technicalSkills?.length > 0 && (
-                        <p><strong>Technical Skills:</strong> {job.rawData.requirements.technicalSkills.join(", ")}</p>
+                        <p><strong>Kỹ năng chuyên môn:</strong> {job.rawData.requirements.technicalSkills.join(", ")}</p>
                     )}
                     {job.rawData.requirements.softSkills?.length > 0 && (
-                        <p><strong>Soft Skills:</strong> {job.rawData.requirements.softSkills.join(", ")}</p>
+                        <p><strong>Kỹ năng mềm:</strong> {job.rawData.requirements.softSkills.join(", ")}</p>
                     )}
 
                     <Divider style={{ borderColor: "#dedede", borderTopWidth: 3, margin: "24px 0" }} />
@@ -195,7 +224,7 @@ function JobIT({ job }: { job: Job }) {
                     {/* Benefits */}
                     {job.rawData.requirements.advantages?.length > 0 && (
                         <>
-                            <Title level={5}>Nice-to-Have Skills:</Title>
+                            <Title level={5}>Kỹ năng bổ sung:</Title>
                             <ul style={{ fontSize: "16px", lineHeight: 1.5 }}>
                                 {job.rawData.requirements.advantages.map((adv, idx) => (
                                     <li key={idx}>{adv}</li>
@@ -206,7 +235,7 @@ function JobIT({ job }: { job: Job }) {
 
                 </Card>
             </div>
-        </div>
+        </div >
     );
 }
 

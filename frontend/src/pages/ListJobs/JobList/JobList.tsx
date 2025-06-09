@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import "./JobList.css";
+import { AuditOutlined, CompassOutlined, IdcardOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 type Job = {
     id: string;
@@ -32,15 +34,13 @@ const timeAgo = (dateString: string): string => {
     const diffInMs = now.getTime() - postedDate.getTime();
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
 
-    if (diffInHours < 1) {
-        return "1 hour ago";
-    } else if (diffInHours < 24) {
-        return `${diffInHours} hour${diffInHours > 1 ? "s" : ""} ago`;
-    } else {
-        const diffInDays = Math.floor(diffInHours / 24);
-        return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
-    }
+    if (diffInHours < 1) return "1 giờ trước";
+    if (diffInHours < 24) return `${diffInHours} giờ trước`;
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays} ngày trước`;
 };
+
 
 
 interface JobListProps {
@@ -50,6 +50,8 @@ interface JobListProps {
 }
 
 const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
+    const navigate = useNavigate();
+    const [isHoverCompany, setIsHoverCompany] = useState(false);
     return (
         <div className="job-list-wrapper">
             {jobs.map((job) => (
@@ -59,15 +61,25 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                     onClick={() => onSelect(job)}
                 >
                     <div className="job-header">
-                        <span className="job-posted">Posted {timeAgo(job.posted)}</span>
+                        <span className="job-posted">Đăng {timeAgo(job.posted)}</span>
                         <span className="job-hot">HOT</span>
                     </div>
                     <h3 className="job-title">{job.title}</h3>
-                    <div className="job-company">{job.company}</div>
-                    <a className="job-salary-link" href="#">Sign in to view salary</a>
-                    <div className="job-position">{job.title}</div>
+                    <div className="job-company" style={{
+                        fontSize: "16px",
+                        cursor: "pointer",
+                        textDecoration: isHoverCompany ? "underline" : "none",
+                    }}
+                        onClick={() => navigate("/company")}
+                        onMouseEnter={() => setIsHoverCompany(true)}
+                        onMouseLeave={() => setIsHoverCompany(false)}
+                    >{job.company}</div>
+                    <a className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer" }}
+                        onClick={() => navigate("/dang-nhap")}>Đăng nhập để xem mức lương</a>
+
+                    <div className="job-position"> <IdcardOutlined /> {job.title}</div>
                     <div className="job-location">
-                        <span>{job.rawData.workplace}</span> • <span>{job.location}</span>
+                        <AuditOutlined /> <span>{job.rawData.workplace}</span> • <CompassOutlined /> <span>{job.location}</span>
                     </div>
                     <div className="job-tags">
                         {job.tags.map((tag, idx) => (
