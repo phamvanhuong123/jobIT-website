@@ -20,7 +20,7 @@ module.exports.RegisterCandicate = async (req,res) =>{
         const account = new Account({
             email : email,
             password : password,
-            role : "candicate"
+            role : "candidate"
         })
         const newAccount = await account.save();
 
