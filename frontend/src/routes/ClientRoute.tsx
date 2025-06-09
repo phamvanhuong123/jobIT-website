@@ -13,9 +13,12 @@ import Account from "~/pages/Account/Account";
 import Login from "~/pages/Login/Login";
 import Register from "~/pages/Register/Register";
 import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
+import VerifyCode from "~/pages/Register/VerifyCode";
 import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 import ApplyForm from "~/pages/ApplyJob";
+
 function ClientRoute() {
+  console.log("✅ ClientRoute active");
   let element = useRoutes([
     {
       path: "/",
@@ -45,34 +48,54 @@ function ClientRoute() {
           element: <PriveRoutes />,
           children: [
             {
-              path: "user",
-              element: <Account />,
-              children: [
-                {
-                  path: "tong-quan-ho-so",
-                  element: <Overview />,
-                },
-                {
-                  path: "quan-li-cv",
-                  element: <AttachedCV />,
-                },
-                {
-                  path: "ho-so-cv",
-                  element: <Profile />,
-                },
-                {
-                  path: "viec-lam-cua-toi",
-                  element: <MyJobs />,
-                },
-                {
-                  path: "cai-dat",
-                  element: <Settings />,
-                },
-                {
-                  path: "",
-                  element: <Overview />,
-                },
-              ],
+              path: "quan-li-cv",
+              element: <AttachedCV />,
+            },
+            {
+              path: "ho-so-cv",
+              element: <Profile />,
+            },
+            {
+              path: "viec-lam-cua-toi",
+              element: <MyJobs />,
+            },
+            {
+              path: "cai-dat",
+              element: <Settings />,
+            },
+            {
+              path: "",
+              element: <Overview />,
+            },
+          ],
+        },
+        {
+          path: "user",
+          element: <Account />,
+          children: [
+            {
+              path: "tong-quan-ho-so",
+              element: <Overview />,
+            },
+            {
+              path: "quan-li-cv",
+              element: <AttachedCV />,
+            },
+            {
+              path: "ho-so-cv",
+              element: <Profile />,
+            },
+            {
+              path: "viec-lam-cua-toi",
+              element: <MyJobs />,
+            },
+            {
+              path: "cai-dat",
+              element: <Settings />,
+            },
+            {
+              path: "",
+              element: <Overview />,
             },
           ],
         },
@@ -84,10 +107,13 @@ function ClientRoute() {
           path: "dang-nhap",
           element: <Login />,
         },
-
         {
           path: "dang-ki",
           element: <Register />,
+        },
+        {
+          path: "xac-thuc-email",
+          element: <VerifyCode />,
         },
       ],
     },
