@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-module.exports = () => {
+module.exports = (email,subject,html) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     port: 587,
@@ -12,10 +12,10 @@ module.exports = () => {
 
   var options = {
     from: "dophamhyc@gmail.com",
-    to: "dolataoday123@gmail.com",
-    subject: "Hello ✔", //tiêu đè
+    to: email,
+    subject: subject, //tiêu đè
     text: "Hello world", // plain‑text body
-    html: "<b>Xin chào?</b>", // HTML body
+    html: html
   };
   transporter.sendMail(options,(error) => {
     if (error) {

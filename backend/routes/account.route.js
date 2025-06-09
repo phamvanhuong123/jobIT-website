@@ -7,6 +7,14 @@ route.get('/auth/verify-token',authMiddiware.verifyJWT,accountController.verifyT
 // [POST] api/register
 route.post("/register",accountController.RegisterCandicate)
 
+// [POST] api/register-otp
+route.post("/register-otp",accountController.RegisterOtp)
+
 // [POST] api/login
 route.post("/login",accountController.loginCandidate)
+
+// [GET] api/accounts
+route.get('/accounts',accountController.getAllAccount)
+// [DELETE] api/accounts/delete/:idAccount
+route.delete('/accounts/delete/:email',accountController.deleteAccount)
 module.exports = route
