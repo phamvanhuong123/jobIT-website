@@ -1,5 +1,6 @@
 const Candidate = require("../model/candicate.model");
 
+// Danh sách ứng cử viên
 module.exports.getAllCandidate = async (req, res) => {
   try {
     const record = await Candidate.find();
@@ -15,7 +16,7 @@ module.exports.getAllCandidate = async (req, res) => {
     });
   }
 };
-
+// Chi tiết
 module.exports.detail = async (req, res) => {
   try {
     const idAccount = req.params.idAccount;
@@ -40,6 +41,7 @@ module.exports.detail = async (req, res) => {
     });
   }
 };
+// Cật nhật
 module.exports.update = async (req, res) => {
   try {
     const idAccount = req.params.idAccount;

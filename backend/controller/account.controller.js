@@ -15,10 +15,11 @@ module.exports.verifyToken = (req,res)=>{
       status : 200,
       message : "verify token successfull",
       data : {
-        dateNow : moment(Date.now()).format("DD/MM/YYYY HH-mm"),
-        dateExp : moment(req.user.exp *1000).format("DD/MM/YYYY HH-mm"),
-        dateIat : moment(req.user.iat *1000).format("DD/MM/YYYY HH-mm"),
-
+        // dateNow : moment(Date.now()).format("DD/MM/YYYY HH-mm"),
+        // dateExp : moment(req.user.exp *1000).format("DD/MM/YYYY HH-mm"),
+        // dateIat : moment(req.user.iat *1000).format("DD/MM/YYYY HH-mm"),
+        idAccount : req.user.id,
+        role : req.user.role
       }
     })
 }

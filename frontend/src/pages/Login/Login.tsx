@@ -1,16 +1,32 @@
 import { Link, useNavigate } from "react-router";
 import styles from "./Login.module.css";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { login, verifitoken } from "~/services/account.axios";
-import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
+import { fetchCandidateById } from "~/features/candidate.slice";
+import { useAppDispatch } from "~/store";
 import { toast } from "react-toastify";
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const [message, setMessage] = useState("");
+
+  const [cheking, setCheking] = useState(false);
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [message,setMessage] = useState('')
-  const navigate = useNavigate();
+
+  // Kiểm tra xem đã đăng nhập hay chưa
+  const checkLogin = async () => {
+    const response = await verifitoken();
+    if (response.data) {
+      navigate("/");
+    } else {
+      setCheking(true);
+    }
+  };
   // thay doi data
   const onchangeValue = (e: any) => {
     const { name, value } = e.target;
@@ -20,23 +36,31 @@ const Login = () => {
     });
   };
 
+  // Sự kiện submit
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     const res = await login(formData);
-    
+
     if (res.data) {
-      localStorage.setItem("token",res.data.token);
-      toast.success("Đăng nhập thành công")
-      navigate('/')
-      return
+      localStorage.setItem("token", res.data.token);
+      dispatch(fetchCandidateById(res.data.user.idAccount));
+      toast.success("Đăng nhập thành công");
+      navigate("/");
+      return;
     }
     setMessage(res.message.toString());
     setFormData({
-        email : '',
-        password : ''
-    })
+      email: "",
+      password: "",
+    });
   };
+  
+  useEffect(() => {
+    checkLogin();
+  }, []);
+  
+  if (!cheking) return null;
   return (
     <>
       <div className={styles.loginContainer}>
@@ -78,7 +102,11 @@ const Login = () => {
             />
             <span className={styles.eyeIcon}></span>
           </div>
-          {message && <p style={{color : 'red',fontSize : 12}}>email hoặc mật khẩu không chính xác</p>}
+          {message && (
+            <p style={{ color: "red", fontSize: 12 }}>
+              email hoặc mật khẩu không chính xác
+            </p>
+          )}
 
           <a href="#" className={styles.forgotPassword}>
             Quên mật khẩu?

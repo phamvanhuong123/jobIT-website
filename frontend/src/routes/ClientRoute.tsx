@@ -18,7 +18,6 @@ import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 import ApplyForm from "~/pages/ApplyJob";
 
 function ClientRoute() {
-  console.log("✅ ClientRoute active");
   let element = useRoutes([
     {
       path: "/",
