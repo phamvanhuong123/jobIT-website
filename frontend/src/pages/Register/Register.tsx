@@ -1,17 +1,21 @@
 import styles from "./Register.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{12,}$/;
 
     if (!passwordRegex.test(password)) {
       setError("Mật khẩu không đáp ứng đủ điều kiện bảo mật!");
@@ -23,10 +27,22 @@ const Register = () => {
       return;
     }
 
-    setError("");
+    try {
+      // Gửi email để tạo OTP
+      await axios.post("http://localhost:5000/api/register", { email });
 
-    // ✅ Không dùng alert
-    navigate("/xac-thuc-email");
+      // Lưu tạm thông tin vào localStorage để dùng bên VerifyCode
+      localStorage.setItem(
+        "registerInfo",
+        JSON.stringify({ email, password, fullName })
+      );
+
+      // Điều hướng sang trang xác thực email
+      navigate("/xac-thuc-email");
+    } catch (error) {
+      console.error("Lỗi gửi email OTP:", error);
+      setError("Không thể gửi email xác thực. Vui lòng thử lại.");
+    }
   };
 
   return (
@@ -35,10 +51,22 @@ const Register = () => {
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>Họ và Tên *</label>
-        <input type="text" placeholder="Nhập họ và tên" required />
+        <input
+          type="text"
+          placeholder="Nhập họ và tên"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          required
+        />
 
         <label>Email *</label>
-        <input type="email" placeholder="Nhập email" required />
+        <input
+          type="email"
+          placeholder="Nhập email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
         <label>Mật khẩu *</label>
         <input

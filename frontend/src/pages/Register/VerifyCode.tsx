@@ -1,52 +1,86 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerifyCode.module.css";
-
-
-
+import axios from "axios";
 
 const VerifyCode: React.FC = () => {
-console.log("✅ VerifyCode component is rendered!");
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"success" | "error" | "">("");
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(60);
   const [isCounting, setIsCounting] = useState(true);
+
+  // Lấy dữ liệu từ localStorage
+  const registerInfo = JSON.parse(localStorage.getItem("registerInfo") || "{}");
+  const { email, password, fullName } = registerInfo;
+
+  // Đếm ngược
   useEffect(() => {
-  let timer: NodeJS.Timeout;
+    let timer: NodeJS.Timeout;
 
-  if (isCounting && countdown > 0) {
-    timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-  }
+    if (isCounting && countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    }
 
-  if (countdown === 0) {
-    setIsCounting(false); // cho phép gửi lại
-  }
+    if (countdown === 0) {
+      setIsCounting(false);
+    }
 
-  return () => clearTimeout(timer);
-}, [countdown, isCounting]);
+    return () => clearTimeout(timer);
+  }, [countdown, isCounting]);
 
+  // Xử lý xác thực
+  const handleVerify = async () => {
+    if (!email || !password || !fullName) {
+      setMessage("❌ Thiếu thông tin đăng ký. Vui lòng thử lại từ đầu.");
+      setStatus("error");
+      return;
+    }
 
-  const handleVerify = () => {
-    if (code === "123456") {
+    try {
+      await axios.post("http://localhost:5000/api/register-otp", {
+        email,
+        password,
+        username: fullName,
+        otp: code,
+      });
+
       setStatus("success");
       setMessage("✅ Xác thực thành công!");
 
-      // ✅ Điều hướng sang trang đăng nhập sau 2 giây
+      // Xoá localStorage để tránh lỗi sau này
+      localStorage.removeItem("registerInfo");
+
+      // Chuyển sang trang đăng nhập
       setTimeout(() => {
         navigate("/dang-nhap");
       }, 2000);
-    } else {
+    } catch (err) {
+      console.error("Lỗi xác thực OTP:", err);
       setStatus("error");
-      setMessage("❌ Mã không đúng, vui lòng kiểm tra lại.");
+      setMessage("❌ Mã không đúng hoặc đã hết hạn.");
     }
   };
 
-  const handleResendCode = () => {
-    alert("📨 Mã xác thực đã được gửi lại vào email của bạn!");
-    setCountdown(60);
-    setIsCounting(true);
+  const handleResendCode = async () => {
+    if (!email) {
+      setMessage("❌ Không tìm thấy email để gửi lại mã.");
+      setStatus("error");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:5000/api/register", { email });
+      setCountdown(60);
+      setIsCounting(true);
+      setMessage("📨 Mã mới đã được gửi vào email của bạn!");
+      setStatus("success");
+    } catch (err) {
+      console.error("Lỗi gửi lại mã:", err);
+      setMessage("❌ Không thể gửi lại mã. Vui lòng thử lại.");
+      setStatus("error");
+    }
   };
 
   return (
@@ -74,18 +108,17 @@ console.log("✅ VerifyCode component is rendered!");
       )}
 
       <p className={styles.resendText}>
-  {!isCounting ? (
-    <>
-      Không nhận được mã?{" "}
-      <button className={styles.resendButton} onClick={handleResendCode}>
-        Gửi lại mã
-      </button>
-    </>
-  ) : (
-    <>Gửi lại mã sau {countdown}s</>
-  )}
-</p>
-
+        {!isCounting ? (
+          <>
+            Không nhận được mã?{" "}
+            <button className={styles.resendButton} onClick={handleResendCode}>
+              Gửi lại mã
+            </button>
+          </>
+        ) : (
+          <>Gửi lại mã sau {countdown}s</>
+        )}
+      </p>
     </div>
   );
 };
