@@ -10,7 +10,8 @@ declare global{
   deleted: boolean;
   createdAt: string;
   updatedAt: string;
- 
+  nameCompany : String,
+  logoCompany : String
 
   salary: {
     min: number;

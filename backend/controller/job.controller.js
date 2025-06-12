@@ -30,8 +30,8 @@ module.exports.getAllJobs = async (req, res) => {
       deleted: false,
     };
     const sort = {
-        createdAt : 'desc'
-    }
+      createdAt: 1,
+    };
     //Lọc lương từ khoảng min => max (CÒn lỗi fix sau)
     if (req?.query?.minSalary && req?.query?.maxSalary) {
       const minSalary = parseInt(req?.query?.minSalary);
@@ -53,16 +53,52 @@ module.exports.getAllJobs = async (req, res) => {
       delete find.minSalary;
       delete find.maxSalary;
     }
-    
 
-
-    const record = await Job.find(find).sort(sort);
+    const recordArr = await Job.aggregate([
+      {
+        $match: find,
+      },
+      {
+        $sort : sort
+      },
+      {
+        $addFields: { IdObject: { $toObjectId: "$idCompany" } },
+      },
+      {
+        $lookup: {
+          from: "companies",
+          localField: "IdObject",
+          foreignField: "_id",
+          as: "fromCompany",
+        },
+      },
+      // Chuyển fromCompany thành phần từ
+      {
+        $unwind: {
+          path: "$fromCompany",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Thêm 2 trường
+      {
+        $addFields: {
+          nameCompany: "$fromCompany.name",
+          logoCompany: "$fromCompany.logo",
+        },
+      },
+      // Ẩn đi các trường không cần thiết
+      {
+        $project: {
+          IdObject: 0,
+          fromCompany: 0,
+        },
+      },
+    ]);
     res.json({
       status: 200,
       message: "Thanh cong",
-      data: record,
+      data: recordArr,
     });
-    console.log(find);
   } catch (e) {
     res.status(500).json({
       status: 500,
