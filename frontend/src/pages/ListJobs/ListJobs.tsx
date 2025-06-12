@@ -11,15 +11,15 @@ import { getAllJob } from "~/services/job.axios";
 type Job = {
     id: string;
     title: string;
-    company: string;
+    company: string; // Thay String thành string
+    nameCompany?: string; // Thay String thành string
     location: string;
     tags: string[];
     posted: string;
     description: string;
-    jobDescription: string[]; // ✅ Thêm dòng này
+    jobDescription: string[];
     rawData: IJob;
 };
-
 
 function ListJobs() {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -36,7 +36,6 @@ function ListJobs() {
                 const jobsData = res.data;
 
                 if (!Array.isArray(jobsData)) throw new Error("Dữ liệu không hợp lệ");
-
                 const jobs: Job[] = jobsData
                     .filter((job) => !job.deleted)
                     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -44,15 +43,15 @@ function ListJobs() {
                     .map((job) => ({
                         id: job._id,
                         title: job.name || "Không rõ",
-                        company: job.idCompany || "Chưa có tên công ty",
+                        company: job.nameCompany || job.idCompany || "Chưa có tên công ty",
+                        nameCompany: job.nameCompany, // Đảm bảo đây là string primitive
                         location: job.locations?.[0] || "Không rõ",
                         tags: job.skills || [],
                         posted: new Date(job.createdAt).toLocaleDateString("vi-VN"),
                         description: job.jobDescription?.[0] || "Không có mô tả",
                         jobDescription: job.jobDescription || [],
                         rawData: job,
-                    }));
-
+                    })) as Job[]; // Thêm type assertion nếu cần
                 setJobList(jobs);
             } catch (error) {
                 console.error("Lỗi khi lấy danh sách công việc:", error);

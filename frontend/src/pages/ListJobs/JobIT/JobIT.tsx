@@ -3,17 +3,17 @@ import { Button, Card, Divider, Tag, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import timeAgo from '../../utils/timeAgo';
 const { Text } = Typography;
 
 interface Job {
     id: string;
     title: string;
     company: string;
+    nameCompany?: string; // Thêm trường này
     location: string;
     tags: string[];
-    posted: string; // dd/mm/yyyy
+    posted: string;
     jobDescription: string[];
     rawData: {
         level: string;
@@ -31,32 +31,6 @@ interface Job {
         };
     };
 }
-
-// Convert dd/mm/yyyy → yyyy-mm-dd
-const convertDMYToISO = (dateStr: string): string | null => {
-    const parts = dateStr.split("/");
-    if (parts.length !== 3) return null;
-    const [day, month, year] = parts;
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-};
-
-const timeAgo = (dateString: string): string => {
-    const isoDateString = convertDMYToISO(dateString);
-    if (!isoDateString) return dateString;
-
-    const now = new Date();
-    const postedDate = new Date(isoDateString);
-    if (isNaN(postedDate.getTime())) return dateString;
-
-    const diffInMs = now.getTime() - postedDate.getTime();
-    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-
-    if (diffInHours < 1) return "1 giờ trước";
-    if (diffInHours < 24) return `${diffInHours} giờ trước`;
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} ngày trước`;
-};
 
 function JobIT({ job }: { job: Job }) {
     const navigate = useNavigate();
@@ -114,7 +88,7 @@ function JobIT({ job }: { job: Job }) {
                             onMouseEnter={() => setIsHoverCompany(true)}
                             onMouseLeave={() => setIsHoverCompany(false)}
                         >
-                            {job.company}
+                            {job.nameCompany || job.company} {/* Ưu tiên hiển thị nameCompany nếu có */}
                         </Text>
 
                         <div

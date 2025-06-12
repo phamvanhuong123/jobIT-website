@@ -2,46 +2,20 @@ import React, { useState } from "react";
 import "./JobList.css";
 import { AuditOutlined, CompassOutlined, IdcardOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import timeAgo from '../../utils/timeAgo';
 
 type Job = {
     id: string;
     title: string;
-    company: string;
+    company: string; // Thay String thành string
+    nameCompany?: string; // Thay String thành string
     location: string;
     tags: string[];
     posted: string;
     description: string;
-    jobDescription: string[]; // ✅ Thêm dòng này
+    jobDescription: string[];
     rawData: IJob;
 };
-// Chuyển dd/mm/yyyy sang yyyy-mm-dd
-const convertDMYToISO = (dateStr: string): string | null => {
-    const parts = dateStr.split("/");
-    if (parts.length !== 3) return null;
-    const [day, month, year] = parts;
-    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-};
-
-// Định dạng "x days ago"
-const timeAgo = (dateString: string): string => {
-    const isoDateString = convertDMYToISO(dateString);
-    if (!isoDateString) return dateString;
-
-    const now = new Date();
-    const postedDate = new Date(isoDateString);
-    if (isNaN(postedDate.getTime())) return dateString;
-
-    const diffInMs = now.getTime() - postedDate.getTime();
-    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
-
-    if (diffInHours < 1) return "1 giờ trước";
-    if (diffInHours < 24) return `${diffInHours} giờ trước`;
-
-    const diffInDays = Math.floor(diffInHours / 24);
-    return `${diffInDays} ngày trước`;
-};
-
-
 
 interface JobListProps {
     jobs: Job[];
@@ -66,6 +40,7 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                     </div>
                     <h3 className="job-title">{job.title}</h3>
                     <div className="job-company" style={{
+                        width: "60%",
                         fontSize: "16px",
                         cursor: "pointer",
                         textDecoration: isHoverCompany ? "underline" : "none",
@@ -74,7 +49,8 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                         onMouseEnter={() => setIsHoverCompany(true)}
                         onMouseLeave={() => setIsHoverCompany(false)}
                     >{job.company}</div>
-                    <a className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer" }}
+
+                    <a className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer", width: "60%" }}
                         onClick={() => navigate("/dang-nhap")}>Đăng nhập để xem mức lương</a>
 
                     <div className="job-position"> <IdcardOutlined /> {job.title}</div>
