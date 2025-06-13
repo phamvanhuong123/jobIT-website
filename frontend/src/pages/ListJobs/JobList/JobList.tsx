@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./JobList.css";
 import { AuditOutlined, CompassOutlined, IdcardOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import timeAgo from '../../utils/timeAgo';
+import { useAppSelector } from "~/store";
 
 type Job = {
     id: string;
@@ -10,6 +11,10 @@ type Job = {
     company: string; // Thay String thành string
     nameCompany?: string; // Thay String thành string
     location: string;
+    salary : {
+        min : Number,
+        max : Number
+    }
     tags: string[];
     posted: string;
     description: string;
@@ -24,6 +29,7 @@ interface JobListProps {
 }
 
 const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
+    const isLogin = useAppSelector(state => state.userCandidate.isLogin)
     const navigate = useNavigate();
     const [isHoverCompany, setIsHoverCompany] = useState(false);
     return (
@@ -49,9 +55,7 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                         onMouseEnter={() => setIsHoverCompany(true)}
                         onMouseLeave={() => setIsHoverCompany(false)}
                     >{job.company}</div>
-
-                    <a className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer", width: "60%" }}
-                        onClick={() => navigate("/dang-nhap")}>Đăng nhập để xem mức lương</a>
+                    {isLogin ? 2000 : <Link to={"/dang-nhap"} className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer", width: "60%" }}>Đăng nhập để xem mức lương</Link>}
 
                     <div className="job-position"> <IdcardOutlined /> {job.title}</div>
                     <div className="job-location">

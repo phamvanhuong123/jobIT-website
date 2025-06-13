@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import CandidateReducer from "./features/candidate.slice";
+
 import { useDispatch, useSelector } from "react-redux";
+import UserCandidateReducer from "./features/candidate.slice";
 
 export const store = configureStore({
     reducer : {
-        candidateReducer : CandidateReducer
+        userCandidate : UserCandidateReducer
     }
 })
 

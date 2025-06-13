@@ -11,30 +11,34 @@ export const fetchCandidateById = createAsyncThunk('candidates/fetchCandidateByI
 
 
 // KHởi tạo dữ liệu
-interface CandidateState{
-   candidate : ICandidate | null
+interface UserCandidateState{
+   candidate : ICandidate | null,
+   isLogin : Boolean
 }
 
-const initialState : CandidateState = {
-    candidate : null
+const initialState : UserCandidateState = {
+    candidate : null,
+    isLogin : false
 }
 
 
-const candidateSlice = createSlice({
+const userCandidateSlice = createSlice({
     name : 'candidates',
     initialState,
     reducers : {
         logOut(state){
             state.candidate = null
+            state.isLogin = false
         }
     },
     extraReducers : (builder)=>{
         builder.addCase(fetchCandidateById.fulfilled,(state,action) =>{
-            state.candidate = action.payload
+            state.candidate = action.payload;
+            state.isLogin = true
         }),
         builder.addDefaultCase((state) =>{state.candidate = null})
     }
 })
-export const {logOut} = candidateSlice.actions
-const CandidateReducer = candidateSlice.reducer
-export default CandidateReducer
+export const {logOut} = userCandidateSlice.actions
+const UserCandidateReducer = userCandidateSlice.reducer
+export default UserCandidateReducer

@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { Avatar, Button } from "antd";
 import { logOut } from "~/features/candidate.slice"
 function Header() {
-  const candidate = useAppSelector((state) => state.candidateReducer.candidate);
+  const candidate = useAppSelector((state) => state.userCandidate.candidate);
   const dispatch = useAppDispatch();
 const navigate = useNavigate();
  const handleLogout = (url : string) =>{

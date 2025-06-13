@@ -18,8 +18,12 @@ interface IResponseVerifyToken{
     role : String
 }
 
-export  const register = (data : any)=>{
+export const register = (data : any)=>{
     return axios.post<IDataResponse<any>>("register",data);
+}
+
+export  const registerOTP = (data : any)=>{
+    return axios.post<IDataResponse<any>>("register-otp",data);
 }
 
 export const login = (data : any) =>{
