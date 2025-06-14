@@ -9,7 +9,7 @@ const candidateSchema = new mongoose.Schema(
     address: String,
     personalLink: String,
     about: String,
-    saved_job : [String],
+    
     education: {
       schoolName: String,
       major: String,
