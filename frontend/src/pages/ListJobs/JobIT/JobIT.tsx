@@ -4,6 +4,9 @@ import Title from "antd/es/typography/Title";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import timeAgo from '../../utils/timeAgo';
+import { useAppSelector } from "~/store";
+
+
 const { Text } = Typography;
 
 interface Job {
@@ -37,6 +40,7 @@ function JobIT({ job }: { job: Job }) {
     const [liked, setLiked] = useState(false);
     const [hover, setHover] = useState(false);
     const [isHoverCompany, setIsHoverCompany] = useState(false);
+    const isLogin = useAppSelector(state => state.userCandidate.isLogin)
 
     const handleApplyClick = () => {
         navigate("/apply", { state: { job } });
@@ -101,15 +105,34 @@ function JobIT({ job }: { job: Job }) {
                                 fontSize: "16px",
                             }}
                         >
-                            <DollarOutlined style={{ fontSize: "16px" }} />
-                            <a
-                                className="job-salary-link"
-                                style={{ color: "#1677ff", cursor: "pointer" }}
-                                onClick={() => navigate("/dang-nhap")}
-                            >
-                                Đăng nhập để xem mức lương
-                            </a>
-
+                            {isLogin && job.rawData.salary?.min && job.rawData.salary?.max ? (
+                                <>
+                                    <DollarOutlined
+                                        style={{
+                                            fontSize: "18px",
+                                            border: "2px solid green",
+                                            borderRadius: "50%",
+                                            padding: "2px",
+                                            color: "green",
+                                        }}
+                                    />
+                                    <span style={{ color: "green", fontWeight: "bold" }}>
+                                        {job.rawData.salary.min.toLocaleString()} - {job.rawData.salary.max.toLocaleString()}{" "}
+                                        {job.rawData.salary.currency ?? "USD"}
+                                    </span>
+                                </>
+                            ) : (
+                                <>
+                                    <DollarOutlined style={{ fontSize: "16px" }} />
+                                    <a
+                                        className="job-salary-link"
+                                        style={{ color: "#1677ff", cursor: "pointer", marginTop: "5px" }}
+                                        onClick={() => navigate("/dang-nhap")}
+                                    >
+                                        Đăng nhập để xem mức lương
+                                    </a>
+                                </>
+                            )}
                         </div>
                     </div>
 

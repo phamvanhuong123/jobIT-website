@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./JobList.css";
-import { AuditOutlined, CompassOutlined, IdcardOutlined } from "@ant-design/icons";
+import { AuditOutlined, CompassOutlined, DollarOutlined, IdcardOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import timeAgo from '../../utils/timeAgo';
 import { useAppSelector } from "~/store";
@@ -11,9 +11,10 @@ type Job = {
     company: string; // Thay String thành string
     nameCompany?: string; // Thay String thành string
     location: string;
-    salary : {
-        min : Number,
-        max : Number
+    salary: {
+        min: number;
+        max: number;
+        currency: string;
     }
     tags: string[];
     posted: string;
@@ -55,11 +56,30 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                         onMouseEnter={() => setIsHoverCompany(true)}
                         onMouseLeave={() => setIsHoverCompany(false)}
                     >{job.company}</div>
-                    {isLogin ? 2000 : <Link to={"/dang-nhap"} className="job-salary-link" style={{ color: "#1677ff", cursor: "pointer", width: "60%" }}>Đăng nhập để xem mức lương</Link>}
+                    {isLogin && job.salary?.min && job.salary?.max ? (
+                        <div className="job-salary">
+                            <DollarOutlined />
+                            <span className="salary-text">
+                                {job.salary.min.toLocaleString()} - {job.salary.max.toLocaleString()} {job.salary.currency ?? "USD"}
+                            </span>
+                        </div>
+                    ) : (
+                        !isLogin && (
+                            <Link
+                                to="/dang-nhap"
+                                className="job-salary-link"
+                                style={{ color: "#1677ff", cursor: "pointer", width: "60%" }}
+                            >
+                                Đăng nhập để xem mức lương
+                            </Link>
+                        )
+                    )}
 
-                    <div className="job-position"> <IdcardOutlined /> {job.title}</div>
+
+
+                    <div className="job-position"> <IdcardOutlined style={{ fontSize: "16px" }} /> {job.title}</div>
                     <div className="job-location">
-                        <AuditOutlined /> <span>{job.rawData.workplace}</span> • <CompassOutlined /> <span>{job.location}</span>
+                        <AuditOutlined style={{ fontSize: "16px" }} /> <span>{job.rawData.workplace}</span> • <CompassOutlined style={{ fontSize: "16px" }} /> <span>{job.location}</span>
                     </div>
                     <div className="job-tags">
                         {job.tags.map((tag, idx) => (

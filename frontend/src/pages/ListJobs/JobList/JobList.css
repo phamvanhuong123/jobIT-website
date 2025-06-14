@@ -49,6 +49,22 @@
     margin-bottom: 4px;
 }
 
+.job-salary {
+    color: green;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+}
+
+.job-salary .anticon {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .job-salary-link {
     display: block;
     color: #1677ff;

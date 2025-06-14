@@ -14,6 +14,11 @@ type Job = {
     company: string; // Thay String thành string
     nameCompany?: string; // Thay String thành string
     location: string;
+    salary: {
+        min: number;
+        max: number;
+        currency: string;
+    }
     tags: string[];
     posted: string;
     description: string;
@@ -38,7 +43,7 @@ function ListJobs() {
                 if (!Array.isArray(jobsData)) throw new Error("Dữ liệu không hợp lệ");
                 const jobs: Job[] = jobsData
                     .filter((job) => !job.deleted)
-                    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                     .slice(0, 20)
                     .map((job) => ({
                         id: job._id,
@@ -46,8 +51,9 @@ function ListJobs() {
                         company: job.nameCompany || job.idCompany || "Chưa có tên công ty",
                         nameCompany: job.nameCompany, // Đảm bảo đây là string primitive
                         location: job.locations?.[0] || "Không rõ",
+                        salary: job.salary,
                         tags: job.skills || [],
-                        posted: new Date(job.createdAt).toLocaleDateString("vi-VN"),
+                        posted: new Date(job.updatedAt).toLocaleDateString("vi-VN"),
                         description: job.jobDescription?.[0] || "Không có mô tả",
                         jobDescription: job.jobDescription || [],
                         rawData: job,
