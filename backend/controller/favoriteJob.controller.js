@@ -12,22 +12,20 @@ module.exports.getAllFavoriteJobsByIdCandidate = async (req, res) => {
         status: 400,
         message: "Không có idCandidate hoặc ID không hợp lệ",
       });
+      return;
     }
 
-    const jobIds = await FavoriteJob.find({ idCandidate: idCandidate })
-    const ids = jobIds.map((item)=>{
-        return item.idJob
-    })
+    const jobIds = await FavoriteJob.find({ idCandidate: idCandidate }).sort({
+      idJob: "desc",
+    });
+    const ids = jobIds.map((item) => item.idJob);
     const record = await Job.find({ _id: { $in: ids } });
 
-
-    
     res.json({
       status: 200,
       message: "Successful",
       data: record,
     });
-    
   } catch (e) {
     res.status(400).json({
       status: 400,
@@ -46,10 +44,11 @@ module.exports.addFavoriteJob = async (req, res) => {
       !mongoose.Types.ObjectId.isValid(idCandidate) ||
       !mongoose.Types.ObjectId.isValid(idJob)
     ) {
-      return res.status(400).json({
+      res.status(400).json({
         status: 400,
         message: "IdCandidate hoặc IdJob không hợp lệ",
       });
+      return;
     }
 
     //Kiểm tra xem idCandidate và idJob có tồn tại hayy không
@@ -88,6 +87,45 @@ module.exports.addFavoriteJob = async (req, res) => {
     res.status(400).json({
       status: 400,
       message: `Lỗi ${error}`,
+    });
+  }
+};
+
+// Xoá công việc yêu thích
+module.exports.deleteFavoriteJob = async (req, res) => {
+  try {
+    const { idCandidate, idJob } = req.params;
+    // Kiểm tra ObjectId có hợp lệ hay không
+    if (
+      !mongoose.Types.ObjectId.isValid(idCandidate) ||
+      !mongoose.Types.ObjectId.isValid(idJob)
+    ) {
+      res.status(400).json({
+        status: 400,
+        message: "IdCandidate hoặc IdJob không hợp lệ",
+      });
+      return;
+    }
+    // Xoá bản ghi
+    const count = await FavoriteJob.deleteOne({
+      idCandidate: idCandidate,
+      idJob: idJob,
+    });
+    if (count.deletedCount == 0) {
+      res.status(400).json({
+        status: 400,
+        message: "Thất bại bại không tìm thấy bản ghi",
+      });
+      return;
+    }
+    res.json({
+      status: 200,
+      message: "Successful",
+    });
+  } catch (e) {
+    res.status(400).json({
+      status: 400,
+      message: `Lỗi ${e}`,
     });
   }
 };
