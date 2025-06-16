@@ -15,7 +15,6 @@ function Header() {
   const dispatch = useAppDispatch();
 const navigate = useNavigate();
  const handleLogout = (url : string) =>{
-   
     localStorage.removeItem('token');
     dispatch(logOut());
     navigate(url)
@@ -27,6 +26,7 @@ const navigate = useNavigate();
     if (!candidate) {
       const fetchApiVerifyToken = async () => {
           const response = await verifitoken();
+          console.log(response.message)
           if (response.data) {
             dispatch(fetchCandidateById(response.data?.idAccount));
           }
@@ -61,8 +61,8 @@ const navigate = useNavigate();
                 <Button type="text" style={{ color: "white" }}>
                 <Avatar style={{ backgroundColor: "orange", color: "white" }}>
                   {candidate.fullName.at(0)}
-                </Avatar>{" "}
-                {candidate.fullName}{" "}
+                </Avatar>
+                <Link to={'/user'}>{candidate.fullName}</Link>
               </Button>
               <Button type="text" style={{ color: "white" }} onClick={()=>{handleLogout('/dang-nhap')}}>
                 Đăng xuất
