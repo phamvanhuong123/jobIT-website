@@ -87,7 +87,7 @@ module.exports.loginCandidate = async (req,res) =>{
         }
 
         // dữ liệu trả về
-        const token = jwt.sign({id : existAccount._id, role : existAccount.role},JWT_SECRECT,{ expiresIn: '1h' });
+        const token = jwt.sign({id : existAccount._id, role : existAccount.role, email : existAccount.email},JWT_SECRECT,{ expiresIn: '1h' });
         const candidate = await Candidate.findOne({idAccount : existAccount._id})
         res.json({
             status : 200,

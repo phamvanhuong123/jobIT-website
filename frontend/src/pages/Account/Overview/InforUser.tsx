@@ -1,8 +1,20 @@
 import { ArrowRightOutlined, MailOutlined, SafetyOutlined } from "@ant-design/icons"
 import { Avatar, Card, Col, Row, Typography } from "antd"
 import { Link } from "react-router"
+import { useAppSelector } from "~/store";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 const { Title } = Typography;
 function InforUser(){
+  const user = useAppSelector(state => state.userCandidate.candidate)
+  const token = localStorage.getItem('token');
+  const [email,setEmail] = useState('')
+  useEffect(()=>{ 
+    if(token){
+      const decodeToken = jwtDecode<any>(token)
+      setEmail(decodeToken.email)
+    }
+  },[])
     return <>
     <Col span={24}>
           <Card>
@@ -19,14 +31,14 @@ function InforUser(){
                 </Avatar>
               </Col>
               <Col span={21}>
-                <Title level={2}>Unt Pham</Title>
+                <Title level={2}>{user?.fullName}</Title>
                 <div className="box-title">
                   <SafetyOutlined />
                   <p>Cật nhật chức danh</p>
                 </div>
                 <div className="box-title">
                   <MailOutlined />
-                  <p>phamvanhuongtk@gmail.com</p>
+                  <p>{email}</p>
                 </div>
                 <Link className="box-update-link" to={"/user/ho-so-cv"}>
                   Cật nhật hồ sơ <ArrowRightOutlined />{" "}
