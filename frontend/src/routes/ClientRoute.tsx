@@ -36,7 +36,7 @@ function ClientRoute() {
           element: <DetailJob />,
         },
         {
-          path: "company",
+          path: "company/:idCompany",
           element: <CompanyPage />,
         },
         {

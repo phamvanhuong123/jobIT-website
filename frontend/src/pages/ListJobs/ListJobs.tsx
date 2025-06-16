@@ -11,20 +11,21 @@ import { getAllJob } from "~/services/job.axios";
 type Job = {
     id: string;
     title: string;
-    company: string; // Thay String thành string
-    nameCompany?: string; // Thay String thành string
+    idCompany: string; // <-- thêm dòng này
+    nameCompany?: string;
+    company: string;
     location: string;
     salary: {
         min: number;
         max: number;
         currency: string;
-    }
+    };
     tags: string[];
     posted: string;
-    description: string;
     jobDescription: string[];
     rawData: IJob;
 };
+
 
 function ListJobs() {
     const [selectedJob, setSelectedJob] = useState<Job | null>(null);
@@ -33,7 +34,6 @@ function ListJobs() {
     const [types, setTypes] = useState<string[]>([]);
     const [salaries, setSalaries] = useState<string[]>([]);
     const [fields, setFields] = useState<string[]>([]);
-
     useEffect(() => {
         const fetchJobs = async () => {
             try {
@@ -41,23 +41,26 @@ function ListJobs() {
                 const jobsData = res.data;
 
                 if (!Array.isArray(jobsData)) throw new Error("Dữ liệu không hợp lệ");
+
                 const jobs: Job[] = jobsData
                     .filter((job) => !job.deleted)
                     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
                     .slice(0, 20)
-                    .map((job) => ({
+                    .map((job): Job => ({
                         id: job._id,
                         title: job.name || "Không rõ",
-                        company: job.nameCompany || job.idCompany || "Chưa có tên công ty",
-                        nameCompany: job.nameCompany, // Đảm bảo đây là string primitive
+                        idCompany: job.idCompany?.toString() || "",
+                        nameCompany: job.nameCompany?.toString(),
+                        company: (job.nameCompany || job.idCompany || "Chưa có tên công ty").toString(),
                         location: job.locations?.[0] || "Không rõ",
                         salary: job.salary,
                         tags: job.skills || [],
                         posted: new Date(job.updatedAt).toLocaleDateString("vi-VN"),
-                        description: job.jobDescription?.[0] || "Không có mô tả",
                         jobDescription: job.jobDescription || [],
                         rawData: job,
-                    })) as Job[]; // Thêm type assertion nếu cần
+                    }))
+
+
                 setJobList(jobs);
             } catch (error) {
                 console.error("Lỗi khi lấy danh sách công việc:", error);
@@ -67,6 +70,7 @@ function ListJobs() {
 
         fetchJobs();
     }, []);
+
 
     return (
         <>

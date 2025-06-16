@@ -12,28 +12,21 @@ const { Text } = Typography;
 interface Job {
     id: string;
     title: string;
+    idCompany: string;
     company: string;
-    nameCompany?: string; // Thêm trường này
+    nameCompany?: string;
     location: string;
+    salary: {
+        min: number;
+        max: number;
+        currency: string;
+    };
     tags: string[];
     posted: string;
     jobDescription: string[];
-    rawData: {
-        level: string;
-        workplace: string;
-        salary: {
-            min: number;
-            max: number;
-            currency: string;
-        };
-        requirements: {
-            degree: string[];
-            softSkills: string[];
-            technicalSkills: string[];
-            advantages: string[];
-        };
-    };
+    rawData: IJob; // ✅ dùng kiểu đầy đủ từ global
 }
+
 
 function JobIT({ job }: { job: Job }) {
     const navigate = useNavigate();
@@ -88,7 +81,10 @@ function JobIT({ job }: { job: Job }) {
                                 cursor: "pointer",
                                 textDecoration: isHoverCompany ? "underline" : "none",
                             }}
-                            onClick={() => navigate("/company")}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/company/${job.rawData.idCompany}`);
+                            }}
                             onMouseEnter={() => setIsHoverCompany(true)}
                             onMouseLeave={() => setIsHoverCompany(false)}
                         >

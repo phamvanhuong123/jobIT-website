@@ -6,6 +6,40 @@
 }
 
 /* Header của công ty */
+.company-mini-header {
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #1e272e, #2C5364);
+    color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mini-company-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.mini-header-actions .review-button,
+.mini-header-actions .follow-button {
+    padding: 11px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
 .company-card-header {
     background: linear-gradient(90deg, #1e272e, #2C5364);
     padding: 24px;
@@ -146,7 +180,6 @@
     flex: 7;
     display: flex;
     flex-direction: column;
-    gap: 16px;
 }
 
 /* Phần bên phải chiếm 30% */
@@ -156,6 +189,9 @@
 
 /* Tabs */
 .company-tabs-card {
+    position: sticky;
+    top: 64px;
+    z-index: 99;
     background-color: #ffffff;
     border-radius: 8px;
     padding: 16px;
@@ -186,34 +222,113 @@
 }
 
 /* Phần List Job thuộc công ty*/
-.company-job-container {
+.job-list-wrapper {
     display: flex;
-    gap: 24px;
-    height: 100vh;
-    overflow: visible;
     flex-direction: column;
-    box-sizing: content-box;
-    margin-right: 30px;
-    position: sticky;
-    top: 75px;
+    gap: 16px;
 }
 
-.company-job-list {
-    overflow-y: auto;
-    padding-right: 8px;
-    flex: 1;
-    margin-top: 10px;
-
+.job-list-wrapper::-webkit-scrollbar {
+    width: 6px;
 }
 
-.company-job-container .ant-card-head {
-    position: sticky;
-    top: 0;
+.job-list-wrapper::-webkit-scrollbar-thumb {
+    background-color: #d0d0d0;
+    border-radius: 3px;
 }
 
-.company-job-container .ant-card-body {
-    height: 300px;
-    overflow: auto;
+
+.job-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #ffffff;
+}
+
+.job-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.job-card.selected {
+    border-color: #1677ff;
+    background-color: #f0f5ff;
+}
+
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: gray;
+}
+
+.job-hot {
+    background: red;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+}
+
+.job-title {
+    margin: 8px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.job-company {
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.job-salary {
+    color: green;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+}
+
+.job-salary .anticon {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.job-salary-link {
+    display: block;
+    color: #1677ff;
+    margin-bottom: 6px;
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+.job-position {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.job-location {
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 8px;
+}
+
+.job-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.job-tag {
+    background-color: #e6f7ff;
+    color: #1677ff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
 }
 
 /* Phần giới thiệu */
@@ -235,7 +350,7 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .company-introduction,
@@ -254,20 +369,28 @@
 }
 
 .love-list {
-    list-style-type: disc;
-    padding-left: 20px;
-    margin-top: 8px;
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
 }
 
 .love-list li {
-    margin-bottom: 6px;
+    position: relative;
+    padding-left: 20px;
     font-size: 16px;
-    color: #000;
+    margin-bottom: 8px;
 }
 
-.love-list li::marker {
-    color: #d32f2f;
+.love-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #333;
+    font-size: 20px;
+    line-height: 1;
 }
+
 
 
 p {

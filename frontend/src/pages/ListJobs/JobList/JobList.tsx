@@ -8,17 +8,17 @@ import { useAppSelector } from "~/store";
 type Job = {
     id: string;
     title: string;
-    company: string; // Thay String thành string
-    nameCompany?: string; // Thay String thành string
+    idCompany: string; // <-- thêm dòng này
+    nameCompany?: string;
+    company: string;
     location: string;
     salary: {
         min: number;
         max: number;
         currency: string;
-    }
+    };
     tags: string[];
     posted: string;
-    description: string;
     jobDescription: string[];
     rawData: IJob;
 };
@@ -52,10 +52,13 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
                         cursor: "pointer",
                         textDecoration: isHoverCompany ? "underline" : "none",
                     }}
-                        onClick={() => navigate("/company")}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/company/${job.rawData.idCompany}`);
+                        }}
                         onMouseEnter={() => setIsHoverCompany(true)}
                         onMouseLeave={() => setIsHoverCompany(false)}
-                    >{job.company}</div>
+                    >{job.nameCompany}</div>
                     {isLogin && job.salary?.min && job.salary?.max ? (
                         <div className="job-salary">
                             <DollarOutlined />
