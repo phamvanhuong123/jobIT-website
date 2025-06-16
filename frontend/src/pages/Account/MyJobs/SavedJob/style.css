@@ -1,0 +1,47 @@
+.saved__job__box__left{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.saved__job__box__left__image{
+    width: 100px;
+    height: 100px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.saved__job__box__left__image img{
+    width: 100%;;
+}
+.saved__job__box__left__image__title__name-job{
+    font-size: 15px;
+    font-weight: 600;
+   
+}
+.saved__job__box__left__image__title__location{
+ color: #ACACAC;
+ font-size: 14px;
+}
+.saved__job__box__left__image__title__salary{
+    color: green;
+    font-size: 15px;
+}
+
+.saved__job__box__right__content{
+    display: flex;
+    align-items: center;
+}
+.saved__job__box__right__icon{
+    margin-left: 15px;
+}
+.saved__job__box__right__posted{
+    font-size: 15px;
+    margin-bottom: 5px;
+
+}
+.saved__job__box__right__expired{
+    font-size: 13px;
+    font-weight: 300;
+    color: orange;
+    margin-bottom: 15px;
+}
