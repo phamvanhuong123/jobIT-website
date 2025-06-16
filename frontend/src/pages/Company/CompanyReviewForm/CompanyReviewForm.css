@@ -1,0 +1,186 @@
+/* Css cho header */
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, #1e272e, #2C5364);
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    position: relative;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 24px;
+}
+
+.btn_submit {
+    font-size: 16px;
+    border: none;
+    background: #1e272e;
+    color: #fff;
+}
+
+.btn_submit:hover,
+.btn_submit:focus {
+    background: #1e272e !important;
+    color: #fff !important;
+}
+
+/* Css nội dung chính */
+.review-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 16px;
+    background-color: #f7f7f7;
+}
+
+@media (min-width: 1024px) {
+    .review-wrapper {
+        flex-direction: row;
+        padding: 40px;
+    }
+
+    .review-left {
+        width: 70%;
+    }
+
+    .review-right {
+        width: 30%;
+    }
+}
+
+.review-left,
+.review-right {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    border-radius: 8px;
+}
+
+.review-right {
+    max-height: 550px;
+}
+
+/* ====== FONT SIZE CUSTOM ====== */
+.review-left .ant-typography,
+.review-right .ant-typography,
+.review-left .ant-form,
+.review-right ul,
+.review-right a {
+    font-size: 16px;
+    /* Nội dung */
+}
+
+.review-left .ant-typography.ant-typography-title,
+.review-right .ant-typography.ant-typography-title {
+    font-size: 18px !important;
+    /* Tiêu đề */
+    font-weight: 600;
+}
+
+/* Tiêu đề chính “Đánh giá cho …” */
+.review-left h4.ant-typography {
+    font-size: 22px !important;
+    font-weight: bold;
+}
+
+.review-right h5.ant-typography {
+    font-size: 22px;
+}
+
+.review-left .ant-form-item-label>label {
+    font-size: 18px !important;
+    font-weight: 600;
+}
+
+/* Tiêu đề phần đánh giá chi tiết */
+.review-section-title {
+    font-size: 18px !important;
+    font-weight: 600;
+    margin-top: 24px;
+    /* giống mt-6 */
+}
+
+.review-label-row {
+    display: flex;
+    gap: 12px;
+    /* khoảng cách giữa label và rate */
+    margin-bottom: 12px;
+}
+
+/* Label riêng trong từng item */
+.review-label {
+    display: block;
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+/* Áp dụng cho nhóm Radio */
+.ant-radio-wrapper {
+    font-size: 16px !important;
+}
+
+.submit-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 28px 32px;
+    background-color: #ef4444;
+    /* tương đương bg-red-500 */
+    color: white;
+    border-color: #ed1b2f;
+}
+
+.submit-btn:hover,
+.submit-btn:focus {
+    background-color: #c13030 !important;
+    color: white !important;
+    border-color: #ed1b2f;
+}
+
+.review-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 12px;
+}
+
+.review-list li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.review-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #ef4444;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Phần xem chi tiết căn giữa hàng cuối cùng */
+.review-detail-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+}
+
+
+
+.see-more-link {
+    color: #1677ff;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}

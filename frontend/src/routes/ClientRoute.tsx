@@ -16,6 +16,7 @@ import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
 import VerifyCode from "~/pages/Register/VerifyCode";
 import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 import ApplyForm from "~/pages/ApplyJob";
+import CompanyReviewForm from "~/pages/Company/CompanyReviewForm/CompanyReviewForm";
 
 function ClientRoute() {
   let element = useRoutes([
@@ -38,6 +39,10 @@ function ClientRoute() {
         {
           path: "company/:idCompany",
           element: <CompanyPage />,
+        },
+        {
+          path: "review/:idCompany",
+          element: <CompanyReviewForm />,
         },
         {
           path: "apply",

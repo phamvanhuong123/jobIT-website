@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Badge, Image, Rate } from "antd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import CompanyIntro from "./CompanyIntro";
 import CompanyReviews from "./CompanyReviews";
@@ -41,6 +41,7 @@ const CompanyPage = () => {
 
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showMiniHeader, setShowMiniHeader] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -117,7 +118,7 @@ const CompanyPage = () => {
         <div className="company-mini-header">
           <p className="mini-company-name">{company.name}</p>
           <div className="mini-header-actions">
-            <button className="review-button" onClick={() => alert("Viết đánh giá")}>Viết đánh giá</button>
+            <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
             <button className="follow-button" onClick={() => alert("Theo dõi công ty")}>Theo dõi</button>
           </div>
         </div>
@@ -131,7 +132,7 @@ const CompanyPage = () => {
               <p className="company-location"><CompassOutlined /> {company.address}</p>
               <div><SolutionOutlined style={{ marginRight: "4px", marginTop: "2px" }} /><a href="#" className="job-link">{jobs.length} việc làm đang tuyển</a></div>
               <div className="action-buttons">
-                <button className="review-button" onClick={() => alert("Viết đánh giá")}>Viết đánh giá</button>
+                <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
                 <button className="follow-button" onClick={() => alert("Theo dõi công ty")}>Theo dõi</button>
               </div>
             </div>
