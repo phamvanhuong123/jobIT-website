@@ -8,11 +8,54 @@ module.exports.getJobsbyCompany = async (req, res) => {
       deleted: false,
       idCompany: idCompany,
     };
-    const record = await Job.find(find);
+    const sort = {
+      createdAt: 1,
+    };
+    // const record = await Job.find(find);
+    const recordArr = await Job.aggregate([
+      {
+        $match: find,
+      },
+      {
+        $sort : sort
+      },
+      {
+        $addFields: { IdObject: { $toObjectId: "$idCompany" } },
+      },
+      {
+        $lookup: {
+          from: "companies",
+          localField: "IdObject",
+          foreignField: "_id",
+          as: "fromCompany",
+        },
+      },
+      // Chuyển fromCompany thành phần từ
+      {
+        $unwind: {
+          path: "$fromCompany",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      // Thêm 2 trường
+      {
+        $addFields: {
+          nameCompany: "$fromCompany.name",
+          logoCompany: "$fromCompany.logo",
+        },
+      },
+      // Ẩn đi các trường không cần thiết
+      {
+        $project: {
+          IdObject: 0,
+          fromCompany: 0,
+        },
+      },
+    ]);
     res.json({
       status: 200,
       message: "Thanh cong",
-      data: record,
+      data: recordArr,
     });
   } catch (e) {
     res.status(500).json({
