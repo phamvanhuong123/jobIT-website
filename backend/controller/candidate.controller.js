@@ -28,11 +28,47 @@ module.exports.detail = async (req, res) => {
       });
       return;
     }
-
+    const record = await Candidate.aggregate([
+      {
+        $match : {idAccount : idAccount}
+      },
+      {
+        $addFields : {
+          idObject : {$toObjectId : '$idAccount'}
+        }
+      },
+      {   
+        $lookup : {
+          from : 'accounts',
+          localField : 'idObject',
+          foreignField : '_id',
+          as :  'account'
+        }
+      },
+      {
+        $unwind : {
+          path : '$account',
+          preserveNullAndEmptyArrays : true
+        }
+      },
+      {
+        $addFields : {
+          email : '$account.email'
+        }
+      },
+      {
+        $project : {
+          "account" : 0,
+          "idObject" : 0
+        }
+      }
+    ])
+    
     res.json({
       status: 200,
       message: "Successful",
-      data: exsistCandidate,
+      data: record[0],
+      
     });
   } catch (e) {
     res.status(500).json({

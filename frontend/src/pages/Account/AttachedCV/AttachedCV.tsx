@@ -18,11 +18,14 @@ import {
     EditOutlined,
 } from '@ant-design/icons';
 import './AttachedCV.css';
+import { useAppSelector } from '~/store';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const AttachedCV: React.FC = () => {
+    const user = useAppSelector(state => state.userCandidate.candidate)
+    
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [form] = Form.useForm();
 
@@ -66,6 +69,7 @@ const AttachedCV: React.FC = () => {
             });
     };
 
+    console.log(user?.fullName)
     return (
         <div className="attached-cv-container">
             <Card className="attached-cv-card" variant="outlined">
@@ -106,7 +110,7 @@ const AttachedCV: React.FC = () => {
                 >
                     <div className="info-row">
                         <Text strong>Họ và Tên</Text>
-                        <Text>Nguyễn Văn A</Text>
+                        <Text>{user?.fullName}</Text>
                     </div>
                     <div className="info-row">
                         <Text strong>Số điện thoại</Text>
@@ -179,7 +183,7 @@ const AttachedCV: React.FC = () => {
                         name="fullName"
                         validateTrigger="onBlur"
                         rules={[{ required: true, message: 'Đây là thông tin bắt buộc' }]}
-                        initialValue="Nguyễn Văn A"
+                        initialValue={user?.fullName}
                     >
                         <Input placeholder="Nhập họ và tên" />
                     </Form.Item>

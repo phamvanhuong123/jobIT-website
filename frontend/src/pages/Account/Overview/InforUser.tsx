@@ -3,18 +3,12 @@ import { Avatar, Card, Col, Row, Typography } from "antd"
 import { Link } from "react-router"
 import { useAppSelector } from "~/store";
 import { jwtDecode } from "jwt-decode";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 const { Title } = Typography;
 function InforUser(){
   const user = useAppSelector(state => state.userCandidate.candidate)
-  const token = localStorage.getItem('token');
-  const [email,setEmail] = useState('')
-  useEffect(()=>{ 
-    if(token){
-      const decodeToken = jwtDecode<any>(token)
-      setEmail(decodeToken.email)
-    }
-  },[])
+
+ 
     return <>
     <Col span={24}>
           <Card>
@@ -27,7 +21,7 @@ function InforUser(){
                     backgroundColor: "green",
                   }}
                 >
-                  H
+                  {user?.fullName.split(" ")[0].at(0)}
                 </Avatar>
               </Col>
               <Col span={21}>
@@ -38,7 +32,7 @@ function InforUser(){
                 </div>
                 <div className="box-title">
                   <MailOutlined />
-                  <p>{email}</p>
+                  <p>{user?.email}</p>
                 </div>
                 <Link className="box-update-link" to={"/user/ho-so-cv"}>
                   Cật nhật hồ sơ <ArrowRightOutlined />{" "}

@@ -25,6 +25,7 @@ import {
 import { useState } from "react";
 import "./Profile.css";
 import SectionModals from "./SectionModals.tsx";
+import { useAppSelector } from "~/store.ts";
 
 const { Title, Text } = Typography;
 
@@ -74,6 +75,8 @@ const sections = [
 
 
 function Profile() {
+    const user = useAppSelector(state => state.userCandidate.candidate)
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
 
@@ -106,10 +109,10 @@ function Profile() {
                             className="avatar"
                         />
                         <div>
-                            <Title level={4} className="name">Nguyễn Văn A</Title>
+                            <Title level={4} className="name">{user?.fullName}</Title>
                             <Text className="sub-title">Cập nhật chức danh</Text>
                             <div className="info-grid">
-                                <div><MailOutlined /> vanA1...</div>
+                                <div><MailOutlined /> {user?.email}</div>
                                 <div><PhoneOutlined /> 0388779542</div>
                                 <div><GiftOutlined /> Ngày sinh: 30/09/1992</div>
                                 <div><UserOutlined /> Giới tính: Nam</div>

@@ -38,6 +38,7 @@
 }
 
 export interface ICandidate {
+  email : String
   fullName: string;
   phoneNumber: string;
   dateOfBirth: Date;
