@@ -418,12 +418,126 @@ p {
     margin: 0 auto;
 }
 
+.review-header-box {
+    display: flex;
+}
+
+.review-details-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 16px;
+    align-items: flex-start;
+}
+
+.toggle-review-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.toggle-review-button {
+    color: #1677ff;
+    background-color: #ffffff;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.toggle-review-button:hover {
+    background-color: #e6f4ff;
+}
+
+
+/* Đánh giá chi tiết chiếm 6 phần */
+.detailed-review-section {
+    flex: 6;
+}
+
+/* Phân phối sao chiếm 4 phần */
+.distribution-section-wide {
+    flex: 4;
+}
+
+/* Các dòng đánh giá chi tiết */
+.review-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-left: 1px solid transparent;
+    border-right: none;
+    transition: border 0.3s ease;
+    cursor: pointer;
+}
+
+.review-label-row:hover {
+    border-left: 3px solid red;
+    border-right: none;
+}
+
+/* Animation từ dưới lên */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-up-animate {
+    animation: slideUp 0.3s ease forwards;
+}
+
+
+/* Label phần đánh giá */
+.review-label {
+    font-weight: 500;
+}
+
+/* Phân phối sao */
+.distribution-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.star-label {
+    width: 20px;
+}
+
+.percent-label {
+    width: 40px;
+    text-align: right;
+}
+
+.star-icon {
+    color: #fadb14;
+    margin: 0 4px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background-color: #f0f0f0;
+    margin: 0 8px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #1890ff;
+}
+
 .review-title {
     font-size: 20px;
     font-weight: 700;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
 }
 
 .review-content {
@@ -605,6 +719,7 @@ p {
 .review-date {
     font-size: 14px;
     color: #6b7280;
+    padding: 24px 0 0 0;
 }
 
 .review-subtitle {
@@ -634,6 +749,73 @@ p {
 .label-red {
     color: #ef4444;
     font-weight: 500;
+}
+
+.user-review-box {
+    margin-top: 24px;
+    border: none;
+    box-shadow: none;
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-review-content {
+    font-family: "Segoe UI", sans-serif;
+}
+
+.user-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #000;
+}
+
+.review-score {
+    color: #fadb14;
+}
+
+.review-recommend {
+    color: #52c41a;
+    font-weight: 500;
+}
+
+.review-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 8px 0 12px;
+    color: #000;
+}
+
+.review-section {
+    margin-bottom: 10px;
+}
+
+.review-label {
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 4px;
+}
+
+.label-green {
+    color: #389e0d;
+    font-weight: 600;
+}
+
+.label-red {
+    color: #cf1322;
+    font-weight: 600;
 }
 
 /* Phần bài viết */

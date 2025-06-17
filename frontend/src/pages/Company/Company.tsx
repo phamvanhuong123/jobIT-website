@@ -102,7 +102,7 @@ const CompanyPage = () => {
       case "intro":
         return <CompanyIntro company={company} />;
       case "reviews":
-        return <CompanyReviews />;
+        return <CompanyReviews nameCompany={company?.name || "Tên công ty"} idCompany={String(company?._id)} />;
       case "posts":
         return <CompanyPosts />;
       default:

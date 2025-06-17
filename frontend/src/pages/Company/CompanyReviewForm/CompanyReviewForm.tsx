@@ -91,28 +91,17 @@ const CompanyReviewForm = () => {
                     </Text>
 
                     <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-6">
-                        <Form.Item name="overall" label="Đánh giá chung" rules={[{ required: true }]}> <Rate tooltips={rateDescriptions} /></Form.Item>
+                        <Form.Item
+                            name="overall"
+                            label="Đánh giá chung"
+                            rules={[{ required: true }]}
+                            valuePropName="value"
+                        >
+                            <Rate tooltips={rateDescriptions} />
+                        </Form.Item>
+
                         <Form.Item name="overall-title" validateTrigger="onBlur" rules={[{ required: true, message: "Thêm nội dung" }]}>
                             <Input placeholder="Tiêu đề" style={{ height: '56px', fontSize: '16px', marginBottom: "10px" }} />
-                        </Form.Item>
-
-                        <Form.Item label="Bạn cảm thấy như thế nào về chế độ OT?" name="overtime" rules={[{ required: true }]}>
-                            <Radio.Group style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <Radio value="Satisfied">Hài lòng</Radio>
-                                <Radio value="Unsatisfied">Không hài lòng</Radio>
-                            </Radio.Group>
-                        </Form.Item>
-
-                        <Form.Item
-                            name="overtimeReason"
-                            validateTrigger="onBlur"
-                            rules={[
-                                { required: true, message: "Thêm nội dung" },
-                                { min: 50, message: "Ít hơn 50 kí tự" },
-                                { max: 140, message: "Nhiều hơn 140 kí tự" },
-                            ]}
-                        >
-                            <TextArea rows={6} placeholder="Nhập lí do của bạn" showCount maxLength={140} />
                         </Form.Item>
 
                         <Form.Item
@@ -142,36 +131,38 @@ const CompanyReviewForm = () => {
                         </Form.Item>
 
                         <Title level={5} className="review-section-title">Đánh giá chi tiết </Title>
-                        <Form.Item name="salary">
-                            <div className="review-label-row">
-                                <label className="review-label">Lương thưởng & phúc lợi</label>
+                        <div className="review-label-row">
+                            <label className="review-label">Lương thưởng & phúc lợi</label>
+                            <Form.Item name="salary" style={{ marginBottom: 0 }}>
                                 <Rate tooltips={rateDescriptions} />
-                            </div>
-                        </Form.Item>
-                        <Form.Item name="training">
-                            <div className="review-label-row">
-                                <label className="review-label">Đào tạo & học hỏi</label>
+                            </Form.Item>
+                        </div>
+                        <div className="review-label-row">
+                            <label className="review-label">Đào tạo & học hỏi</label>
+                            <Form.Item name="training">
                                 <Rate tooltips={rateDescriptions} />
-                            </div>
-                        </Form.Item>
-                        <Form.Item name="management">
-                            <div className="review-label-row">
-                                <label className="review-label">Sự quan tâm đến nhân viên</label>
+                            </Form.Item>
+                        </div>
+                        <div className="review-label-row">
+                            <label className="review-label">Sự quan tâm đến nhân viên</label>
+                            <Form.Item name="management">
                                 <Rate tooltips={rateDescriptions} />
-                            </div>
-                        </Form.Item>
-                        <Form.Item name="culture">
-                            <div className="review-label-row">
-                                <label className="review-label">Văn hoá công ty</label>
+                            </Form.Item>
+                        </div>
+
+                        <div className="review-label-row">
+                            <label className="review-label">Văn hoá công ty</label>
+                            <Form.Item name="culture">
                                 <Rate tooltips={rateDescriptions} />
-                            </div>
-                        </Form.Item>
-                        <Form.Item name="workspace">
-                            <div className="review-label-row">
-                                <label className="review-label">Văn phòng làm việc</label>
+                            </Form.Item>
+                        </div>
+
+                        <div className="review-label-row">
+                            <label className="review-label">Văn phòng làm việc</label>
+                            <Form.Item name="workspace">
                                 <Rate tooltips={rateDescriptions} />
-                            </div>
-                        </Form.Item>
+                            </Form.Item>
+                        </div>
 
                         <Form.Item name="recommend" label="Bạn có muốn giới thiệu công ty này đến bạn bè của mình?" rules={[{ required: true }]}>
                             <Radio.Group style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
