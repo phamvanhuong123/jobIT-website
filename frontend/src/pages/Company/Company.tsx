@@ -133,7 +133,7 @@ const CompanyPage = () => {
               <div><SolutionOutlined style={{ marginRight: "4px", marginTop: "2px" }} /><a href="#" className="job-link">{jobs.length} việc làm đang tuyển</a></div>
               <div className="action-buttons">
                 <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
-                <button className="follow-button" onClick={() => alert("Theo dõi công ty")}>Theo dõi</button>
+            
               </div>
             </div>
           </div>

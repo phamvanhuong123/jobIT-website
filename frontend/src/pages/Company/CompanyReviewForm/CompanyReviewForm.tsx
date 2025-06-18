@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Radio, Input, Rate, Button, Typography, Form, Modal } from 'antd';
+import { Card,  Input, Rate, Button, Typography, Form, Modal } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllCompany } from '~/services/company.axios'; // đảm bảo đường dẫn chính xác
 import './CompanyReviewForm.css';
@@ -8,20 +8,7 @@ import { ExportOutlined, LeftOutlined } from '@ant-design/icons';
 const { TextArea } = Input;
 const { Title, Text } = Typography;
 
-interface ReviewFormValues {
-    overall: number;
-    summary: string;
-    overtime: string;
-    overtimeReason: string;
-    love: string;
-    suggestion: string;
-    salary?: number;
-    training?: number;
-    management?: number;
-    culture?: number;
-    workspace?: number;
-    recommend: string;
-}
+
 
 const CompanyReviewForm = () => {
     const [form] = Form.useForm();
@@ -62,7 +49,7 @@ const CompanyReviewForm = () => {
         }
     }, [idCompany]);
 
-    const handleSubmit = (values: ReviewFormValues) => {
+    const handleSubmit = (values : any) => {
         console.log('Review Submitted:', values);
     };
 
@@ -130,46 +117,7 @@ const CompanyReviewForm = () => {
                             <TextArea rows={6} placeholder="Nhập nội dung" showCount maxLength={30000} />
                         </Form.Item>
 
-                        <Title level={5} className="review-section-title">Đánh giá chi tiết </Title>
-                        <div className="review-label-row">
-                            <label className="review-label">Lương thưởng & phúc lợi</label>
-                            <Form.Item name="salary" style={{ marginBottom: 0 }}>
-                                <Rate tooltips={rateDescriptions} />
-                            </Form.Item>
-                        </div>
-                        <div className="review-label-row">
-                            <label className="review-label">Đào tạo & học hỏi</label>
-                            <Form.Item name="training">
-                                <Rate tooltips={rateDescriptions} />
-                            </Form.Item>
-                        </div>
-                        <div className="review-label-row">
-                            <label className="review-label">Sự quan tâm đến nhân viên</label>
-                            <Form.Item name="management">
-                                <Rate tooltips={rateDescriptions} />
-                            </Form.Item>
-                        </div>
-
-                        <div className="review-label-row">
-                            <label className="review-label">Văn hoá công ty</label>
-                            <Form.Item name="culture">
-                                <Rate tooltips={rateDescriptions} />
-                            </Form.Item>
-                        </div>
-
-                        <div className="review-label-row">
-                            <label className="review-label">Văn phòng làm việc</label>
-                            <Form.Item name="workspace">
-                                <Rate tooltips={rateDescriptions} />
-                            </Form.Item>
-                        </div>
-
-                        <Form.Item name="recommend" label="Bạn có muốn giới thiệu công ty này đến bạn bè của mình?" rules={[{ required: true }]}>
-                            <Radio.Group style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <Radio value="Yes">Có</Radio>
-                                <Radio value="No">Không</Radio>
-                            </Radio.Group>
-                        </Form.Item>
+                        
 
                         <Form.Item className="text-center mt-4">
                             <Button

@@ -74,88 +74,12 @@ const CompanyReviews = ({ nameCompany, idCompany }: CompanyReviewsProps) => {
                         ))}
                     </div>
 
-                    {/* Vòng tròn khuyến nghị */}
-                    <div className="recommend-section">
-                        <Progress
-                            type="circle"
-                            percent={ratingData.recommendPercent}
-                            strokeColor="#52c41a"
-                            format={(percent) => `${percent}%`}
-                        />
-                        <p className="recommend-label">
-                            Khuyến khích làm việc tại đây
-                        </p>
-                    </div>
+                   
                 </div>
                 <Divider style={{ borderColor: "#dedede", borderTop: "2px dashed rgba(0, 0, 0, 0.1)" }} />
 
-                <div className="toggle-review-button-wrapper">
-                    <button
-                        className="toggle-review-button"
-                        style={{ fontSize: "16px" }}
-                        onClick={() => setShowDetails(!showDetails)}
-                    >
-                        {showDetails ? "Thu gọn ▲" : "Xem Thêm ▼"}
-                    </button>
-                </div>
-                {/* Nội dung đánh giá chi tiết nếu mở */}
-                {showDetails && (
-                    <div className="review-details-row">
-                        {/* Đánh giá chi tiết (chiếm 6 phần) */}
-                        <div className="detailed-review-section">
-                            <div className="review-label-row"
-                                onMouseEnter={() => setIsHoveringRow(true)}
-                                onMouseLeave={() => setIsHoveringRow(false)}
-                            >
-                                <label className="review-label">Lương thưởng & phúc lợi</label>
-                                <Rate />
-                            </div>
-                            <div className="review-label-row"
-                                onMouseEnter={() => setIsHoveringRow(true)}
-                                onMouseLeave={() => setIsHoveringRow(false)}
-                            >
-                                <label className="review-label">Đào tạo & học hỏi</label>
-                                <Rate />
-                            </div>
-                            <div className="review-label-row"
-                                onMouseEnter={() => setIsHoveringRow(true)}
-                                onMouseLeave={() => setIsHoveringRow(false)}
-                            >
-                                <label className="review-label">Sự quan tâm đến nhân viên</label>
-                                <Rate />
-                            </div>
-                            <div className="review-label-row"
-                                onMouseEnter={() => setIsHoveringRow(true)}
-                                onMouseLeave={() => setIsHoveringRow(false)}
-                            >
-                                <label className="review-label">Văn hoá công ty</label>
-                                <Rate />
-                            </div>
-                            <div className="review-label-row"
-                                onMouseEnter={() => setIsHoveringRow(true)}
-                                onMouseLeave={() => setIsHoveringRow(false)}
-                            >
-                                <label className="review-label">Văn phòng làm việc</label>
-                                <Rate />
-                            </div>
-                        </div>
-
-                        {/* Phân phối sao (chiếm 4 phần) */}
-                        <div className={`distribution-section-wide ${isHoveringRow ? "slide-up-animate" : ""}`}>
-                            <h4 style={{ fontSize: "16px", fontWeight: "500" }}>Đánh giá chi tiết</h4>
-                            {ratingData.distribution.map((item) => (
-                                <div key={item.star} className="distribution-row">
-                                    <span className="star-label">{item.star}</span>
-                                    <StarFilled className="star-icon" />
-                                    <div className="progress-bar">
-                                        <div className="progress-fill" style={{ width: `${item.percent}%` }} />
-                                    </div>
-                                    <span className="percent-label">{item.percent}%</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+          
+                
             </Card >
 
             {/* Thẻ đánh giá của người dùng */}
@@ -195,7 +119,7 @@ const CompanyReviews = ({ nameCompany, idCompany }: CompanyReviewsProps) => {
                     </div>
                     <h3 className="review-title" style={{ fontSize: "18px", margin: 0 }}>Công ty tốt, chế độ lương thưởng hấp dẫn</h3>
                     <div className="review-rating" style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0 }}>
-                        <Popover content={ratingDetailContent} trigger="hover" placement="bottomLeft">
+                        <Popover >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
                                 <Rate disabled defaultValue={5} />
                                 <span className="review-score">5</span>
