@@ -119,7 +119,7 @@ const CompanyPage = () => {
           <p className="mini-company-name">{company.name}</p>
           <div className="mini-header-actions">
             <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
-            <button className="follow-button" onClick={() => alert("Theo dõi công ty")}>Theo dõi</button>
+          
           </div>
         </div>
       )}

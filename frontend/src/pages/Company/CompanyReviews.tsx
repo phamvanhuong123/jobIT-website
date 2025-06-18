@@ -78,7 +78,7 @@ const CompanyReviews = ({ nameCompany, idCompany }: CompanyReviewsProps) => {
                 </div>
                 <Divider style={{ borderColor: "#dedede", borderTop: "2px dashed rgba(0, 0, 0, 0.1)" }} />
 
-          
+           
                 
             </Card >
 
