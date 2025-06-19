@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 
 const companyReviewSchema = new mongoose.Schema({
-    companyId : String,
-    userId : String,
+    companyId : {
+        type : String,
+        require : true
+    },
+    accountId : {
+        type : String,
+        require : true
+    },
     rating : Number,
     title : String,
     // Điều hài lòng nhất về công ty
