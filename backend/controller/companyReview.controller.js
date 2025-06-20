@@ -3,13 +3,17 @@ const Company = require("../model/company.model");
 const Account = require("../model/account.model");
 
 // Lấy danh sách
-module.exports.gellAll = async (req, res) => {
+module.exports.gellAllByIdcompany = async (req, res) => {
   try {
-    const record = await CompanyReview.find();
+    const record = await CompanyReview.find({companyId : req.params.companyId});
     const avgRating = await CompanyReview.aggregate([
+      {
+        $match : {companyId : req.params.companyId}
+      },
       {
         $group: {
           _id: null,
+      
           averageRating: { $avg: "$rating" },
         },
       },

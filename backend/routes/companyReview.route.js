@@ -3,7 +3,7 @@ const route = express.Router();
 const companyReviewController = require('../controller/companyReview.controller')
 
 // [get] /api/comany-reviews
-route.get('/comany-reviews',companyReviewController.gellAll)
+route.get('/comany-reviews/:companyId',companyReviewController.gellAllByIdcompany)
 
 // [Post] /api/company-reviews/add
 route.post('/comany-reviews/add',companyReviewController.addReviewCompany)
