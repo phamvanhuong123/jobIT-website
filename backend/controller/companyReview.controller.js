@@ -3,6 +3,24 @@ const Company = require("../model/company.model");
 const Account = require("../model/account.model");
 
 // Lấy danh sách
+// Laays thong tin chi tiet
+module.exports.gellDetailByAccount = async (req, res) => {
+  try {
+    const record = await CompanyReview.findOne({ accountId : req.params.accountId}).select('-companyId -accountId');
+    res.json({
+      status: 200,
+      message: "successfull",
+      data: record,
+    });
+  } catch (e) {
+    res.status(500).json({
+      status: 500,
+      message: `Lỗi ${e}`,
+    });
+  }
+};
+
+
 module.exports.gellAllByIdcompany = async (req, res) => {
   try {
     const record = await CompanyReview.find({companyId : req.params.companyId});
@@ -13,7 +31,6 @@ module.exports.gellAllByIdcompany = async (req, res) => {
       {
         $group: {
           _id: null,
-      
           averageRating: { $avg: "$rating" },
         },
       },
@@ -27,7 +44,7 @@ module.exports.gellAllByIdcompany = async (req, res) => {
       status: 200,
       message: "successfull",
       data: record,
-      avgRating : avgRating[0].averageRating
+      avgRating : avgRating[0]?.averageRating
       
     });
   } catch (e) {
@@ -37,7 +54,6 @@ module.exports.gellAllByIdcompany = async (req, res) => {
     });
   }
 };
-
 
 // THêm review
 module.exports.addReviewCompany = async (req, res) => {
