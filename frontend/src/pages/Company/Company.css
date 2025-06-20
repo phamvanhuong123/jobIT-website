@@ -119,23 +119,67 @@
 }
 
 .right-section {
-    border-radius: 10px;
-    padding: 16px 20px;
-    color: #fff;
-    width: fit-content;
-    background: #ffffff0d;
-
+    background-color: #ffffff0d;
+    /* nền giống màu ảnh */
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: white;
+    display: inline-block;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 .rating-box {
     display: flex;
-    gap: 6px;
+    align-items: center;
+    gap: 32px;
+    /* khoảng cách giữa 2 phần */
 }
 
 .rating-content {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 }
+
+.rating-score-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+.rating-details-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.4;
+}
+
+.rating-stars .ant-rate-star-full .anticon {
+    color: #faad14;
+    /* màu sao */
+    font-size: 20px;
+}
+
+.rating-count {
+    font-size: 14px;
+    color: white;
+}
+
+.recommend-rate {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
+
+.recommend-percent {
+    font-size: 28px;
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+
 
 .rating-score {
     display: flex;
@@ -549,6 +593,7 @@ p {
 .score-section {
     width: 20%;
     text-align: center;
+    margin-top: 24px
 }
 
 .score {

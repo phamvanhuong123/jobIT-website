@@ -9,6 +9,7 @@ import CompanyJobList from "./CompanyJobList";
 
 import { getAllCompany } from "../../services/company.axios";
 import { getAllJob } from "../../services/job.axios";
+import { gellAllByCompanyId } from "~/services/companyReview.axios";
 
 import "./Company.css";
 import { CompassOutlined, SolutionOutlined } from "@ant-design/icons";
@@ -41,6 +42,11 @@ const CompanyPage = () => {
 
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showMiniHeader, setShowMiniHeader] = useState(false);
+
+  const [averageRating, setAverageRating] = useState(0);
+  const [recommendPercent, setRecommendPercent] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,8 +62,6 @@ const CompanyPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // console.log("🚀 [CompanyPage] idCompany param from URL:", idCompany);
-
         const resCompanies = await getAllCompany();
         const resJobs = await getAllJob();
 
@@ -84,25 +88,55 @@ const CompanyPage = () => {
             rawData: job,
           }));
 
-        // console.log("📌 [CompanyPage] Filtered Jobs for this company:", filteredJobs);
-
         setJobs(filteredJobs);
       } catch (err) {
         console.error("❌ [CompanyPage] Lỗi khi lấy dữ liệu:", err);
       }
     };
 
+    const fetchReviewStats = async () => {
+      try {
+        if (!idCompany) return;
+        const res = await gellAllByCompanyId(idCompany);
+        const reviews = res.data || [];
+        const avg = res.avgRating || 0;
+        const recommend = reviews.filter((r: any) => r.rating >= 4).length;
+        const recommendPercent = reviews.length ? Math.round((recommend / reviews.length) * 100) : 0;
+
+        setAverageRating(avg);
+        setReviewCount(reviews.length);
+        setRecommendPercent(recommendPercent);
+      } catch (error) {
+        console.error("❌ [CompanyPage] Lỗi khi lấy đánh giá:", error);
+      }
+    };
+
     fetchData();
+    fetchReviewStats(); // gọi thêm để lấy đánh giá ngay
   }, [idCompany]);
 
-
+  const handleStatsUpdate = (stats: {
+    average: number;
+    count: number;
+    recommendPercent: number;
+  }) => {
+    setAverageRating(stats.average);
+    setReviewCount(stats.count);
+    setRecommendPercent(stats.recommendPercent);
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
       case "intro":
         return <CompanyIntro company={company} />;
       case "reviews":
-        return <CompanyReviews nameCompany={company?.name || "Tên công ty"} idCompany={String(company?._id)} />;
+        return (
+          <CompanyReviews
+            nameCompany={company?.name || "Tên công ty"}
+            idCompany={String(company?._id)}
+            onStatsUpdate={handleStatsUpdate} // ✅ thêm dòng này
+          />
+        );
       case "posts":
         return <CompanyPosts />;
       default:
@@ -119,7 +153,7 @@ const CompanyPage = () => {
           <p className="mini-company-name">{company.name}</p>
           <div className="mini-header-actions">
             <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
-          
+
           </div>
         </div>
       )}
@@ -133,21 +167,27 @@ const CompanyPage = () => {
               <div><SolutionOutlined style={{ marginRight: "4px", marginTop: "2px" }} /><a href="#" className="job-link">{jobs.length} việc làm đang tuyển</a></div>
               <div className="action-buttons">
                 <button className="review-button" onClick={() => navigate(`/review/${company._id}`)}>Viết đánh giá</button>
-            
+
               </div>
             </div>
           </div>
           <div className="right-section">
             <div className="rating-box">
               <div className="rating-content">
-                <div className="rating-score">
-                  4.2
-                  <Rate disabled defaultValue={4} className="rating-stars" />
+                <div className="rating-score-number">
+                  {averageRating.toFixed(1)}
                 </div>
-                <div className="rating-detail">16 đánh giá</div>
+                <div className="rating-details-column">
+                  <Rate
+                    disabled
+                    value={Math.round(averageRating)}
+                    className="rating-stars"
+                  />
+                  <div className="rating-count">{reviewCount} đánh giá</div>
+                </div>
               </div>
               <div className="recommend-rate">
-                <span className="recommend-percent">93%</span> Khuyến khích làm việc tại đây
+                <span className="recommend-percent">{recommendPercent}%</span> Khuyến khích làm việc tại đây
               </div>
             </div>
           </div>
@@ -160,8 +200,18 @@ const CompanyPage = () => {
             <div className={`company-tab ${activeTab === "intro" ? "active" : ""}`} onClick={() => setActiveTab("intro")}>
               Giới thiệu
             </div>
-            <div className={`company-tab ${activeTab === "reviews" ? "active" : ""}`} onClick={() => setActiveTab("reviews")}>
-              Đánh giá <Badge count={16} style={{ marginLeft: 6 }} />
+            <div
+              className={`company-tab ${activeTab === "reviews" ? "active" : ""}`}
+              onClick={() => setActiveTab("reviews")}
+            >
+              Đánh giá{" "}
+              {reviewCount > 0 && (
+                <Badge
+                  count={reviewCount}
+                  overflowCount={999}
+                  style={{ marginLeft: 6, backgroundColor: "#52c41a" }}
+                />
+              )}
             </div>
             <div className={`company-tab ${activeTab === "posts" ? "active" : ""}`} onClick={() => setActiveTab("posts")}>
               Bài viết

@@ -1,130 +1,211 @@
-import { useEffect, useState } from 'react';
-import { Card,  Input, Rate, Button, Typography, Form, Modal } from 'antd';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getAllCompany } from '~/services/company.axios'; // đảm bảo đường dẫn chính xác
-import './CompanyReviewForm.css';
-import { ExportOutlined, LeftOutlined } from '@ant-design/icons';
+import { useEffect, useState } from "react";
+import {
+    Card,
+    Radio,
+    Input,
+    Rate,
+    Button,
+    Typography,
+    Form,
+    Modal,
+    message,
+} from "antd";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { getAllCompany } from "~/services/company.axios";
+import { useAppSelector } from "~/store";
+import { ExportOutlined, LeftOutlined } from "@ant-design/icons";
+import "./CompanyReviewForm.css";
+import { createCompanyReview } from "~/services/companyReview.axios";
 
 const { TextArea } = Input;
 const { Title, Text } = Typography;
 
-
+interface ReviewFormValues {
+    overall: number;
+    summary: string;
+    love: string;
+    suggestion: string;
+    salary?: number;
+    training?: number;
+    management?: number;
+    culture?: number;
+    workspace?: number;
+    recommend: string;
+}
 
 const CompanyReviewForm = () => {
     const [form] = Form.useForm();
-    const { idCompany } = useParams(); // <-- Lấy idCompany từ URL
-    const [companyName, setCompanyName] = useState<string>('Đang tải...');
-    const rateDescriptions = ["Rất tệ", "Cần cải thiện nhiều", "Trung lập", "Tốt", "Xuất sắc"];
+    const { idCompany } = useParams();
+    const [companyName, setCompanyName] = useState("Đang tải...");
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const isLogin = useAppSelector((state) => state.userCandidate.isLogin);
 
-    const handleBackClick = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false); // Tiếp tục đánh giá
-    };
-
-    const handleConfirmExit = () => {
-        navigate(`/company/${idCompany}`); // Điều hướng về trang chi tiết công ty
-    };
-
+    const rateDescriptions = [
+        "Rất tệ",
+        "Cần cải thiện nhiều",
+        "Trung lập",
+        "Tốt",
+        "Xuất sắc",
+    ];
 
     useEffect(() => {
         const fetchCompanyName = async () => {
             try {
                 const res = await getAllCompany();
-                const companyList = res?.data || []; // fallback nếu undefined
-
-                const matchedCompany = companyList.find((c: any) => c._id === idCompany);
+                const matchedCompany = res?.data?.find(
+                    (c: any) => c._id === idCompany
+                );
                 setCompanyName(matchedCompany?.name || "Không rõ");
-            } catch (error) {
-                console.error("❌ Lỗi khi lấy thông tin công ty:", error);
+            } catch (err) {
                 setCompanyName("Không rõ");
             }
         };
-        if (idCompany) {
-            fetchCompanyName();
-        }
+        if (idCompany) fetchCompanyName();
     }, [idCompany]);
 
-    const handleSubmit = (values : any) => {
-        console.log('Review Submitted:', values);
+    const handleBackClick = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => setIsModalVisible(false);
+
+    const handleConfirmExit = () => navigate(`/company/${idCompany}`);
+
+    const accountId = useAppSelector(state => state.userCandidate.candidate?.idAccount);
+
+    const handleSubmit = async (values: ReviewFormValues) => {
+        if (!isLogin || !accountId) {
+            message.info("Vui lòng đăng nhập để gửi đánh giá.");
+            navigate("/dang-nhap", {
+                state: { redirectTo: location.pathname },
+            });
+            return;
+        }
+
+
+        try {
+            const payload = {
+                accountId,
+                companyId: idCompany!,
+                title: values.summary,
+                rating: values.overall,
+                positiveFeedback: values.love,
+                negativeFeedback: values.suggestion,
+            };
+            console.log("Gửi đánh giá:", payload); // <-- bạn giữ lại để debug
+
+            const res = await createCompanyReview(payload);
+
+            if (res?.status === 200 || res?.message?.toLowerCase()?.includes("success")) {
+                message.success("Gửi đánh giá thành công!");
+                setTimeout(() => {
+                    navigate(`/company/${idCompany}`);
+                }, 1000); // đợi 1 giây
+            } else {
+                message.error("Gửi đánh giá thất bại.");
+            }
+        } catch (err) {
+            console.error("Lỗi gửi đánh giá:", err);
+            message.error("Đã xảy ra lỗi khi gửi đánh giá.");
+        }
     };
 
     return (
         <div>
             <div className="review-header">
-                <Button className='btn_submit' onClick={handleBackClick}><LeftOutlined />Quay lại</Button>
-                <div className="header__logo" style={{
-                    position: "absolute",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    color: "#fff",
-                }}>
+                <Button className="btn_submit" onClick={handleBackClick}>
+                    <LeftOutlined />
+                    Quay lại
+                </Button>
+                <div
+                    className="header__logo"
+                    style={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        color: "#fff",
+                    }}
+                >
                     Job<span>IT</span>
-                    <div style={{ width: 75 }} /> {/* chừa chỗ cân đối bên phải */}
+                    <div style={{ width: 75 }} />
                 </div>
-
             </div>
+
             <div className="review-wrapper">
-
-
                 <Card className="review-left">
                     <Title level={4}>Đánh giá cho {companyName}</Title>
                     <Text>
-                        Bạn chỉ mất 1 phút để hoàn thành bảng đánh giá này. Ý kiến của bạn sẽ giúp ích rất nhiều cho cộng đồng Developer đang tìm việc.
+                        Bạn chỉ mất 1 phút để hoàn thành bảng đánh giá này. Ý kiến của bạn
+                        sẽ giúp ích rất nhiều cho cộng đồng Developer đang tìm việc.
                     </Text>
 
-                    <Form form={form} layout="vertical" onFinish={handleSubmit} className="mt-6">
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        onFinish={handleSubmit}
+                        className="mt-6"
+                    >
                         <Form.Item
                             name="overall"
                             label="Đánh giá chung"
                             rules={[{ required: true }]}
-                            valuePropName="value"
                         >
                             <Rate tooltips={rateDescriptions} />
                         </Form.Item>
 
-                        <Form.Item name="overall-title" validateTrigger="onBlur" rules={[{ required: true, message: "Thêm nội dung" }]}>
-                            <Input placeholder="Tiêu đề" style={{ height: '56px', fontSize: '16px', marginBottom: "10px" }} />
+                        <Form.Item
+                            name="summary"
+                            rules={[{ required: true, message: "Thêm nội dung" }]}
+                        >
+                            <Input
+                                placeholder="Tiêu đề"
+                                style={{
+                                    height: "56px",
+                                    fontSize: "16px",
+                                    marginBottom: "10px",
+                                }}
+                            />
                         </Form.Item>
 
                         <Form.Item
                             name="love"
                             label="Điều làm bạn thích làm việc tại đây"
-                            validateTrigger="onBlur"
                             rules={[
                                 { required: true, message: "Thêm nội dung" },
-                                { min: 50, message: "Ít hơn 50 kí tự" },
-                                { max: 10000, message: "Nhiều hơn 10000 kí tự" },
+                                { min: 50, message: "Tối thiểu 50 ký tự" },
                             ]}
                         >
-                            <TextArea rows={6} placeholder="Nhập nội dung" showCount maxLength={10000} />
+                            <TextArea rows={6} placeholder="Nhập nội dung" showCount />
                         </Form.Item>
 
                         <Form.Item
                             name="suggestion"
                             label="Đề nghị cải thiện"
-                            validateTrigger="onBlur"
                             rules={[
                                 { required: true, message: "Thêm nội dung" },
-                                { min: 50, message: "Ít hơn 50 kí tự" },
-                                { max: 10000, message: "Nhiều hơn 10000 kí tự" },
+                                { min: 50, message: "Tối thiểu 50 ký tự" },
                             ]}
                         >
-                            <TextArea rows={6} placeholder="Nhập nội dung" showCount maxLength={30000} />
+                            <TextArea rows={6} placeholder="Nhập nội dung" showCount />
                         </Form.Item>
 
-                        
+                        <Form.Item
+                            name="recommend"
+                            label="Bạn có muốn giới thiệu công ty này đến bạn bè của mình?"
+                            rules={[{ required: true }]}
+                        >
+                            <Radio.Group
+                                style={{ display: "flex", flexDirection: "column", gap: 8 }}
+                            >
+                                <Radio value="Yes">Có</Radio>
+                                <Radio value="No">Không</Radio>
+                            </Radio.Group>
+                        </Form.Item>
 
                         <Form.Item className="text-center mt-4">
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                className="submit-btn"
-                            >
+                            <Button type="primary" htmlType="submit" className="submit-btn">
                                 Gửi đánh giá
                             </Button>
                         </Form.Item>
@@ -134,21 +215,30 @@ const CompanyReviewForm = () => {
                 <Card className="review-right">
                     <Title level={5}>Hướng dẫn và điều kiện về đánh giá</Title>
                     <Text>
-                        Mọi đánh giá phải tuân thủ Hướng Dẫn & Điều Kiện về đánh giá để được hiển thị trên website
+                        Mọi đánh giá phải tuân thủ Hướng Dẫn & Điều Kiện về đánh giá để được
+                        hiển thị trên website
                     </Text>
                     <ul className="review-list">
-                        <li><span className="dot"></span>Không sử dụng từ ngữ mang ý xúc phạm, miệt thị</li>
-                        <li><span className="dot"></span>Không cung cấp thông tin cá nhân</li>
-                        <li><span className="dot"></span>Không cung cấp thông tin bảo mật, bí mật kinh doanh của công ty</li>
+                        <li>
+                            <span className="dot"></span>Không sử dụng từ ngữ xúc phạm
+                        </li>
+                        <li>
+                            <span className="dot"></span>Không cung cấp thông tin cá nhân
+                        </li>
+                        <li>
+                            <span className="dot"></span>Không tiết lộ bí mật kinh doanh
+                        </li>
                     </ul>
-
                     <div className="review-detail-link">
                         <Text className="info-text">
-                            Cảm ơn bạn đã đưa ra những đánh giá chân thực nhất. Xem thêm thông tin chi tiết về Hướng Dẫn & Điều Kiện về đánh giá
+                            Cảm ơn bạn đã đánh giá. Xem thêm Hướng Dẫn & Điều Kiện.
                         </Text>
-                        <a href="#" className="see-more-link">Xem chi tiết <ExportOutlined /></a>
+                        <a href="#" className="see-more-link">
+                            Xem chi tiết <ExportOutlined />
+                        </a>
                     </div>
                 </Card>
+
                 <Modal
                     title="Hủy đánh giá"
                     open={isModalVisible}
@@ -159,13 +249,16 @@ const CompanyReviewForm = () => {
                         </Button>,
                         <Button key="exit" danger type="primary" onClick={handleConfirmExit}>
                             Đồng ý
-                        </Button>
+                        </Button>,
                     ]}
                 >
-                    <p>Tất cả thông tin đã nhập sẽ không được lưu lại. Bạn có chắc chắn muốn thoát khỏi trang này?</p>
+                    <p>
+                        Tất cả thông tin đã nhập sẽ không được lưu lại. Bạn có chắc chắn muốn
+                        thoát?
+                    </p>
                 </Modal>
             </div>
-        </div >
+        </div>
     );
 };
 

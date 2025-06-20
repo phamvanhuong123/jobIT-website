@@ -1,24 +1,24 @@
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import styles from "./Login.module.css";
 import { FormEvent, useEffect, useState } from "react";
 import { login, verifitoken } from "~/services/account.axios";
 import { fetchCandidateById } from "~/features/candidate.slice";
 import { useAppDispatch } from "~/store";
 import { toast } from "react-toastify";
+
 const Login = () => {
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
-
   const [cheking, setCheking] = useState(false);
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = location.state?.redirectTo || "/";
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // Kiểm tra xem đã đăng nhập hay chưa
   const checkLogin = async () => {
     const response = await verifitoken();
     if (response.data) {
@@ -27,7 +27,7 @@ const Login = () => {
       setCheking(true);
     }
   };
-  // thay doi data
+
   const onchangeValue = (e: any) => {
     const { name, value } = e.target;
     setFormData({
@@ -36,7 +36,6 @@ const Login = () => {
     });
   };
 
-  // Sự kiện submit
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -46,21 +45,23 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       dispatch(fetchCandidateById(res.data.user.idAccount));
       toast.success("Đăng nhập thành công");
-      navigate("/");
+      navigate(redirectPath); // 👉 quay về trang ban đầu
       return;
     }
+
     setMessage(res.message.toString());
     setFormData({
       email: "",
       password: "",
     });
   };
-  
+
   useEffect(() => {
     checkLogin();
   }, []);
-  
+
   if (!cheking) return null;
+
   return (
     <>
       <div className={styles.loginContainer}>
