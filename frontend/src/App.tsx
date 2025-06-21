@@ -1,5 +1,6 @@
 import { Bounce, ToastContainer } from "react-toastify";
-import ClientRoute from "./routes/ClientRoute";
+import AllRoutes from "./routes/AllRoutes";
+
 
 
 
@@ -9,8 +10,8 @@ function App() {
     <>
 
 
-
-      <ClientRoute />
+      <AllRoutes/>
+      
       <ToastContainer
         position="top-right"
         autoClose={1000}
