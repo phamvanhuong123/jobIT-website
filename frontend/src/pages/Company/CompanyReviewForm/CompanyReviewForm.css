@@ -184,3 +184,74 @@
     text-align: center;
     margin-top: 20px;
 }
+
+/* ===== TOAST CUSTOMIZATION ===== */
+.Toastify__toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 12px 16px;
+    position: relative;
+    min-height: 60px;
+}
+
+
+/* SUCCESS */
+.Toastify__toast--success {
+    background-color: #f6ffed;
+    border-left: 5px solid #52c41a;
+    color: #389e0d;
+}
+
+/* ERROR */
+.Toastify__toast--error {
+    background-color: #fff2f0;
+    border-left: 5px solid #ff4d4f;
+    color: #d32029;
+}
+
+/* INFO */
+.Toastify__toast--info {
+    background-color: #e6f7ff;
+    border-left: 5px solid #1890ff;
+    color: #096dd9;
+}
+
+/* ICON */
+.Toastify__toast-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    font-size: 18px;
+    height: 100%;
+}
+
+
+/* CLOSE BUTTON */
+.Toastify__close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center !important;
+    margin: 0 0 0 auto !important;
+    height: 100%;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #000;
+    opacity: 0.6;
+
+}
+
+.Toastify__close-button:hover {
+    opacity: 1;
+}

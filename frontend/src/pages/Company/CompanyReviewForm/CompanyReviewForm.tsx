@@ -16,6 +16,7 @@ import { useAppSelector } from "~/store";
 import { ExportOutlined, LeftOutlined } from "@ant-design/icons";
 import "./CompanyReviewForm.css";
 import { createCompanyReview } from "~/services/companyReview.axios";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 const { Title, Text } = Typography;
@@ -84,7 +85,6 @@ const CompanyReviewForm = () => {
             return;
         }
 
-
         try {
             const payload = {
                 accountId,
@@ -94,22 +94,28 @@ const CompanyReviewForm = () => {
                 positiveFeedback: values.love,
                 negativeFeedback: values.suggestion,
             };
-            console.log("Gửi đánh giá:", payload); // <-- bạn giữ lại để debug
+            console.log("Gửi đánh giá:", payload);
 
             const res = await createCompanyReview(payload);
 
-            if (res?.status === 200 || res?.message?.toLowerCase()?.includes("success")) {
-                message.success("Gửi đánh giá thành công!");
+            if (
+                res?.status === 200 ||
+                res?.message?.toLowerCase()?.includes("success")
+            ) {
+                toast.success("Gửi đánh giá thành công!");
                 setTimeout(() => {
                     navigate(`/company/${idCompany}`);
-                }, 1000); // đợi 1 giây
+                }, 1000);
             } else {
-                message.error("Gửi đánh giá thất bại.");
+                toast.error(res?.message || "Gửi đánh giá thất bại.");
             }
-        } catch (err) {
+        } catch (err: any) {
             console.error("Lỗi gửi đánh giá:", err);
-            message.error("Đã xảy ra lỗi khi gửi đánh giá.");
+            const errorMessage =
+                err?.response?.data?.message || "Đã xảy ra lỗi khi gửi đánh giá.";
+            toast.error(errorMessage);
         }
+
     };
 
     return (

@@ -18,3 +18,14 @@ export const gellAllByCompanyId = (companyId: string) => {
 export const createCompanyReview = (data: ICompanyReviewPayload) => {
     return axios.post("/comany-reviews/add", data);
 };
+
+// Cập nhật đánh giá
+export const updateCompanyReview = (id: string, data: ICompanyReviewPayload) => {
+    return axios.patch(`/comany-reviews/update/${id}`, data);
+};
+
+
+// Xoá đánh giá
+export const deleteCompanyReview = (id: string) => {
+    return axios.delete(`/comany-reviews/delete/${id}`);
+};
