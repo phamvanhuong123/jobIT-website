@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerifyCode.module.css";
+import { registerOTP, register } from "../../services/account.axios";
 import Cookies from "js-cookie";
-import { registerUser, registerOTP } from "~/services/account.axios";
 
-const VerifyCode: React.FC = () => {
+const VerifyRecruiter: React.FC = () => {
   const [code, setCode] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"success" | "error" | "">("");
@@ -12,25 +12,29 @@ const VerifyCode: React.FC = () => {
   const [isCounting, setIsCounting] = useState(true);
   const navigate = useNavigate();
 
-  // Lấy dữ liệu từ cookie
+  // Lấy email và mật khẩu từ cookie
   const email = Cookies.get("email");
   const password = Cookies.get("password");
-  const fullName = Cookies.get("fullName");
+  const companyName = Cookies.get("companyName");
+  const companyPhone = Cookies.get("companyPhone");
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
+
     if (isCounting && countdown > 0) {
       timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
     }
+
     if (countdown === 0) {
       setIsCounting(false);
     }
+
     return () => clearTimeout(timer);
   }, [countdown, isCounting]);
 
   const handleVerify = async () => {
-    if (!email || !password || !fullName) {
-      setMessage("❌ Thiếu thông tin đăng ký. Vui lòng thử lại từ đầu.");
+    if (!email || !password || !companyName || !companyPhone) {
+      setMessage("❌ Thiếu thông tin đăng ký. Vui lòng đăng ký lại.");
       setStatus("error");
       return;
     }
@@ -39,25 +43,26 @@ const VerifyCode: React.FC = () => {
       await registerOTP({
         email,
         password,
-        username: fullName,
+        companyName,
+        companyPhone,
         otp: code,
       });
 
-      setMessage("✅ Xác thực thành công!");
-      setStatus("success");
-
-      // Xoá cookies sau khi xác thực xong
+      // Xoá cookie sau khi xác thực xong
       Cookies.remove("email");
       Cookies.remove("password");
-      Cookies.remove("fullName");
+      Cookies.remove("companyName");
+      Cookies.remove("companyPhone");
 
+      setStatus("success");
+      setMessage("✅ Xác thực thành công!");
       setTimeout(() => {
-        navigate("/dang-nhap");
+        navigate("/dang-nhap-nha-tuyen-dung");
       }, 2000);
-    } catch (err) {
-      console.error("Lỗi xác thực OTP:", err);
-      setMessage("❌ Mã không đúng hoặc đã hết hạn.");
+    } catch (error) {
+      console.error("Lỗi xác thực OTP:", error);
       setStatus("error");
+      setMessage("❌ Mã không đúng hoặc đã hết hạn.");
     }
   };
 
@@ -69,28 +74,28 @@ const VerifyCode: React.FC = () => {
     }
 
     try {
-      await registerUser({ email }); // gọi từ service
+      await register({ email });
       setCountdown(60);
       setIsCounting(true);
-      setMessage("📨 Mã mới đã được gửi vào email của bạn!");
+      setMessage("📨 Mã mới đã được gửi vào email!");
       setStatus("success");
     } catch (err) {
       console.error("Lỗi gửi lại mã:", err);
-      setMessage("❌ Không thể gửi lại mã. Vui lòng thử lại.");
       setStatus("error");
+      setMessage("❌ Không thể gửi lại mã. Vui lòng thử lại.");
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2>Xác Thực Email</h2>
-      <p>Nhập mã đã gửi đến email của bạn:</p>
+      <h2>Xác Thực Email Nhà Tuyển Dụng</h2>
+      <p>Nhập mã xác thực đã gửi đến email công ty:</p>
       <input
         type="text"
         value={code}
         onChange={(e) => setCode(e.target.value)}
+        placeholder="Nhập mã"
         onKeyDown={(e) => e.key === "Enter" && handleVerify()}
-        placeholder="Nhập mã xác thực"
         className={styles.input}
       />
       <button onClick={handleVerify} className={styles.button}>
@@ -119,4 +124,4 @@ const VerifyCode: React.FC = () => {
   );
 };
 
-export default VerifyCode;
+export default VerifyRecruiter;

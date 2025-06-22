@@ -16,7 +16,13 @@ import ConfirmDelete from "~/pages/Account/Settings/ConfirmDelete";
 import VerifyCode from "~/pages/Register/VerifyCode";
 import PriveRoutes from "~/components/PriveRoutes/PriveRoutes";
 import ApplyForm from "~/pages/ApplyJob";
-import CompanyReviewForm from "~/pages/Company/CompanyReviewForm/CompanyReviewForm";
+import LoginRecruiter from "~/pages/Login/LoginRecruiter";
+import RegisterRecruiter from "../pages/Register/RegisterRecruiter";
+import VerifyRecruiter from "~/pages/Register/VerifyRecruiter";
+
+
+
+
 
 function ClientRoute() {
   let element = useRoutes([
@@ -37,12 +43,8 @@ function ClientRoute() {
           element: <DetailJob />,
         },
         {
-          path: "company/:idCompany",
+          path: "company",
           element: <CompanyPage />,
-        },
-        {
-          path: "review/:idCompany",
-          element: <CompanyReviewForm />,
         },
         {
           path: "apply",
@@ -119,9 +121,24 @@ function ClientRoute() {
           path: "xac-thuc-email",
           element: <VerifyCode />,
         },
+        {
+          path: "xac-thuc-email-nha-tuyen-dung",
+          element: <VerifyRecruiter />,
+        },
+       {
+        path: "dang-nhap-nha-tuyen-dung",
+        element: <LoginRecruiter />,
+      },
+      
+      {
+        path: "/dang-ky-nha-tuyen-dung",
+        element: <RegisterRecruiter />,
+      },
+
+
       ],
     },
-  ]);
+  ]); 
   return <>{element}</>;
 }
 export default ClientRoute;

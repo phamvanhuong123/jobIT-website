@@ -1,12 +1,12 @@
 import styles from "./Register.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { registerUser } from "~/services/account.axios";
+import axios from "axios";
 
-const Register = () => {
-  const [fullName, setFullName] = useState("");
+const RegisterRecruiter = () => {
+  const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
+  const [companyPhone, setCompanyPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,16 +28,15 @@ const Register = () => {
     }
 
     try {
-      await registerUser({ email });
+      await axios.post("http://localhost:5000/api/register", { email });
 
-      // Lưu thông tin vào cookie trong 1 giờ
-      const oneHour = 1 / 24;
-      Cookies.set("email", email, { expires: oneHour });
-      Cookies.set("password", password, { expires: oneHour });
-      Cookies.set("fullName", fullName, { expires: oneHour });
+      localStorage.setItem(
+        "registerRecruiterInfo",
+        JSON.stringify({ email, password, companyName, companyPhone })
+      );
 
-      // Điều hướng sang trang xác thực
-      navigate("/xac-thuc-email");
+      navigate("/xac-thuc-email-nha-tuyen-dung");
+
     } catch (error) {
       console.error("Lỗi gửi email OTP:", error);
       setError("Không thể gửi email xác thực. Vui lòng thử lại.");
@@ -46,24 +45,33 @@ const Register = () => {
 
   return (
     <div className={styles.registerContainer}>
-      <h2 className={styles.title}>Đăng ký tài khoản</h2>
+      <h2 className={styles.title}>Đăng ký nhà tuyển dụng</h2>
 
       <form className={styles.form} onSubmit={handleSubmit}>
-        <label>Họ và Tên *</label>
+        <label>Tên công ty *</label>
         <input
           type="text"
-          placeholder="Nhập họ và tên"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          placeholder="Nhập tên công ty"
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
           required
         />
 
-        <label>Email *</label>
+        <label>Email công ty *</label>
         <input
           type="email"
-          placeholder="Nhập email"
+          placeholder="Nhập email công ty"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <label>Số điện thoại công ty *</label>
+        <input
+          type="tel"
+          placeholder="Nhập số điện thoại"
+          value={companyPhone}
+          onChange={(e) => setCompanyPhone(e.target.value)}
           required
         />
 
@@ -108,15 +116,16 @@ const Register = () => {
         </label>
 
         <button type="submit" className={styles.submitBtn}>
-          Đăng ký bằng Email
+          Đăng ký nhà tuyển dụng
         </button>
       </form>
 
       <p className={styles.loginRedirect}>
-        Bạn đã có tài khoản? <Link to="/dang-nhap">Đăng nhập ngay!</Link>
+        Đã có tài khoản nhà tuyển dụng?{" "}
+        <Link to="/dang-nhap-nha-tuyen-dung">Đăng nhập ngay!</Link>
       </p>
     </div>
   );
 };
 
-export default Register;
+export default RegisterRecruiter;

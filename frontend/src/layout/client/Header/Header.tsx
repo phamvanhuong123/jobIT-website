@@ -55,7 +55,7 @@ const navigate = useNavigate();
         </div>
         <div className="header__right">
           <ul className="header__right__menu">
-            <Link to={""}>Nhà tuyển dụng</Link>
+            <Link to="/dang-nhap-nha-tuyen-dung">Nhà tuyển dụng</Link>
             {candidate ? (
               <div>
                 <Button type="text" style={{ color: "white" }}>
