@@ -4,6 +4,7 @@ const companySchema = new mongoose.Schema({
     name : String,
     logo : String,
     address : String,
+    idAccount : String,
     infor : {
         model : String,
         industry : String,

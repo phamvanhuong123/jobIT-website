@@ -10,16 +10,40 @@ import {
   Typography,
 } from "antd";
 import type { FormProps } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { detailCompany, updateCompany } from "~/services/company.axios";
 const { TextArea } = Input;
 const { Title } = Typography;
 function InfoCompany() {
-//   const [form] = Form.useForm();
- const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
- const onHandleSubmit: FormProps<any>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    
+  const [form] = Form.useForm();
+  const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
+  const [data, setData] = useState<ICompany>();
+
+  //  Sự kiện cật nhât thông tin
+  const onHandleSubmit: FormProps<any>["onFinish"] = async (
+    values: ICompany
+  ) => {
+    const response = await updateCompany(data?._id, values);
+    if (response.status === 200) {
+      toast.success("Cật nhật thông tin thành công");
+      setData({...values,_id : data?._id ? data._id : ""});
+      setComponentDisabled(true);
+    }
+    else{
+      toast.error("Cật nhật thất bại")
+    }
   };
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const res = await detailCompany("6831e9559d12af341d5b6cb6");
+      setData(res.data);
+      form.setFieldsValue(res.data);
+    };
+    fetchApi();
+  }, []);
+
   return (
     <>
       <Row align={"middle"} justify={"space-between"}>
@@ -27,10 +51,21 @@ function InfoCompany() {
           <h3>Thông tin công ty</h3>
         </Col>
         <Col>
-          <Button onClick={() => {setComponentDisabled(!componentDisabled)}}>{!componentDisabled ? "Huỷ" : "Chỉnh sửa"}</Button>
+          <Button
+            onClick={() => {
+              setComponentDisabled(!componentDisabled);
+            }}
+          >
+            {!componentDisabled ? "Huỷ" : "Chỉnh sửa"}
+          </Button>
         </Col>
         <Col span={24}>
-          <Form layout="vertical" onFinish={onHandleSubmit} disabled={componentDisabled}>
+          <Form
+            layout="vertical"
+            onFinish={onHandleSubmit}
+            disabled={componentDisabled}
+            form={form}
+          >
             <Form.Item
               name="name"
               label="Tên công ty"
@@ -114,15 +149,13 @@ function InfoCompany() {
               <TextArea rows={4} />
             </Form.Item>
 
-            <Form.Item name="whyLove"  label="Lý do yêu thích công ty">
+            <Form.Item name="whyLove" label="Lý do yêu thích công ty">
               <Select
                 mode="tags"
                 tokenSeparators={[","]}
                 placeholder="VD: Lương hấp dẫn, môi trường thân thiện..."
               />
             </Form.Item>
-
-            
 
             <Form.Item>
               <Space>

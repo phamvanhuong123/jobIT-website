@@ -2,6 +2,7 @@ export {}
 declare global{
  interface ICompany {
   _id: String;
+  idAccount : String;
   name: string;
   logo: string;
   address: string;
