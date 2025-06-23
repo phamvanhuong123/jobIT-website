@@ -19,6 +19,7 @@ import ApplyForm from "~/pages/ApplyJob";
 import LoginRecruiter from "~/pages/Login/LoginRecruiter";
 import RegisterRecruiter from "../pages/Register/RegisterRecruiter";
 import VerifyRecruiter from "~/pages/Register/VerifyRecruiter";
+import CompanyReviewForm from "~/pages/Company/CompanyReviewForm/CompanyReviewForm";
 
 
 
@@ -43,8 +44,12 @@ function ClientRoute() {
           element: <DetailJob />,
         },
         {
-          path: "company",
+          path: "company/:idCompany",
           element: <CompanyPage />,
+        },
+        {
+          path: "review/:idCompany",
+          element: <CompanyReviewForm />,
         },
         {
           path: "apply",
@@ -125,20 +130,20 @@ function ClientRoute() {
           path: "xac-thuc-email-nha-tuyen-dung",
           element: <VerifyRecruiter />,
         },
-       {
-        path: "dang-nhap-nha-tuyen-dung",
-        element: <LoginRecruiter />,
-      },
-      
-      {
-        path: "/dang-ky-nha-tuyen-dung",
-        element: <RegisterRecruiter />,
-      },
+        {
+          path: "dang-nhap-nha-tuyen-dung",
+          element: <LoginRecruiter />,
+        },
+
+        {
+          path: "/dang-ky-nha-tuyen-dung",
+          element: <RegisterRecruiter />,
+        },
 
 
       ],
     },
-  ]); 
+  ]);
   return <>{element}</>;
 }
 export default ClientRoute;
