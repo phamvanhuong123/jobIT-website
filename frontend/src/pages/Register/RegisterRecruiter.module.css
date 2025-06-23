@@ -1,0 +1,125 @@
+/* RegisterRecruiter.module.css */
+
+.registerContainer {
+  max-width: 520px;
+  margin: 50px auto;
+  padding: 40px;
+  background-color: #f9fafc;
+  border: 2px solid #004080;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 64, 128, 0.15);
+  font-family: "Segoe UI", "Roboto", sans-serif;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  color: #004080;
+  margin-bottom: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"] {
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+.form input:focus {
+  border-color: #004080;
+  outline: none;
+  background-color: #f0f8ff;
+}
+
+.requirements {
+  font-size: 14px;
+  color: #444;
+  margin-left: 25px;
+  list-style-type: disc;
+  line-height: 1.6;
+}
+
+/* ✅ ĐÃ CHỈNH LẠI PHẦN CHECKBOX */
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.checkbox input[type="checkbox"] {
+  accent-color: #004080;
+  margin-top: 4px;
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox span {
+  display: inline-block;
+  color: #000;
+}
+
+.checkbox a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.checkbox a:hover {
+  text-decoration: underline;
+}
+
+.submitBtn {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #003366;
+}
+
+.loginRedirect {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+}
+
+.loginRedirect a {
+  color: #004080;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.loginRedirect a:hover {
+  text-decoration: underline;
+}
+
+.errorInput {
+  border: 1px solid red;
+  background-color: #fff0f0;
+}
+
+.errorText {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}

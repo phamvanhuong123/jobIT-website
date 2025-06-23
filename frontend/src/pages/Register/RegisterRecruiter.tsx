@@ -1,12 +1,12 @@
-import styles from "./Register.module.css";
+import styles from "./RegisterRecruiter.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import Cookies from "js-cookie";
+import { registerRecruiter } from "~/services/account.axios";
 
 const RegisterRecruiter = () => {
   const [companyName, setCompanyName] = useState("");
   const [email, setEmail] = useState("");
-  const [companyPhone, setCompanyPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -28,15 +28,16 @@ const RegisterRecruiter = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/api/register", { email });
+      await registerRecruiter({ email }); // gọi API thông qua service
 
-      localStorage.setItem(
-        "registerRecruiterInfo",
-        JSON.stringify({ email, password, companyName, companyPhone })
-      );
+      // Lưu vào cookie trong 1 giờ
+      const oneHour = 1 / 24; // 1 giờ = 1/24 ngày
+      Cookies.set("email", email, { expires: oneHour });
+      Cookies.set("password", password, { expires: oneHour });
+      Cookies.set("companyName", companyName, { expires: oneHour });
+     
 
       navigate("/xac-thuc-email-nha-tuyen-dung");
-
     } catch (error) {
       console.error("Lỗi gửi email OTP:", error);
       setError("Không thể gửi email xác thực. Vui lòng thử lại.");
@@ -45,7 +46,14 @@ const RegisterRecruiter = () => {
 
   return (
     <div className={styles.registerContainer}>
-      <h2 className={styles.title}>Đăng ký nhà tuyển dụng</h2>
+       <h2 className={styles.title}>
+            Đăng kí{" "}
+            <span style={{ color: "#1a2b38" }}>Job</span>
+            <span style={{ color: "#6A5AF9" }}>IT</span>{" "}
+            <span style={{ color: "red" }}>Recruiter</span>
+          </h2>
+
+
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>Tên công ty *</label>
@@ -57,23 +65,16 @@ const RegisterRecruiter = () => {
           required
         />
 
-        <label>Email công ty *</label>
+        <label>Email*</label>
         <input
           type="email"
-          placeholder="Nhập email công ty"
+          placeholder="Nhập email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        <label>Số điện thoại công ty *</label>
-        <input
-          type="tel"
-          placeholder="Nhập số điện thoại"
-          value={companyPhone}
-          onChange={(e) => setCompanyPhone(e.target.value)}
-          required
-        />
+      
 
         <label>Mật khẩu *</label>
         <input
@@ -108,11 +109,13 @@ const RegisterRecruiter = () => {
           <li>Ít nhất 1 chữ viết thường</li>
         </ul>
 
-        <label className={styles.checkbox}>
+       <label className={styles.checkbox}>
           <input type="checkbox" required />
-          Tôi đã đọc và đồng ý với các{" "}
-          <a href="#">Điều khoản dịch vụ</a> và{" "}
-          <a href="#">Chính sách quyền riêng tư</a>.
+          <span>
+            Tôi đã đọc và đồng ý với các{" "}
+            <a href="#">Điều khoản dịch vụ</a> và{" "}
+            <a href="#">Chính sách quyền riêng tư</a>.
+          </span>
         </label>
 
         <button type="submit" className={styles.submitBtn}>

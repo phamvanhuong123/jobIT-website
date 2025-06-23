@@ -10,8 +10,12 @@ const LoginRecruiter = () => {
       <div className={styles.container}>
         <div className={styles.box}>
           <h2 className={styles.title}>
-            Đăng nhập JobIT <span className={styles.highlight}>Recruiter</span>
+            Đăng nhập{" "}
+            <span style={{ color: "#1a2b38" }}>Job</span>
+            <span style={{ color: "#6A5AF9" }}>IT</span>{" "}
+            <span style={{ color: "red" }}>Recruiter</span>
           </h2>
+
 
           <form>
             <div className={styles.inputGroup}>
@@ -44,10 +48,11 @@ const LoginRecruiter = () => {
             <button type="submit" className={styles.loginButton}>
               Đăng nhập
             </button>
-            <p style={{ textAlign: "center", marginTop: "1rem" }}>
-              Bạn chưa có tài khoản? <Link to="/dang-ky-nha-tuyen-dung">Đăng ký ngay</Link>
-            </p>
 
+            <p style={{ textAlign: "center", marginTop: "1rem" }}>
+              Bạn chưa có tài khoản?{" "}
+              <Link to="/dang-ky-nha-tuyen-dung">Đăng ký ngay</Link>
+            </p>
           </form>
 
           <p className={styles.policyText}>
