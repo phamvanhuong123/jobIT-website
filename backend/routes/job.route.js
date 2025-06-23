@@ -7,6 +7,9 @@ route.get('/jobs',jobController.getAllJobs);
 // [GET] api/jobs/:idCompany
 route.get("/jobs/:idCompany",jobController.getJobsbyCompany)
 
+// [GET] api/jobs/detail/:id
+route.get("/jobs/detail/:id",jobController.detailJob)
+
 // [Post] api/jobs/create/:idCompany
 route.post('/jobs/create/:idCompany',jobController.createJoByCompany)
 

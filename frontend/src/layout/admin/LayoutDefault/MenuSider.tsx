@@ -21,7 +21,7 @@ function MenuSider(){
                 {
                   key: "3",
                   icon: <MenuOutlined />,
-                  label: <Link to={""}>Quản lí việc làm</Link>,
+                  label: <Link to={"/admin/management-job"}>Quản lí việc làm</Link>,
                 },
                 {
                     key: "4",

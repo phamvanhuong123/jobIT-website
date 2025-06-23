@@ -24,6 +24,10 @@ const jobSchema = new mongoose.Schema({
     deleted : {
         type : Boolean,
         default : false
+    },
+    isReading : {
+        type : Boolean,
+        default : false
     }
 },{
     timestamps : true

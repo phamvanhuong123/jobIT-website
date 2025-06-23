@@ -212,3 +212,20 @@ module.exports.updateJob = async (req, res) => {
     });
   }
 };
+// Xem chi tiết job
+module.exports.detailJob = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const record = await Job.findOne({_id : id});
+    res.json({
+      status: 200,
+      message: "successful",
+      data: record,
+    });
+  } catch(e) {
+    res.status(500).json({
+      status: 500,
+      message: `failed ${e}`,
+    });
+  }
+};

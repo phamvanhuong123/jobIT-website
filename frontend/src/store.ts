@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { useDispatch, useSelector } from "react-redux";
 import UserCandidateReducer from "./features/candidate.slice";
+import jobsReducer from "./features/jobs.sclice";
 
 export const store = configureStore({
     reducer : {
-        userCandidate : UserCandidateReducer
+        userCandidate : UserCandidateReducer,
+        jobsReducer : jobsReducer
     }
 })
 
