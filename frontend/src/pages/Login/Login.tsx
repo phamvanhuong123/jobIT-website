@@ -20,12 +20,18 @@ const Login = () => {
   });
 
   const checkLogin = async () => {
+     try {
     const response = await verifitoken();
     if (response.data) {
       navigate("/");
     } else {
       setCheking(true);
     }
+  } catch (err: any) {
+ 
+ 
+    setCheking(true); // Cho phép hiển thị form login
+  }
   };
 
   const onchangeValue = (e: any) => {
@@ -45,7 +51,7 @@ const Login = () => {
       localStorage.setItem("token", res.data.token);
       dispatch(fetchCandidateById(res.data.user.idAccount));
       toast.success("Đăng nhập thành công");
-      navigate(redirectPath); // 👉 quay về trang ban đầu
+      navigate(redirectPath); //  quay về trang ban đầu
       return;
     }
 

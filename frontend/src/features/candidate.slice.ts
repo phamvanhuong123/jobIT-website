@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getDetailCandidate } from '~/services/candidate.axios'
+import { getDetailCandidate, updateCandidate } from '~/services/candidate.axios'
 import { ICandidate } from '~/types/candidate';
 
 // Sau này sẽ tách ra
@@ -8,7 +8,11 @@ export const fetchCandidateById = createAsyncThunk('candidates/fetchCandidateByI
     return response.data || null;
 })
 
-
+// Cật nhật thông tin người dùng
+export const fetchUpdateCandidate = createAsyncThunk('candidates/fetchUpdateCandidate', async ({id, body} : {id : String,body : ICandidate}) =>{
+    await updateCandidate(id,body);
+    return {body};
+})
 
 // KHởi tạo dữ liệu
 interface UserCandidateState{
@@ -36,7 +40,16 @@ const userCandidateSlice = createSlice({
             state.candidate = action.payload;
             state.isLogin = true
         }),
-        builder.addDefaultCase((state) =>{state.candidate = null})
+        builder.addCase(fetchUpdateCandidate.fulfilled,(state,action)=>{
+            console.log(state)
+            state.candidate = {
+                ...state.candidate,
+                ...action.payload.body
+            
+            }
+          
+        })
+       
     }
 })
 export const {logOut} = userCandidateSlice.actions

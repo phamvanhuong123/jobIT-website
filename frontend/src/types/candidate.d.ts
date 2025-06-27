@@ -44,7 +44,12 @@ export interface ICandidate {
   dateOfBirth: Date;
   gender: string;
   address: string;
+  currentLevel : String;
+  
+  experienceYears : Number;
   personalLink: string;
+  workTypes : [String],
+  locations : [],
   about: string;
   education: Education;
   workExperience: WorkExperience;

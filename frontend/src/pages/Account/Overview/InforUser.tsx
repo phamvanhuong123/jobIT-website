@@ -2,8 +2,6 @@ import { ArrowRightOutlined, MailOutlined, SafetyOutlined } from "@ant-design/ic
 import { Avatar, Card, Col, Row, Typography } from "antd"
 import { Link } from "react-router"
 import { useAppSelector } from "~/store";
-import { jwtDecode } from "jwt-decode";
-import { use, useEffect, useState } from "react";
 const { Title } = Typography;
 function InforUser(){
   const user = useAppSelector(state => state.userCandidate.candidate)
