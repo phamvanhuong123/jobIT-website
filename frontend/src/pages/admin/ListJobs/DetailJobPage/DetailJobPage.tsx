@@ -10,8 +10,6 @@ import {
   Typography,
 } from "antd";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import { fetchUpdateJob } from "~/features/jobs.sclice";
@@ -23,17 +21,23 @@ function DetailJobPage() {
   const params = useParams();
   const [form] = Form.useForm();
   const id = params.id;
-  const [disabledForm,setDisabledForm] = useState(true)
-  const dispatch = useAppDispatch()
+  const [disabledForm, setDisabledForm] = useState(true);
+  const dispatch = useAppDispatch();
 
   // sử lí sự kiện submit
-  const handleSubmit = (body : IJob) =>{
-    console.log(body)
+  const handleSubmit = (body: IJob) => {
     if (id)
-    dispatch(fetchUpdateJob({id,body}))
-    toast.success("Cật nhật thành công")
-    setDisabledForm(true)
-  }
+      dispatch(fetchUpdateJob({ id, body }))
+        .unwrap()
+        .then(() => {
+          toast.success("Cật nhật thành công");
+          setDisabledForm(true);
+        })
+        .catch((e) => {
+          console.log(e);
+          toast.error("Cật nhật thất bại");
+        });
+  };
 
   useEffect(() => {
     const fetchApi = async (id: String) => {
@@ -46,12 +50,12 @@ function DetailJobPage() {
   }, []);
   return (
     <>
-      <Row justify={'space-between'}>
-        <Col >
+      <Row justify={"space-between"}>
+        <Col>
           <Title level={3}>Chi tiết công việc</Title>
         </Col>
         <Col>
-        <Button
+          <Button
             onClick={() => {
               setDisabledForm(!disabledForm);
             }}
@@ -61,7 +65,12 @@ function DetailJobPage() {
         </Col>
       </Row>
       <Divider />
-      <Form layout="vertical" form={form} disabled={disabledForm} onFinish={handleSubmit}>
+      <Form
+        layout="vertical"
+        form={form}
+        disabled={disabledForm}
+        onFinish={handleSubmit}
+      >
         <Row gutter={10}>
           <Col span={8}>
             <Form.Item label="Tên công việc" name="name">
@@ -232,7 +241,9 @@ function DetailJobPage() {
         </Row>
         <Divider />
         <Form.Item>
-          <Button type="primary" htmlType="submit">Cập nhật</Button>
+          <Button type="primary" htmlType="submit">
+            Cập nhật
+          </Button>
         </Form.Item>
       </Form>
     </>

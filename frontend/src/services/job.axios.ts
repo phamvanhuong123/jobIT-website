@@ -11,6 +11,6 @@ export const getAllJobByCompany = (idCompany : String)=>{
 export const detailJob = (id : String)=>{
     return axios.get<IDataResponse<IJob>>(`jobs/detail/${id}`);
 }
-export const updateJobById = (id : string, body : any) =>{
+export const updateJobById = (id: string, body: any) =>{
     return axios.patch<IDataResponse<any>>(`jobs/update/${id}`,body)
 }

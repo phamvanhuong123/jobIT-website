@@ -199,7 +199,14 @@ module.exports.updateJob = async (req, res) => {
       });
       return;
     }
-    await Job.updateOne({ _id: id }, { $set: req.body });
+    const data = await Job.updateOne({ _id: id }, { $set: req.body });
+    if (data.modifiedCount === 0){
+      res.status.json({
+        status : 400,
+        message : "update failed"
+      })
+      return ;
+    }
     res.json({
       status: 200,
       message: "update successful",

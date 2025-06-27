@@ -22,7 +22,7 @@ module.exports.getAllCompany = async (req, res) => {
 module.exports.detailCompany = async (req,res) =>{
   const id = req.params.id;
   try{
-    const company = await Company.findOne({_id : id});
+    const company = await Company.findOne({$or : [{_id : id},{idAccount : id}]});
     res.json({
       status : 200,
       message : "Da tim thay",
