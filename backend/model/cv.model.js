@@ -5,15 +5,22 @@ const CvSchema = new mongoose.Schema(
     idUser: String,
     idJob: String,
     fullName: String,
-    phone: string,
+    phone: String,
     locations: [String],
-    coverLetter: string,
-    cvUrl: string,
+    coverLetter: String,
+    cvUrl: String,
+    isDisplay :{
+      type : Boolean,
+      default : true
+    },
     status: {
       type: String,
       enum: ["pending", "accepted", "rejected"],
     },
-    isRead: boolean, 
+    isRead: {
+      type : Boolean,
+      default : false
+    }, 
   },
   {
     timestamps: true,
