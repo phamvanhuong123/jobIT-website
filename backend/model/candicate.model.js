@@ -7,6 +7,7 @@ const candidateSchema = new mongoose.Schema(
     dateOfBirth: Date,
     gender: String,
     address: String,
+    city : String,
     personalLink: String,
     about: String,
     currentLevel : String,
