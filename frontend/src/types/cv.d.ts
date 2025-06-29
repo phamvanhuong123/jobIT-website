@@ -13,4 +13,23 @@ declare global {
     createdAt?: Date;
     updatedAt?: Date;
   }
+   interface JobSalary {
+  min: number;
+  max: number;
+  currency: string;
+}
+
+ interface AppliedCv {
+  _id: string;
+  idUser: string;
+  idJob: string;
+  fullName: string;
+  phone: string;
+  locations: string[];
+  status: "pending" | "accepted" | "rejected";
+  jobName: string;
+  jobSalary: JobSalary;
+  companyName: string;
+  createdAt : Date
+}
 }

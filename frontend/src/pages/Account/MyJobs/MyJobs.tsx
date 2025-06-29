@@ -2,12 +2,13 @@ import {  Tabs } from "antd";
 import type { TabsProps } from "antd";
 import SavedJob from "./SavedJob/SavedJob";
 import SeenJob from "./SeenJob/SeenJob";
+import MyApply from "./MyApply/MyApply";
 function MyJobs() {
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: "Đã ứng tuyển",
-        children : 'danh sahcs 3'
+        children : <MyApply/>
 
     },
     {

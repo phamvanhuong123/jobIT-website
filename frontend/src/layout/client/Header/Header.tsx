@@ -9,32 +9,34 @@ import { fetchCandidateById } from "~/features/candidate.slice";
 import { verifitoken } from "~/services/account.axios";
 import { useEffect } from "react";
 import { Avatar, Button } from "antd";
-import { logOut } from "~/features/candidate.slice"
+import { logOut } from "~/features/candidate.slice";
 function Header() {
   const candidate = useAppSelector((state) => state.userCandidate.candidate);
 
   const dispatch = useAppDispatch();
-const navigate = useNavigate();
- const handleLogout = (url : string) =>{
-    localStorage.removeItem('token');
+  const navigate = useNavigate();
+  const handleLogout = (url: string) => {
+    localStorage.removeItem("token");
     dispatch(logOut());
-    navigate(url)
-}
-  
-  
+    navigate(url);
+  };
+
   useEffect(() => {
     // Xác thực token
     if (!candidate) {
       const fetchApiVerifyToken = async () => {
+        try {
           const response = await verifitoken();
-          console.log(response.message)
+          console.log(response.message);
           if (response.data) {
             dispatch(fetchCandidateById(response.data?.idAccount));
           }
-       
+        } catch {
+          localStorage.removeItem("token");
+          navigate("/dang-nhap");
+        }
       };
       fetchApiVerifyToken();
-      
     }
   }, []);
 
@@ -61,14 +63,20 @@ const navigate = useNavigate();
             {candidate ? (
               <div>
                 <Button type="text" style={{ color: "white" }}>
-                <Avatar style={{ backgroundColor: "orange", color: "white" }}>
-                  {candidate.fullName.at(0)}
-                </Avatar>
-                <Link to={'/user'}>{candidate.fullName}</Link>
-              </Button>
-              <Button type="text" style={{ color: "white" }} onClick={()=>{handleLogout('/dang-nhap')}}>
-                Đăng xuất
-              </Button>
+                  <Avatar style={{ backgroundColor: "orange", color: "white" }}>
+                    {candidate.fullName.at(0)}
+                  </Avatar>
+                  <Link to={"/user"}>{candidate.fullName}</Link>
+                </Button>
+                <Button
+                  type="text"
+                  style={{ color: "white" }}
+                  onClick={() => {
+                    handleLogout("/dang-nhap");
+                  }}
+                >
+                  Đăng xuất
+                </Button>
               </div>
             ) : (
               <Link to={"/dang-nhap"}>Đăng nhập/Đăng kí</Link>

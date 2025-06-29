@@ -48,6 +48,7 @@ module.exports.getAllCvByUserId = async (req, res) => {
       {
         $addFields : {
             jobName : "$job.name",
+            jobSalary  : "$job.salary",
             companyName : "$company.name"
         }
       },
@@ -62,7 +63,10 @@ module.exports.getAllCvByUserId = async (req, res) => {
           cvUrl: 1,
           jobName : 1,
           companyName : 1,
-          status : 1
+          status : 1,
+          jobSalary : 1,
+          createdAt : 1.
+          
         },
       },
     ]);
