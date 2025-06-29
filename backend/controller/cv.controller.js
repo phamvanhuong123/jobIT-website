@@ -1,5 +1,6 @@
 const Candidate = require("../model/candicate.model");
 const Cv = require("../model/cv.model");
+const Job = require("../model/job.model");
 
 // Lấy danh sách cv theo người dùng
 module.exports.getAllCvByUserId = async (req, res) => {
@@ -84,8 +85,8 @@ module.exports.addCv = async (req, res) => {
     const idUser = req.params.idUser;
     const idJob = req.params.idJob;
 
-    const existUser = await Candidate.findOne({ _id: idUser });
-    const existJob = await Candidate.findOne({ _id: idJob });
+    const existUser = await Candidate.findOne({ idAccount: idUser });
+    const existJob = await Job.findOne({ _id: idJob });
 
     if (!existJob || !existUser) {
       res.status(400).json({

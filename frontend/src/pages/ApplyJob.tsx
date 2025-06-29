@@ -2,15 +2,20 @@ import { Form, Input, Button, Upload, Select, Typography, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
 import { useState } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import { addCv } from "~/services/cv.axios";
+import { useAppSelector } from "~/store";
 
 const { TextArea } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const ApplyForm = () => {
   const [form] = Form.useForm();
+  const user = useAppSelector(state => state.userCandidate.candidate)
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const job = location.state?.job;
   //  kích thước
   const beforeUpload = (file: RcFile) => {
@@ -23,12 +28,23 @@ const ApplyForm = () => {
     return false; // ngăn upload tự động
   };
 
-  const onFinish = (values: any) => {
-    console.log("Dữ liệu đã submit:", {
-      ...values,
-      fileUrl,
-    });
-    message.success("Gửi CV thành công!");
+  const onFinish =async (values: any) => {
+    // console.log("Dữ liệu đã submit:", {
+    //   ...values,
+    //   fileUrl,
+    // });
+    try{
+
+      if (user?.idAccount){
+        await addCv(user?.idAccount,job.id,values)
+        navigate(-1)
+        toast.success("Gửi CV thành công")
+        
+      }
+    }
+    catch(e){
+      toast.warning("Gửi CV thất bại")
+    }
   };
   console.log(job);
   return (
