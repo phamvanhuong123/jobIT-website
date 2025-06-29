@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { addCv } from "~/services/cv.axios";
 import { useAppSelector } from "~/store";
+import { uploadFile } from "~/utils/uploadFile";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -13,7 +14,6 @@ const { Title } = Typography;
 const ApplyForm = () => {
   const [form] = Form.useForm();
   const user = useAppSelector(state => state.userCandidate.candidate)
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
   const job = location.state?.job;
@@ -23,8 +23,7 @@ const ApplyForm = () => {
       message.error("File phải nhỏ hơn 3MB!");
       return Upload.LIST_IGNORE;
     }
-    // Tạo đường dẫn tạm thời để xem trước
-    setFileUrl(URL.createObjectURL(file));
+   
     return false; // ngăn upload tự động
   };
 
@@ -36,6 +35,7 @@ const ApplyForm = () => {
     try{
 
       if (user?.idAccount){
+        values.cvUrl = await uploadFile(values.LinkCv[0].originFileObj)
         await addCv(user?.idAccount,job.id,values)
         navigate(-1)
         toast.success("Gửi CV thành công")
