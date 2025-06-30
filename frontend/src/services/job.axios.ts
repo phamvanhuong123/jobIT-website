@@ -2,8 +2,8 @@
 import axios from './axios.customize'
 
 
-export const getAllJob = ()=>{
-    return axios.get<IDataResponse<IJob[]>>('jobs');
+export const getAllJob = (query:String | null)=>{
+    return axios.get<IDataResponse<IJob[]>>(`jobs${query}`);
 }
 export const getAllJobByCompany = (idCompany : String)=>{
     return axios.get<IDataResponse<IJob[]>>(`jobs/${idCompany}`)

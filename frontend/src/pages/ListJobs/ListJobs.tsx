@@ -7,6 +7,7 @@ import JobIT from "./JobIT/JobIT";
 import FilterBar from "./FilterJob/FilterBar";
 import "./ListJobs.css";
 import { getAllJob } from "~/services/job.axios";
+import { useLocation } from "react-router";
 
 type Job = {
     id: string;
@@ -34,10 +35,14 @@ function ListJobs() {
     const [types, setTypes] = useState<string[]>([]);
     const [salaries, setSalaries] = useState<string[]>([]);
     const [fields, setFields] = useState<string[]>([]);
+
+    const location = useLocation();
+    const query = location.search;
+    console.log(query)
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await getAllJob();
+                const res = await getAllJob(query);
                 const jobsData = res.data;
 
                 if (!Array.isArray(jobsData)) throw new Error("Dữ liệu không hợp lệ");
@@ -69,7 +74,7 @@ function ListJobs() {
         };
 
         fetchJobs();
-    }, []);
+    }, [query]);
 
 
     return (
