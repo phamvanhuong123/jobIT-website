@@ -39,7 +39,6 @@ function Header() {
       fetchApiVerifyToken();
     }
   }, []);
-
   return (
     <>
       <header className="header">

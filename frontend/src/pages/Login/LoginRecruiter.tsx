@@ -1,10 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginRecruiter.module.css";
+import { loginEmployee } from "~/services/account.axios";
+import { toast } from "react-toastify";
 
-console.log("✅ Đã vào LoginRecruiter.tsx");
+console.log(" Đã vào LoginRecruiter.tsx");
 
 const LoginRecruiter = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); 
+    try{
+      const response = await loginEmployee({email : email,password : password})
+     
+      if (response.data){
+        localStorage.setItem("token",response.data?.token)
+        toast.success("Đăng nhập thành công")
+        navigate('/admin')
+
+      }
+    }
+    catch(e){
+      toast.error("Tên đăng nhập hoặc mật khẩu không hợp lệ")
+    }
+  };
   return (
     <React.Fragment>
       <div className={styles.container}>
@@ -17,7 +38,7 @@ const LoginRecruiter = () => {
           </h2>
 
 
-          <form>
+          <form onSubmit={handleSubmit}> 
             <div className={styles.inputGroup}>
               <label>Email</label>
               <input
@@ -25,6 +46,8 @@ const LoginRecruiter = () => {
                 className={styles.input}
                 placeholder="company@example.com"
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -35,6 +58,9 @@ const LoginRecruiter = () => {
                 className={styles.input}
                 placeholder="********"
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+
               />
             </div>
 

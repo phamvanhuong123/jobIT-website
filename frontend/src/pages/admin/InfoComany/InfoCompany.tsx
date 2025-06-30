@@ -10,6 +10,7 @@ import {
   Typography,
 } from "antd";
 import type { FormProps } from "antd";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { detailCompany, updateCompany } from "~/services/company.axios";
@@ -19,7 +20,8 @@ function InfoCompany() {
   const [form] = Form.useForm();
   const [componentDisabled, setComponentDisabled] = useState<boolean>(true);
   const [data, setData] = useState<ICompany>();
-
+  const token = localStorage.getItem("token");
+  const decodeToken  = token ? jwtDecode<any>(token) : null;
   //  Sự kiện cật nhât thông tin
   const onHandleSubmit: FormProps<any>["onFinish"] = async (
     values: ICompany
@@ -37,13 +39,14 @@ function InfoCompany() {
 
   useEffect(() => {
     const fetchApi = async () => {
-      const res = await detailCompany("6831e9559d12af341d5b6cb6");
+      const res = await detailCompany(decodeToken.id);
       setData(res.data);
       form.setFieldsValue(res.data);
     };
     fetchApi();
   }, []);
 
+  console.log(decodeToken)
   return (
     <>
       <Row align={"middle"} justify={"space-between"}>

@@ -9,7 +9,7 @@ module.exports.getJobsbyCompany = async (req, res) => {
       idCompany: idCompany,
     };
     const sort = {
-      createdAt: 1,
+      createdAt: -1,
     };
     // const record = await Job.find(find);
     const recordArr = await Job.aggregate([

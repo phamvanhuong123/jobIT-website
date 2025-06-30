@@ -22,14 +22,14 @@ const Login = () => {
   const checkLogin = async () => {
      try {
     const response = await verifitoken();
-    if (response.data) {
+    if (response.data && response.data.role === "candidate") {
+      console.log(response.data)
       navigate("/");
     } else {
       setCheking(true);
     }
+    
   } catch (err: any) {
- 
- 
     setCheking(true); // Cho phép hiển thị form login
   }
   };

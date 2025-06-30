@@ -37,6 +37,10 @@ export const registerOTP = (data: any) => {
 export const login = (data : any) =>{
     return axios.post<IDataResponse<ILogin>>("login",data);
 }
+
+export const loginEmployee = (data : any) =>{
+    return axios.post<IDataResponse<ILogin>>("login-employee",data);
+}
 export const verifitoken = () =>{
     const token = localStorage.getItem('token');
     return axios.get<IDataResponse<IResponseVerifyToken>>('auth/verify-token',{

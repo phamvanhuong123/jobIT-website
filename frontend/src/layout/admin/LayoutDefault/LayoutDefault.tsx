@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  
 } from "@ant-design/icons";
 import { Button, Layout } from "antd";
 import MenuSider from "./MenuSider";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
+import { verifitoken } from "~/services/account.axios";
 
 const { Sider, Content } = Layout;
 function LayoutDefault() {
   const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const [isLogin,setIsLogin] = useState(false)
+  useEffect(() => {
+    const fetchApiVerifyToken = async () => {
+      try {
+        const response = await verifitoken();
+        console.log();
+        if (response.data?.role !== "employee") {
+          navigate("/");
+        }
+        else{
+          setIsLogin(true)
+        }
+      } catch (e) {
+        console.log(e);
+        navigate("/dang-nhap-nha-tuyen-dung");
+      }
+    };
+    fetchApiVerifyToken();
+  }, []);
+  
+  if (!isLogin) return null
+
   return (
     <>
       <Layout className="layout-default-admin">
@@ -35,10 +58,17 @@ function LayoutDefault() {
             />
           </div>
           <div className="header-admin__right">
-            <Link to={''}>
-            <Button type="text"  icon={<LogoutOutlined />}>
-              Đăng xuất
-            </Button></Link>
+            <Link
+              onClick={() => {
+                localStorage.removeItem("token");
+                console.log("ok");
+              }}
+              to={"/dang-nhap-nha-tuyen-dung"}
+            >
+              <Button type="text" icon={<LogoutOutlined />}>
+                Đăng xuất
+              </Button>
+            </Link>
           </div>
         </header>
 
@@ -54,7 +84,7 @@ function LayoutDefault() {
               borderRadius: 10,
             }}
           >
-            <Outlet/>
+            <Outlet />
           </Content>
         </Layout>
       </Layout>

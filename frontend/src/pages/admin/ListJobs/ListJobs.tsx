@@ -1,13 +1,14 @@
-import { Table, Tag, Space, Badge } from "antd";
+import { Table, Tag, Space, Badge, Button } from "antd";
 import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
-import { getAllJobByCompany } from "~/services/job.axios";
-
+import { FaPlus } from "react-icons/fa6";
 import ButtonDetailJob from "./ButtonDetailJob/ButtonDetailJob";
 import ButtonDeleteJob from "./ButtonDeleteJob/ButtonDeleteJob";
 import { useAppDispatch, useAppSelector } from "~/store";
 import { fetchGetAllJobsByCompany } from "~/features/jobs.sclice";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router";
 
 const columns: ColumnsType<any> = [
   {
@@ -64,17 +65,6 @@ const columns: ColumnsType<any> = [
     ),
   },
   {
-    title: "Đã đọc",
-    dataIndex: "isReading",
-    key: "isReading",
-    render: (v: boolean) =>
-      v ? (
-        <CheckCircleTwoTone twoToneColor="#52c41a" />
-      ) : (
-        <CloseCircleTwoTone twoToneColor="#ff4d4f" />
-      ),
-  },
-  {
     title: "Thao tác",
     key: "actions",
     render: (_, record) => (
@@ -86,23 +76,31 @@ const columns: ColumnsType<any> = [
   },
 ];
 
-function ListJobs() { 
-  const dispath = useAppDispatch()
-  const dataJobs = useAppSelector(state => state.jobsReducer.jobs)
+function ListJobs() {
+  const dispath = useAppDispatch();
+  const navigate = useNavigate()
+  const token = localStorage.getItem("token");
+  const decodeToken = token ? jwtDecode<any>(token) : null;
+  const dataJobs = useAppSelector((state) => state.jobsReducer.jobs);
   useEffect(() => {
     const fetchApi = async () => {
-      dispath(fetchGetAllJobsByCompany("6831e9559d12af341d5b6cb6"))
+      dispath(fetchGetAllJobsByCompany(decodeToken.idCompany));
     };
     fetchApi();
   }, []);
-
   return (
     <>
+      <Button  style={{
+        marginBottom : 10
+      }}
+      onClick={()=>{navigate("create")}}
+      icon={<FaPlus/>}
+      >Thêm công việc </Button>
       <Table
         columns={columns}
         rowKey="_id"
         bordered
-        dataSource={dataJobs|| []}
+        dataSource={dataJobs || []}
         pagination={{ pageSize: 5 }}
       />
     </>
