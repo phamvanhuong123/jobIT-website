@@ -1,11 +1,17 @@
 import convertDMYToISO from './dateConverter';
 
 const timeAgo = (dateString: string): string => {
-    const isoDateString = convertDMYToISO(dateString);
-    if (!isoDateString) return dateString;
+    let isoDateString = dateString;
+
+    // ✅ Chỉ chuyển đổi nếu là định dạng dd/MM/yyyy
+    if (dateString.includes("/")) {
+        const converted = convertDMYToISO(dateString);
+        if (converted) isoDateString = converted;
+    }
 
     const now = new Date();
     const postedDate = new Date(isoDateString);
+
     if (isNaN(postedDate.getTime())) return dateString;
 
     const diffInMs = now.getTime() - postedDate.getTime();
