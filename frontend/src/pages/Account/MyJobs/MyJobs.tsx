@@ -1,7 +1,7 @@
 import {  Tabs } from "antd";
 import type { TabsProps } from "antd";
 import SavedJob from "./SavedJob/SavedJob";
-import SeenJob from "./SeenJob/SeenJob";
+
 import MyApply from "./MyApply/MyApply";
 function MyJobs() {
   const items: TabsProps["items"] = [
@@ -16,12 +16,7 @@ function MyJobs() {
         label : 'Đã lưu',
         children : <SavedJob/>
     },
-    {
-        key : '3',
-        label : 'Xem gần đây',
-        children : <SeenJob/>
 
-    }
   ];
   const renderTabBar: TabsProps['renderTabBar'] = (props,DefaultTabBar) =>(
     <div style={{backgroundColor : 'white',padding : 12,borderRadius : 10, height :100}}>

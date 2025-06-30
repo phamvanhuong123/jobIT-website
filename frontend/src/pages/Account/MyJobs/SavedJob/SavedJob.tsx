@@ -1,61 +1,39 @@
-import { Button, Card, Col, Divider, Row } from "antd"
-import './style.css'
-import { DollarOutlined } from "@ant-design/icons"
-import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router"
-function SavedJob(){
-    return <>
-        <Card style={{marginTop : 20}}>
-            <Row gutter={[10,10]}>
-                <Col span={24}>
-                    <Row gutter={[10,10]} justify={'space-between'} className="saved-job-box">
-                        <Col className="saved__job__box__left">
-                            <div className="saved__job__box__left__image">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFvXWOd7X54N_x-Jj6cubRD0iwoY4vfDW27Q&s" alt="" />
-                            </div>
-                            <div className="saved__job__box__left__image__title">
-                                <p className="saved__job__box__left__image__title__name-job">Senior DevOps Engineer (Cloud, AWS)</p>
-                                <Link to={''} className="saved__job__box__left__image__title__name-company">TymeX</Link>
-                                <p className="saved__job__box__left__image__title__location">Thành phố Hồ Chí Minh - Linh Hoạt</p>
-                                <p className="saved__job__box__left__image__title__salary"><DollarOutlined/> 2000-4000</p>
-                            </div>
-                        </Col>
-                        <Col className="saved__job__box__right">
-                            <p className="saved__job__box__right__posted">Đăng 6 giờ trước</p>
-                            <p className="saved__job__box__right__expired">(Hết hạn trong 28 ngày)</p>
-                            <div className="saved__job__box__right__content">
-                                <Link to={'/apply'}><Button type='primary' danger>Ứng tuyển</Button></Link>
-                                <FaHeart fontSize={26} color="red" className="saved__job__box__right__icon"/>
-                            </div>
-                        </Col>
-                    </Row>
-                </Col>
-                <Divider/>
-                <Col span={24}>
-                    <Row gutter={[10,10]} justify={'space-between'} className="saved-job-box">
-                        <Col className="saved__job__box__left">
-                            <div className="saved__job__box__left__image">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFvXWOd7X54N_x-Jj6cubRD0iwoY4vfDW27Q&s" alt="" />
-                            </div>
-                            <div className="saved__job__box__left__image__title">
-                                <p className="saved__job__box__left__image__title__name-job">Senior DevOps Engineer (Cloud, AWS)</p>
-                                <Link to={''} className="saved__job__box__left__image__title__name-company">TymeX</Link>
-                                <p className="saved__job__box__left__image__title__location">Thành phố Hồ Chí Minh - Linh Hoạt</p>
-                                <p className="saved__job__box__left__image__title__salary"><DollarOutlined/> 2000-4000</p>
-                            </div>
-                        </Col>
-                        <Col className="saved__job__box__right">
-                            <p className="saved__job__box__right__posted">Đăng 6 giờ trước</p>
-                            <p className="saved__job__box__right__expired">(Hết hạn trong 28 ngày)</p>
-                            <div className="saved__job__box__right__content">
-                                <Link to={'/apply'}><Button type='primary' danger>Ứng tuyển</Button></Link>
-                                <FaHeart fontSize={26} color="red" className="saved__job__box__right__icon"/>
-                            </div>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-        </Card>
+import { Card, Divider, Row } from "antd";
+import "./style.css";
+
+import { useEffect, useState } from "react";
+import {  getAllFavoriteJobByCandidate } from "~/services/favoriteJob.axios";
+import { useAppSelector } from "~/store";
+import SavedJobItem from "./SavedJobItem";
+function SavedJob() {
+  const [data, setData] = useState<any[]>([]);
+  const user = useAppSelector((state) => state.userCandidate.candidate);
+ 
+
+  const onchangeDelete = (id : string)=>{
+    const newData = data.filter(item => item._id != id);
+    setData(newData)
+  }
+  useEffect(() => {
+    const fetchApi = async () => {
+      if (user) {
+        const res = await getAllFavoriteJobByCandidate(user.idAccount);
+        if (res.data) setData(res.data);
+      }
+    };
+    fetchApi();
+  }, [user]);
+  return (
+    <>
+      <Card style={{ marginTop: 20 }}>
+        <Row gutter={[10, 10]}>
+            {data.map((item) => <SavedJobItem onchangeDelete={onchangeDelete} item={item}/>)}
+
+          <Divider />
+        
+        </Row>
+      </Card>
     </>
+  );
 }
-export default SavedJob
+export default SavedJob;

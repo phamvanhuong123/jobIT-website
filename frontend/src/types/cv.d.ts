@@ -31,5 +31,6 @@ declare global {
   jobSalary: JobSalary;
   companyName: string;
   createdAt : Date
+  cvUrl : string
 }
 }

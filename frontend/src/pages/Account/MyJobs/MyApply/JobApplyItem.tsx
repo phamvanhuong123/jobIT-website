@@ -20,11 +20,15 @@ function JobApplyItem({item} : {item : AppliedCv}){
                             </div>
                         </Col>
                         <Col className="saved__job__box__right">
-                            <p className="saved__job__box__right__posted">{timeAgo(dayjs(item.createdAt).format("DD/MM/YYYY"))}</p>
+                            {/* <p className="saved__job__box__right__posted">{timeAgo(dayjs(item.createdAt).format("DD/MM/YYYY"))}</p> */}
                             <div className="saved__job__box__right__content">
                                        <strong >Trạng thái:</strong>
                                         <Tag color="blue" style={{marginLeft : 10}}>{item.status.toUpperCase()}</Tag>
                             </div>
+                            <a style={{
+                                marginTop : 10,
+                                display : 'block'
+                            }} href={item.cvUrl} target="_blank">Link CV</a>
                         </Col>
                     </Row>
 }
