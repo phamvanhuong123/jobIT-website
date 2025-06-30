@@ -18,3 +18,6 @@ export const updateJobById = (id: string, body: any) => {
 export const createJobById = (id: string, body: any) => {
     return axios.post<IDataResponse<IJob>>(`jobs/create/${id}`, body)
 }
+export const deleteJob = (id :string) =>{
+    return axios.delete<IDataResponse<any>>(`jobs/delete/${id}`);
+}

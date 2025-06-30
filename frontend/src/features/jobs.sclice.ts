@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createJobById, getAllJobByCompany, updateJobById } from "~/services/job.axios";
+import { createJobById, deleteJob, getAllJobByCompany, updateJobById } from "~/services/job.axios";
 
 export const fetchGetAllJobsByCompany = createAsyncThunk(
   "jobs/getAllJobCompany",
@@ -21,6 +21,13 @@ export const fetchCreateJob = createAsyncThunk(
   async ({ id, body }: { id: string; body: IJob }) => {
     const res = await createJobById(id, body);
     return res.data;
+  }
+);
+export const fetchdeletedJob = createAsyncThunk(
+  "jobs/deletedJob",
+  async ( id : string) => {
+     await deleteJob(id);
+    return {id};
   }
 );
 // KHởi tạo dự liệu
@@ -53,9 +60,14 @@ const jobsSlice = createSlice({
         }
       });
     builder.addCase(fetchCreateJob.fulfilled, (state, action) => {});
-    builder.addDefaultCase((state) => {
-      state.jobs = [];
+    builder.addCase(fetchdeletedJob.fulfilled, (state, action) => {
+      if (state.jobs){
+        state.jobs = state.jobs?.filter(item => item._id !== action.payload.id)
+        console.log(state.jobs)
+      }
+
     });
+  
   },
 });
 
