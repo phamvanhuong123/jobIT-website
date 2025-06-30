@@ -72,30 +72,14 @@ module.exports.getAllJobs = async (req, res) => {
       ...req.query,
       deleted: false,
     };
+    if (req.query.name) {
+      find.name = { $regex: req.query.name, $options: "i" };
+    }
     const sort = {
       createdAt: 1,
     };
     //Lọc lương từ khoảng min => max (CÒn lỗi fix sau)
-    if (req?.query?.minSalary && req?.query?.maxSalary) {
-      const minSalary = parseInt(req?.query?.minSalary);
-      const maxSalary = parseInt(req?.query?.maxSalary);
-      find.$or = [
-        {
-          $or: [
-            { "salary.min": { $gte: minSalary } },
-            { "salary.min": { $lte: maxSalary } },
-          ],
-        },
-        {
-          $or: [
-            { "salary.max": { $gte: minSalary } },
-            { "salary.max": { $lte: maxSalary } },
-          ],
-        },
-      ];
-      delete find.minSalary;
-      delete find.maxSalary;
-    }
+    
 
     const recordArr = await Job.aggregate([
       {
