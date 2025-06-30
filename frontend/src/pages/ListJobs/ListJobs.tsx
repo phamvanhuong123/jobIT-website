@@ -38,7 +38,6 @@ function ListJobs() {
 
     const location = useLocation();
     const query = location.search;
-    console.log(query)
     useEffect(() => {
         const fetchJobs = async () => {
             try {

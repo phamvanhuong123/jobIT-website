@@ -108,7 +108,7 @@ module.exports.addFavoriteJob = async (req, res) => {
     }
 
     //Kiểm tra xem idCandidate và idJob có tồn tại hayy không
-    const existCandidate = await Candidate.findOne({ _id: idCandidate });
+    const existCandidate = await Candidate.findOne({ idAccount: idCandidate });
     const existJob = await Job.findOne({ _id: idJob });
     if (!existCandidate || !existJob) {
       res.status(400).json({
