@@ -11,10 +11,9 @@ function SearchBox() {
   const [location, setLocation] = useState("AllCity");
   const navigate = useNavigate();
   const handleSearch = () => {
-    
     if (name) params.append("name", name);
     if (location && location !== "AllCity")
-      params.append("locations", location);
+        params.append("locations", location);
     navigate(`/viec-lam-it?${params.toString()}`);
   };
   return (
