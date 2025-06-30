@@ -19,6 +19,7 @@ type Job = {
     };
     tags: string[];
     posted: string;
+    workplace?: string;
     jobDescription: string[];
     rawData: IJob;
 };
@@ -27,9 +28,11 @@ interface JobListProps {
     jobs: Job[];
     selectedId: string | null;
     onSelect: (job: Job) => void;
+    onTagClick?: (tag: string) => void;
+
 }
 
-const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
+const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect, onTagClick }) => {
     const isLogin = useAppSelector(state => state.userCandidate.isLogin)
     const navigate = useNavigate();
     const [isHoverCompany, setIsHoverCompany] = useState(false);
@@ -82,11 +85,22 @@ const JobList: React.FC<JobListProps> = ({ jobs, selectedId, onSelect }) => {
 
                     <div className="job-position"> <IdcardOutlined style={{ fontSize: "16px" }} /> {job.title}</div>
                     <div className="job-location">
-                        <AuditOutlined style={{ fontSize: "16px" }} /> <span>{job.rawData.workplace}</span> • <CompassOutlined style={{ fontSize: "16px" }} /> <span>{job.location}</span>
+                        <AuditOutlined style={{ fontSize: "16px" }} /> <span>{job.workplace}</span>
+                        • <CompassOutlined style={{ fontSize: "16px" }} /> <span>{job.location}</span>
                     </div>
                     <div className="job-tags">
-                        {job.tags.map((tag, idx) => (
-                            <span key={idx} className="job-tag">{tag}</span>
+                        {(job.tags ?? []).map((tag, idx) => (
+                            <span
+                                key={`${job.id}-${tag}-${idx}`}
+                                className="job-tag"
+                                style={{ cursor: "pointer" }}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onTagClick?.(tag);
+                                }}
+                            >
+                                {tag}
+                            </span>
                         ))}
                     </div>
                 </div>

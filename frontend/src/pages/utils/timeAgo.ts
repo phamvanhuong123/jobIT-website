@@ -1,6 +1,8 @@
 import convertDMYToISO from './dateConverter';
 
-const timeAgo = (dateString: string): string => {
+const timeAgo = (dateString: string | undefined): string => {
+    if (!dateString || typeof dateString !== "string") return "";
+
     let isoDateString = dateString;
 
     // ✅ Chỉ chuyển đổi nếu là định dạng dd/MM/yyyy
@@ -23,5 +25,6 @@ const timeAgo = (dateString: string): string => {
     const diffInDays = Math.floor(diffInHours / 24);
     return `${diffInDays} ngày trước`;
 };
+
 
 export default timeAgo;
