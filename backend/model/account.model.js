@@ -5,7 +5,7 @@ const AccountSchema = new mongoose.Schema({
     password : String,
     role : {
         type : String,
-        enum : ["company","candidate"]
+        enum : ["employee","candidate"]
     },
     deleted : {
         type : String,

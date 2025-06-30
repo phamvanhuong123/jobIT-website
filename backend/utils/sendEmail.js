@@ -8,6 +8,9 @@ module.exports = (email,subject,html) => {
       user: "dophamhyc@gmail.com",
       pass: process.env.APP_PASSWORD,
     },
+    tls : {
+      rejectUnauthorized: false
+    }
   });
 
   var options = {

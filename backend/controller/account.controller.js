@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const dotenv = require("dotenv").config();
 const Account = require('../model/account.model')
 const Candidate = require('../model/candicate.model')
+const Company = require('../model/company.model')
 const md5 = require('md5')
 const JWT_SECRECT = dotenv.parsed.JWT_SECRECT
 const moment = require('moment');
@@ -25,7 +26,7 @@ module.exports.verifyToken = (req,res)=>{
 }
 
 // Đăng kí
-module.exports.RegisterCandicate = async (req,res) =>{
+module.exports.senOtp = async (req,res) =>{
     try{
         const {email} = req.body
         const existAccount = await Account.findOne({email : email})
@@ -41,7 +42,6 @@ module.exports.RegisterCandicate = async (req,res) =>{
         // 1 tạo mã otp
         let timeExpire = new Date();
         timeExpire.setTime(timeExpire.getTime() + 2 *60 *1000)
-        // Đang fix
         const otp = new Otp(
             {
             email : email,
@@ -50,9 +50,6 @@ module.exports.RegisterCandicate = async (req,res) =>{
         })
         
         const newOtp = await otp.save();
-
-      
-
         // Gửi otp cho email
         const subject = "Mã xác nhận OTP"
             const text = `Mã xác thực của bạn là <b>${newOtp.codeOtp}<b/>. Mã OTP này có hiệu lực trong 2 phút.Vui lòng không chia sẻ mã cho bất kì ai`
@@ -106,8 +103,84 @@ module.exports.loginCandidate = async (req,res) =>{
         })
     }
 }
+
+// Đang nhập với nhà tuyển dụng
+module.exports.loginEmployee = async (req,res) =>{
+    try{
+        const {email,password} = req.body;
+        
+        const existAccount = await Account.findOne({email : email,password : md5(password),role : "employee"});
+        if (!existAccount){
+            res.status(400).json({
+                status : 400,
+                message : "email hoặc mật khẩu không hợp lệ"
+            })
+            return;
+        }
+
+        // dữ liệu trả về
+        const token = jwt.sign({id : existAccount._id, role : existAccount.role, email : existAccount.email},JWT_SECRECT,{ expiresIn: '1h' });
+        const company = await Company.findOne({idAccount : existAccount._id})
+        res.json({
+            status : 200,
+            message : "Đăng nhập thành công",
+            data : {
+                user : company,
+                token : token
+            },
+            
+        })
+    } 
+    catch(e){
+        res.status(400).json({
+            status : 400,
+            message  :`failed : ${e}`
+        })
+    }
+}
+// Đăng kí với nhà tuyển dụng
+module.exports.RegisterEmployee  = async (req,res) =>{
+    try{
+const {companyName,email,otp,password} = req.body;
+        const existOtp = await Otp.findOne({email : email,codeOtp : otp});
+        if (!existOtp){
+            res.status(400).json({
+                status : 400,
+                message : "Bạn đã nhập sai otp vui lòng thử lại"
+            })
+            return
+        }
+
+        //1 Them account
+        const account = new Account({
+            email : email,
+            password : md5(password),
+            role : "employee"
+        })
+        const newAccount = await account.save();
+
+        // 2 them candidate
+        const company = new Company({
+            name : companyName,
+            idAccount : newAccount._id,
+            contactEmail : email
+        })
+        await company.save();
+        res.json({
+            status : 200,
+            message : "Đăng kí thành công"
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            status : 500,
+            message : `Lỗi ${e}`
+        })
+    }
+}
+
 // Nhập otp
-module.exports.RegisterOtp =async (req,res) =>{
+module.exports.RegisterCandidate =async (req,res) =>{
     try{
         const {username,email,otp,password} = req.body;
         const existOtp = await Otp.findOne({email : email,codeOtp : otp});

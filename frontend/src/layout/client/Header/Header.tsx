@@ -25,16 +25,12 @@ function Header() {
     // Xác thực token
     if (!candidate) {
       const fetchApiVerifyToken = async () => {
-        try {
+     
           const response = await verifitoken();
           console.log(response.message);
           if (response.data) {
             dispatch(fetchCandidateById(response.data?.idAccount));
           }
-        } catch {
-          localStorage.removeItem("token");
-          navigate("/dang-nhap");
-        }
       };
       fetchApiVerifyToken();
     }
