@@ -63,7 +63,7 @@ const CompanyPage = () => {
     const fetchData = async () => {
       try {
         const resCompanies = await getAllCompany();
-        const resJobs = await getAllJob();
+        const resJobs = await getAllJob("");
 
         const companies = resCompanies?.data || [];
         const jobsList = resJobs?.data || [];
