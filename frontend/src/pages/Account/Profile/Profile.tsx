@@ -128,6 +128,7 @@ function Profile() {
     };
     fetchApi();
   }, []);
+
   return (
     <div className="profile-container">
       {/* Header */}

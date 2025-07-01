@@ -18,25 +18,12 @@ const candidateSchema = new mongoose.Schema(
     education: {
       schoolName: String,
       major: String,
-      isCurrentlyStudying: Boolean,
+
       startDate: Date,
       endDate: Date,
       description: String,
     },
-    workExperience: {
-      jobTitle: String,
-      company: String,
-      isCurrentlyWorking: Boolean,
-      startDate: Date, // định dạng "YYYY-MM"
-      endDate: Date,
-      description: String,
-      projects: [
-        {
-          name: String,
-          description: String,
-        },
-      ],
-    },
+
     skills: [
       {
         technicalSkill: [

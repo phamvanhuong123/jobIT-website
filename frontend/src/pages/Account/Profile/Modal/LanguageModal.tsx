@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Select, Button, List, message } from "antd";
 import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { useAppDispatch, useAppSelector } from "~/store";
+import { fetchUpdateCandidate } from "~/features/candidate.slice";
+import { toast } from "react-toastify";
 
-type Language = { language: string; level: string };
+type Language = { name: string; level: string };
 
 type LanguageModalProps = {
     visible: boolean;
@@ -22,7 +25,8 @@ const LanguageModal: React.FC<LanguageModalProps> = ({
     const [form] = Form.useForm();
     const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
     const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
-
+    const user = useAppSelector((state) => state.userCandidate.candidate);
+    const dispatch = useAppDispatch();
     const languageOptions = [
         "Tiếng Anh",
         "Tiếng Pháp",
@@ -63,11 +67,11 @@ const LanguageModal: React.FC<LanguageModalProps> = ({
             message.warning("Bạn chỉ được chọn tối đa 5 ngôn ngữ.");
             return;
         }
-        if (languagesList.some((l) => l.language === selectedLanguage)) {
+        if (languagesList.some((l) => l.name === selectedLanguage)) {
             message.warning("Ngôn ngữ này đã được chọn.");
             return;
         }
-        const newList = [...languagesList, { language: selectedLanguage, level: selectedLevel }];
+        const newList = [...languagesList, { name: selectedLanguage, level: selectedLevel }];
         setLanguagesList(newList);
         form.setFieldsValue({ languages: newList });
         setSelectedLanguage(null);
@@ -75,7 +79,7 @@ const LanguageModal: React.FC<LanguageModalProps> = ({
     };
 
     const handleRemoveLanguage = (language: string) => {
-        const newList = languagesList.filter((l) => l.language !== language);
+        const newList = languagesList.filter((l) => l.name !== language);
         setLanguagesList(newList);
         form.setFieldsValue({ languages: newList });
     };
@@ -83,6 +87,17 @@ const LanguageModal: React.FC<LanguageModalProps> = ({
     const handleOk = async () => {
         try {
             const values = await form.validateFields();
+            console.log(values)
+            if (user?.idAccount) {
+                    dispatch(fetchUpdateCandidate({ id: user.idAccount, body: values }))
+                      .unwrap()
+                      .then(() => {
+                        toast.success("Cật nhật thành công");
+                      })
+                      .catch((e) => {
+                        console.log("Lỗi ", e), toast.error("Cật nhật thất bại");
+                      });
+                  }
             onSave && onSave(values);
             onClose();
         } catch (error) {
@@ -141,12 +156,12 @@ const LanguageModal: React.FC<LanguageModalProps> = ({
                                 actions={[
                                     <DeleteOutlined
                                         key="delete"
-                                        onClick={() => handleRemoveLanguage(item.language)}
+                                        onClick={() => handleRemoveLanguage(item.name)}
                                         style={{ color: "red" }}
                                     />,
                                 ]}
                             >
-                                {item.language} — {levelOptions.find((l) => l.value === item.level)?.label}
+                                {item.name} — {levelOptions.find((l) => l.value === item.level)?.label}
                             </List.Item>
                         )}
                     />

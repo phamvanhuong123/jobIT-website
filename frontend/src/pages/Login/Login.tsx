@@ -44,7 +44,8 @@ const Login = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
+    try{
+      
     const res = await login(formData);
 
     if (res.data) {
@@ -54,12 +55,16 @@ const Login = () => {
       navigate(redirectPath); //  quay về trang ban đầu
       return;
     }
-
-    setMessage(res.message.toString());
+    }
+    catch(e : any){
+setMessage(e.message.toString());
     setFormData({
       email: "",
       password: "",
     });
+    }
+
+    
   };
 
   useEffect(() => {

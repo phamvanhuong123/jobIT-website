@@ -1,26 +1,13 @@
- interface Project {
-  name: string;
-  description: string;
-}
 
  interface Education {
   schoolName: string;
   major: string;
-  isCurrentlyStudying: boolean;
+
   startDate: Date;
   endDate: Date;
   description: string;
 }
 
- interface WorkExperience {
-  jobTitle: string;
-  company: string;
-  isCurrentlyWorking: boolean;
-  startDate: Date;
-  endDate: Date;
-  description: string;
-  projects: Project[];
-}
 
  interface TechnicalSkill {
   name: string;
@@ -54,10 +41,10 @@ export interface ICandidate {
   locations : [],
   about: string;
   education: Education;
-  workExperience: WorkExperience;
+
   skills: Skill[];
   languages: Language[];
-  certifications: string[];
+ 
   idAccount: string;
   createdAt?: Date;
   updatedAt?: Date;
