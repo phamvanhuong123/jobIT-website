@@ -1,4 +1,13 @@
-import { Form, Input, Button, Upload, Select, Typography, message } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Upload,
+  Select,
+  Typography,
+  message,
+  Divider,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
 import { useLocation, useNavigate } from "react-router";
@@ -8,31 +17,33 @@ import { useAppSelector } from "~/store";
 import { uploadFile } from "~/utils/uploadFile";
 
 const { TextArea } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ApplyForm = () => {
   const [form] = Form.useForm();
-  const user = useAppSelector(state => state.userCandidate.candidate);
+  const user = useAppSelector((state) => state.userCandidate.candidate);
   const location = useLocation();
   const navigate = useNavigate();
   const job = location.state?.job;
+
   if (!job) {
-    return <div>Không tìm thấy thông tin công việc.</div>;
+    return (
+      <div style={{ padding: "40px", textAlign: "center" }}>
+        <Title level={4}>Không tìm thấy thông tin công việc.</Title>
+      </div>
+    );
   }
 
-  // Danh sách location từ job
   const jobLocations: string[] = Array.isArray(job?.rawData?.locations)
     ? [...new Set((job.rawData.locations as string[]).map((loc) => loc.trim()))]
     : [];
 
-
-  // Kiểm tra kích thước file
   const beforeUpload = (file: RcFile) => {
     if (file.size > 3 * 1024 * 1024) {
       message.error("File phải nhỏ hơn 3MB!");
       return Upload.LIST_IGNORE;
     }
-    return false; // ngăn upload tự động
+    return false;
   };
 
   const onFinish = async (values: any) => {
@@ -49,21 +60,35 @@ const ApplyForm = () => {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: "0 auto", padding: 24 }}>
+    <div
+      style={{
+        maxWidth: 700,
+        margin: "40px auto",
+        padding: 32,
+        backgroundColor: "#fff",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+        borderRadius: 12,
+      }}
+    >
       <Title level={4}>
         Ứng tuyển vào vị trí: {job?.title} tại {job?.company}
       </Title>
 
-      <Form form={form} layout="vertical" onFinish={onFinish}>
+      <Divider />
+
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={onFinish}
+        size="middle"
+        requiredMark="optional"
+      >
         {/* Upload CV */}
         <Form.Item
-          label="CV ứng tuyển"
+          label={<Text strong>CV ứng tuyển</Text>}
           name="LinkCv"
           valuePropName="fileList"
-          getValueFromEvent={(e) => {
-            if (Array.isArray(e)) return e;
-            return e?.fileList;
-          }}
+          getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
           rules={[{ required: true, message: "Vui lòng tải lên CV" }]}
         >
           <Upload
@@ -72,13 +97,13 @@ const ApplyForm = () => {
             accept=".doc,.docx,.pdf"
             listType="text"
           >
-            <Button icon={<UploadOutlined />}>Chọn file</Button>
+            <Button icon={<UploadOutlined />}>Chọn file CV (PDF/DOC)</Button>
           </Upload>
         </Form.Item>
 
         {/* Họ và Tên */}
         <Form.Item
-          label="Họ và Tên"
+          label={<Text strong>Họ và Tên</Text>}
           name="fullName"
           rules={[{ required: true, message: "Vui lòng nhập họ và tên" }]}
         >
@@ -87,7 +112,7 @@ const ApplyForm = () => {
 
         {/* Số điện thoại */}
         <Form.Item
-          label="Số điện thoại"
+          label={<Text strong>Số điện thoại</Text>}
           name="phone"
           rules={[{ required: true, message: "Vui lòng nhập số điện thoại" }]}
         >
@@ -96,7 +121,7 @@ const ApplyForm = () => {
 
         {/* Nơi làm việc mong muốn */}
         <Form.Item
-          label="Nơi làm việc mong muốn"
+          label={<Text strong>Nơi làm việc mong muốn</Text>}
           name="locations"
           rules={[
             { required: true, message: "Vui lòng chọn nơi làm việc" },
@@ -108,7 +133,11 @@ const ApplyForm = () => {
             },
           ]}
         >
-          <Select mode="multiple" placeholder="Chọn nơi làm việc">
+          <Select
+            mode="multiple"
+            placeholder="Chọn tối đa 3 địa điểm"
+            allowClear
+          >
             {jobLocations.map((loc: string) => (
               <Select.Option key={loc} value={loc}>
                 {loc}
@@ -118,18 +147,21 @@ const ApplyForm = () => {
         </Form.Item>
 
         {/* Thư xin việc */}
-        <Form.Item label="Thư xin việc (Không bắt buộc)" name="coverLetter">
+        <Form.Item
+          label={<Text strong>Thư xin việc (Không bắt buộc)</Text>}
+          name="coverLetter"
+        >
           <TextArea
             rows={6}
             maxLength={500}
             showCount
-            placeholder="Viết thư xin việc..."
+            placeholder="Bạn có thể viết thư xin việc thể hiện động lực ứng tuyển..."
           />
         </Form.Item>
 
         {/* Submit */}
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button type="primary" htmlType="submit" block size="large">
             Gửi CV của tôi
           </Button>
         </Form.Item>
