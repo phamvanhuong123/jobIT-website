@@ -16,7 +16,9 @@ const VerifyRecruiter: React.FC = () => {
   const email = Cookies.get("email");
   const password = Cookies.get("password");
   const companyName = Cookies.get("companyName");
-  const companyPhone = Cookies.get("companyPhone");
+
+
+
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -33,7 +35,7 @@ const VerifyRecruiter: React.FC = () => {
   }, [countdown, isCounting]);
 
   const handleVerify = async () => {
-    if (!email || !password || !companyName || !companyPhone) {
+    if (!email || !password || !companyName ) {
       setMessage("❌ Thiếu thông tin đăng ký. Vui lòng đăng ký lại.");
       setStatus("error");
       return;
@@ -44,9 +46,8 @@ const VerifyRecruiter: React.FC = () => {
         email,
         password,
         companyName,
-        companyPhone,
         otp: code,
-      });
+       });
 
       // Xoá cookie sau khi xác thực xong
       Cookies.remove("email");
