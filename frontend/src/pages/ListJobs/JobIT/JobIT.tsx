@@ -3,8 +3,6 @@ import {
   ClockCircleOutlined,
   CompassOutlined,
   DollarOutlined,
-  HeartFilled,
-  HeartOutlined,
 } from "@ant-design/icons";
 import { Button, Card, Divider, Tag, Typography } from "antd";
 import Title from "antd/es/typography/Title";
@@ -19,7 +17,6 @@ import {
   deleteFavoriteJob,
   getAllFavoriteJobByCandidate,
 } from "~/services/favoriteJob.axios";
-import { abort } from "process";
 
 const { Text } = Typography;
 
@@ -57,12 +54,12 @@ function JobIT({ job }: { job: Job }) {
     setLiked((prev) => !prev);
     try {
       if (liked) {
-       
+
         console.log("Thao tác xoá")
         await deleteFavoriteJob(idFavorite)
       } else {
         console.log("Thao tác thêm");
-        const res =  await addFavoriteJob({
+        const res = await addFavoriteJob({
           idCandidate: user?.idAccount,
           idJob: job.id,
         });
@@ -79,17 +76,17 @@ function JobIT({ job }: { job: Job }) {
 
         const idFavorite = res.data?.find((item) => item.idJob === job.id)?._id;
         if (idFavorite) {
-            setIdfavorite(idFavorite)
+          setIdfavorite(idFavorite)
           setLiked(true);
         } else {
-            setIdfavorite("")
-           setLiked(false)
+          setIdfavorite("")
+          setLiked(false)
         }
       }
     };
     fetchApi();
   }, [job.id]);
- 
+
   return (
     <div className="detail-column">
       {/* Header Section */}
@@ -262,8 +259,8 @@ function JobIT({ job }: { job: Job }) {
             <Text strong style={{ fontSize: "16px", marginRight: 8 }}>
               Kỹ năng:
             </Text>
-            {job.tags.map((skill, idx) => (
-              <Tag key={idx} color="blue">
+            {job.tags.map((skill) => (
+              <Tag key={skill} color="blue">
                 {skill}
               </Tag>
             ))}

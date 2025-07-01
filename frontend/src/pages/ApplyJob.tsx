@@ -1,7 +1,6 @@
 import { Form, Input, Button, Upload, Select, Typography, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import type { RcFile } from "antd/es/upload/interface";
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { addCv } from "~/services/cv.axios";
@@ -13,48 +12,50 @@ const { Title } = Typography;
 
 const ApplyForm = () => {
   const [form] = Form.useForm();
-  const user = useAppSelector(state => state.userCandidate.candidate)
+  const user = useAppSelector(state => state.userCandidate.candidate);
   const location = useLocation();
   const navigate = useNavigate();
   const job = location.state?.job;
-  //  kích thước
+  if (!job) {
+    return <div>Không tìm thấy thông tin công việc.</div>;
+  }
+
+  // Danh sách location từ job
+  const jobLocations: string[] = Array.isArray(job?.rawData?.locations)
+    ? [...new Set((job.rawData.locations as string[]).map((loc) => loc.trim()))]
+    : [];
+
+
+  // Kiểm tra kích thước file
   const beforeUpload = (file: RcFile) => {
     if (file.size > 3 * 1024 * 1024) {
       message.error("File phải nhỏ hơn 3MB!");
       return Upload.LIST_IGNORE;
     }
-   
     return false; // ngăn upload tự động
   };
 
-  const onFinish =async (values: any) => {
-    // console.log("Dữ liệu đã submit:", {
-    //   ...values,
-    //   fileUrl,
-    // });
-    try{
-
-      if (user?.idAccount){
-        values.cvUrl = await uploadFile(values.LinkCv[0].originFileObj)
-        await addCv(user?.idAccount,job.id,values)
-        navigate(-1)
-        toast.success("Gửi CV thành công")
-        
+  const onFinish = async (values: any) => {
+    try {
+      if (user?.idAccount) {
+        values.cvUrl = await uploadFile(values.LinkCv[0].originFileObj);
+        await addCv(user?.idAccount, job.id, values);
+        navigate(-1);
+        toast.success("Gửi CV thành công");
       }
-    }
-    catch(e){
-      toast.warning("Gửi CV thất bại")
+    } catch (e) {
+      toast.warning("Gửi CV thất bại");
     }
   };
-  console.log(job);
+
   return (
     <div style={{ maxWidth: 600, margin: "0 auto", padding: 24 }}>
       <Title level={4}>
-        Ứng tuyển vào vị trí: {job.title} tại {job.company}
+        Ứng tuyển vào vị trí: {job?.title} tại {job?.company}
       </Title>
 
       <Form form={form} layout="vertical" onFinish={onFinish}>
-        {/* CV Upload */}
+        {/* Upload CV */}
         <Form.Item
           label="CV ứng tuyển"
           name="LinkCv"
@@ -75,7 +76,7 @@ const ApplyForm = () => {
           </Upload>
         </Form.Item>
 
-        {/* Họ và tên */}
+        {/* Họ và Tên */}
         <Form.Item
           label="Họ và Tên"
           name="fullName"
@@ -93,7 +94,7 @@ const ApplyForm = () => {
           <Input placeholder="098xxxxxxx" />
         </Form.Item>
 
-        {/* Nơi làm việc */}
+        {/* Nơi làm việc mong muốn */}
         <Form.Item
           label="Nơi làm việc mong muốn"
           name="locations"
@@ -108,10 +109,11 @@ const ApplyForm = () => {
           ]}
         >
           <Select mode="multiple" placeholder="Chọn nơi làm việc">
-            <Select.Option value="TP Hồ Chí Minh">TP Hồ Chí Minh</Select.Option>
-            <Select.Option value="Hà Nội">Hà Nội</Select.Option>
-            <Select.Option value="Đà Nẵng">Đà Nẵng</Select.Option>
-            <Select.Option value="Bình Định">Bình Định</Select.Option>
+            {jobLocations.map((loc: string) => (
+              <Select.Option key={loc} value={loc}>
+                {loc}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -125,7 +127,7 @@ const ApplyForm = () => {
           />
         </Form.Item>
 
-        {/* Nút Submit */}
+        {/* Submit */}
         <Form.Item>
           <Button type="primary" htmlType="submit" block>
             Gửi CV của tôi
