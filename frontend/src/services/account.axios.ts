@@ -1,11 +1,11 @@
 import axios from "./axios.customize";
 
 export const registerRecruiter = (data: { email: string }) => {
-    return axios.post("/api/register", data);
+    return axios.post("register", data);
     };
 
 export const registerUser = (data: { email: string }) => {
-     return axios.post("/api/register", data); // giống recruiter nhưng dùng cho user
+     return axios.post("register", data); // giống recruiter nhưng dùng cho user
     };
 
 interface ILogin  {
@@ -31,7 +31,7 @@ export const register = (data : any)=>{
 }
 
 export const registerOTP = (data: any) => {
-  return axios.post<IDataResponse<any>>("/api/register-employee-otp", data);
+  return axios.post<IDataResponse<any>>("register-employee-otp", data);
 };
 
 export const login = (data : any) =>{
