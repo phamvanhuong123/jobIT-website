@@ -1,7 +1,6 @@
 const Candidate = require("../model/candicate.model");
 const Cv = require("../model/cv.model");
 const Job = require("../model/job.model");
-
 // Lấy danh sách cv theo người dùng
 module.exports.getAllCvByUserId = async (req, res) => {
   try {
@@ -46,11 +45,11 @@ module.exports.getAllCvByUserId = async (req, res) => {
         },
       },
       {
-        $addFields : {
-            jobName : "$job.name",
-            jobSalary  : "$job.salary",
-            companyName : "$company.name"
-        }
+        $addFields: {
+          jobName: "$job.name",
+          jobSalary: "$job.salary",
+          companyName: "$company.name",
+        },
       },
       {
         $project: {
@@ -61,12 +60,11 @@ module.exports.getAllCvByUserId = async (req, res) => {
           phone: 1,
           locations: 1,
           cvUrl: 1,
-          jobName : 1,
-          companyName : 1,
-          status : 1,
-          jobSalary : 1,
-          createdAt : 1.
-          
+          jobName: 1,
+          companyName: 1,
+          status: 1,
+          jobSalary: 1,
+          createdAt: 1,
         },
       },
     ]);
@@ -113,6 +111,75 @@ module.exports.addCv = async (req, res) => {
     });
   } catch (e) {
     res.json({
+      status: 500,
+      message: `Lỗi ${e}`,
+    });
+  }
+};
+
+// Lấy công việc theo cv
+module.exports.getAllCvByJob = async (req, res) => {
+  try {
+    const idsJob = req.params.idsJob;
+    const idsJobArr = idsJob.split(",");
+    // const record = await Cv.find({idJob : {$in  : idsJobArr}});
+    const record = await Cv.aggregate([
+      {
+        $match: { idJob: { $in: idsJobArr } },
+      },
+      {
+        $addFields: { IdJobObject: { $toObjectId: "$idJob" } },
+      },
+      {
+        $lookup: {
+          from: "jobs",
+          localField: "IdJobObject",
+          foreignField: "_id",
+          as: "job",
+        },
+      },
+      {
+        $unwind: {
+          path: "$job",
+        },
+      },
+      {
+        $addFields: {
+          nameJob: "$job.name",
+        },
+      },
+      {
+        $project : {
+          job : 0,
+          IdJobObject : 0
+        }
+      }
+    ]);
+    res.json({
+      status: 200,
+      message: "Successful",
+      data: record,
+    });
+  } catch (e) {
+    res.status(500).json({
+      status: 500,
+      message: `Lỗi ${e}`,
+    });
+  }
+};
+
+// Cật nhật thông tin cv
+module.exports.updateCv = async (req, res) => {
+  try {
+    const id  = req.params.id
+    await Cv.updateOne({_id : id}, req.body)
+  
+    res.json({
+      status: 200,
+      message: "Successful",
+    });
+  } catch (e) {
+    res.status(500).json({
       status: 500,
       message: `Lỗi ${e}`,
     });

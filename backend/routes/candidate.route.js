@@ -1,6 +1,7 @@
 const express = require('express')
 const route = express.Router();
 const candidateController = require('../controller/candidate.controller')
+
 // [get] api/candidates
 route.get('/candidates',candidateController.getAllCandidate)
 

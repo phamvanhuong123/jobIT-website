@@ -26,7 +26,7 @@ function MenuSider(){
                 {
                     key: "4",
                   icon: <SiReaddotcv />,
-                  label: <Link to={""}>Quản lí CV</Link>,
+                  label: <Link to={"/admin/management-cv"}>Quản lí CV</Link>,
                 }
               ]}
             />

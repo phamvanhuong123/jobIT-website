@@ -2,6 +2,7 @@
 import { useRoutes } from "react-router";
 import LayoutDefault from "~/layout/admin/LayoutDefault/LayoutDefault";
 import InfoCompany from "~/pages/admin/InfoComany/InfoCompany";
+import ListCv from "~/pages/admin/ListCv/ListCv";
 import CreateJobPage from "~/pages/admin/ListJobs/CreateJobPage/CreateJobPage";
 import DetailJobPage from "~/pages/admin/ListJobs/DetailJobPage/DetailJobPage";
 import ListJobs from "~/pages/admin/ListJobs/ListJobs";
@@ -25,6 +26,10 @@ function AdminRoute() {
       },{
         path : "management-job/create",
         element : <CreateJobPage/>
+      },
+      {
+        path : "management-cv",
+        element : <ListCv/>
       }
     ]
    }

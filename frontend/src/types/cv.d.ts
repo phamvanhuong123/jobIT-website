@@ -33,4 +33,16 @@ declare global {
   createdAt : Date
   cvUrl : string
 }
+
+interface Applicant {
+  _id: string;
+  fullName: string;
+  phone: string;
+  locations: string[];
+  cvUrl: string;
+  status: "pending" | "accepted" | "rejected" | string;
+  createdAt: string;
+  nameJob: string;
+  isRead: boolean;
+}
 }

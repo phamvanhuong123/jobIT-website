@@ -5,6 +5,8 @@ const candidateRoutes = require('./candidate.route')
 const favoriteJobSRoutes = require('./favoriteJob.route');
 const companyReviewsRoute = require('./companyReview.route')
 const cvRoute = require("./cv.route");
+const authMiddiware = require('../middleware/authMiddleware')
+
 module.exports = (app) =>{
     app.use("/api",jobRoutes);
     app.use("/api",companyRoutes);

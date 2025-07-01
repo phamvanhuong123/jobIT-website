@@ -1,7 +1,6 @@
 import { Table, Tag, Space, Badge, Button } from "antd";
-import { CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaPlus } from "react-icons/fa6";
 import ButtonDetailJob from "./ButtonDetailJob/ButtonDetailJob";
 import ButtonDeleteJob from "./ButtonDeleteJob/ButtonDeleteJob";
