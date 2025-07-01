@@ -31,8 +31,8 @@ export const register = (data : any)=>{
 }
 
 export const registerOTP = (data: any) => {
-  return axios.post<IDataResponse<any>>("/api/register-otp", data);
-}
+  return axios.post<IDataResponse<any>>("/api/register-employee-otp", data);
+};
 
 export const login = (data : any) =>{
     return axios.post<IDataResponse<ILogin>>("login",data);
@@ -49,3 +49,6 @@ export const verifitoken = () =>{
         }
     })
 }
+export const loginRecruiter = (data: { email: string; password: string }) => {
+  return axios.post<IDataResponse<ILogin>>("/api/login-recruiter", data);
+};
