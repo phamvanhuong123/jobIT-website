@@ -1,150 +1,177 @@
-// ModernCVDocument.tsx - A modern-looking CV inspired by uploaded image
-
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFViewer,
-  Font,
-} from "@react-pdf/renderer";
+import React from "react";
 import { useAppSelector } from "~/store";
-// Đăng ký font Noto Sans hỗ trợ Unicode tiếng Việt
-Font.register({
-  family: "Noto Sans",
-  fonts: [
-    {
-      src: "https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Regular.ttf",
-      fontWeight: "normal",
-    },
-    {
-      src: "https://raw.githubusercontent.com/google/fonts/main/ofl/notosans/NotoSans-Bold.ttf",
-      fontWeight: "bold",
-    },
-  ],
-});
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: "#f5f5f5",
-    fontSize: 11,
-    padding: 20,
-    fontFamily: "Helvetica",
-  },
-  header: {
-    backgroundColor: "#2d2f3a",
-    color: "white",
-    padding: 16,
-    borderRadius: 6,
-    marginBottom: 16,
-  },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  subInfo: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 2,
-  },
-  section: {
-    marginBottom: 14,
-    paddingBottom: 6,
-    borderBottom: "1 solid #ccc",
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  label: {
-    fontWeight: "bold",
-  },
-  tag: {
-    backgroundColor: "#e0e0e0",
-    borderRadius: 4,
-    padding: 2,
-    marginRight: 4,
-    marginBottom: 2,
-  },
-});
 
-function ModernCVDocument() {
+const ModernCVPreview = () => {
   const user = useAppSelector((state) => state.userCandidate.candidate);
 
   const formatDate = (dateStr?: string | Date) => {
     if (!dateStr) return "";
     const d = new Date(dateStr);
-    return d.toISOString().split("T")[0];
+    return `${d.getMonth() + 1}/${d.getFullYear()}`;
   };
 
   return (
-    <PDFViewer width="100%" height="800">
-    <Document>
-      <Page size="A4" style={styles.page} wrap>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.name}>{user?.fullName || "Chưa có tên"}</Text>
-          <View style={styles.subInfo}>
-            <Text>📞 {user?.phoneNumber}</Text>
-            <Text>🎂 {formatDate(user?.dateOfBirth)}</Text>
-          </View>
-          <View style={styles.subInfo}>
-            <Text>✉️ {user?.email}</Text>
-            <Text>📍 {user?.city}</Text>
-          </View>
-        </View>
+    <div style={styles.viewer}>
+      <div style={styles.page}>
+        {/* Left Sidebar */}
+        <div style={styles.sidebar}>
+          <div style={styles.avatarSection}>
+            <h2 style={styles.name}>{user?.fullName || "Chưa có tên"}</h2>
+            <p style={styles.role}>{user?.currentLevel} Developer</p>
+          </div>
+          <div style={styles.infoGroup}>
+            <p>📞 {user?.phoneNumber}</p>
+            <p>✉️ {user?.email}</p>
+            <p>📍 {user?.city}</p>
+            <p>🎂 {formatDate(user?.dateOfBirth)}</p>
+            <p>👤 {user?.gender}</p>
+            <p>🎯 {user?.experienceYears !== undefined ? String(user.experienceYears) : ""} năm kinh nghiệm</p>
+          </div>
+          {user?.personalLink && (
+            <div style={styles.infoGroup}>
+              <h4>🔗 Liên kết</h4>
+              <a href={user.personalLink} target="_blank" rel="noreferrer">
+                {user.personalLink}
+              </a>
+            </div>
+          )}
+          {user?.address && (
+            <div style={styles.infoGroup}>
+              <h4>🏠 Địa chỉ</h4>
+              <p>{user.address}</p>
+            </div>
+          )}
+        </div>
 
-        {/* Education */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Học vấn</Text>
-          <Text>{user?.education?.schoolName || "Chưa có thông tin"}</Text>
-          <Text>
-            {user?.education?.startDate ? formatDate(user.education.startDate) : ""} - {user?.education?.endDate ? formatDate(user.education.endDate) : ""} |
-            {" "}{user?.education?.major}
-          </Text>
-        </View>
+        {/* Right Content */}
+        <div style={styles.content}>
+          {user?.about && (
+            <section style={styles.section}>
+              <h3 style={styles.sectionTitle}>👋 Giới thiệu</h3>
+              <p>{user.about}</p>
+            </section>
+          )}
 
-        {/* Skills */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Kỹ năng</Text>
-          <Text style={styles.label}>Core skills</Text>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 4 }}>
-            {user?.skills && user.skills.length > 0 && user.skills[0].technicalSkill?.length > 0 ? (
-              user.skills[0].technicalSkill.map((s: any, idx: number) => (
-                <Text style={styles.tag} key={idx}>{s.name || s}</Text>
-              ))
-            ) : (
-              <Text>Không có</Text>
-            )}
-          </View>
-        </View>
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>🎓 Học vấn</h3>
+            <p><strong>{user?.education?.schoolName}</strong></p>
+            <p>{user?.education?.major} ({formatDate(user?.education?.startDate)} - {formatDate(user?.education?.endDate)})</p>
+          </section>
 
-        {/* Work Experience */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Kinh nghiệm làm việc</Text>
-          <Text>Cập nhật kinh nghiệm làm việc của bạn</Text>
-        </View>
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>🛠️ Kỹ năng chuyên môn</h3>
+            <div style={styles.badgeContainer}>
+              {user?.skills && user.skills[0]?.technicalSkill?.length > 0
+                ? user.skills[0].technicalSkill.map((s: any, idx: number) => (
+                    <span key={idx} style={styles.badge}>{s.name || s}</span>
+                  ))
+                : <p>Không có</p>}
+            </div>
+          </section>
 
-        {/* Languages */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ngoại ngữ</Text>
-          {user?.languages?.map((lang: any, idx: number) => (
-            <Text key={idx}>
-              <Text style={styles.label}>{lang.name}:</Text> {lang.level}
-            </Text>
-          ))}
-        </View>
-      </Page>
-        
-    
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>💡 Kỹ năng mềm</h3>
+            <div style={styles.badgeContainer}>
+              {user?.skills && user.skills[0]?.softSkill?.length > 0
+                ? user.skills[0].softSkill.map((s: string, idx: number) => (
+                    <span key={idx} style={styles.badge}>{s}</span>
+                  ))
+                : <p>Không có</p>}
+            </div>
+          </section>
 
-    </Document>
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>🌐 Ngoại ngữ</h3>
+            {user?.languages?.map((lang: any, idx: number) => (
+              <p key={idx}><strong>{lang.name}</strong>: {lang.level}</p>
+            ))}
+          </section>
 
-      </PDFViewer>
-    
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>🕒 Hình thức làm việc</h3>
+            <p>{user?.workTypes?.join(", ") || "Không có"}</p>
+          </section>
+
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>📍 Địa điểm mong muốn</h3>
+            <p>{user?.locations?.join(", ") || "Không có"}</p>
+          </section>
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
-export default ModernCVDocument;
+const styles: { [key: string]: React.CSSProperties } = {
+  viewer: {
+    backgroundColor: "#e5e7eb",
+    padding: "40px 0",
+    display: "flex",
+    justifyContent: "center",
+    minHeight: "100vh",
+  },
+  page: {
+    display: "flex",
+    width: "1000px",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+    fontFamily: "Segoe UI, sans-serif",
+    fontSize: 14,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  sidebar: {
+    backgroundColor: "#2c3e50",
+    color: "#fff",
+    width: "30%",
+    padding: 24,
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
+  },
+  avatarSection: {
+    textAlign: "center",
+  },
+  name: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+  role: {
+    fontStyle: "italic",
+    fontSize: 14,
+    color: "#ccc",
+  },
+  infoGroup: {
+    fontSize: 13,
+    lineHeight: 1.6,
+  },
+  content: {
+    backgroundColor: "#fff",
+    width: "70%",
+    padding: "24px 32px",
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    borderBottom: "2px solid #3498db",
+    paddingBottom: 4,
+    marginBottom: 8,
+    color: "#2c3e50",
+  },
+  badgeContainer: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  badge: {
+    backgroundColor: "#3498db",
+    color: "#fff",
+    padding: "6px 12px",
+    borderRadius: 16,
+    fontSize: 13,
+  },
+};
+
+export default ModernCVPreview;

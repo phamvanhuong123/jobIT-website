@@ -7,7 +7,7 @@ const authMiddiware = require('../middleware/authMiddleware')
 route.get('/candidates',candidateController.getAllCandidate)
 
 // [get] api/candidates/:idAccount
-route.get('/candidates/:idAccount',authMiddiware.verifyJWT,candidateController.detail)
+route.get('/candidates/:idAccount',candidateController.detail)
 
 // [post] api/candidates/update/:idAccount
 route.post('/candidates/update/:idAccount',authMiddiware.verifyJWT,candidateController.update)
