@@ -50,10 +50,12 @@ const Login = () => {
 
     if (res.data) {
       localStorage.setItem("token", res.data.token);
-      dispatch(fetchCandidateById(res.data.user.idAccount));
-      toast.success("Đăng nhập thành công");
+      dispatch(fetchCandidateById(res.data.user.idAccount)).unwrap().then(()=>{
+          toast.success("Đăng nhập thành công");
       navigate(redirectPath); //  quay về trang ban đầu
       return;
+      });
+    
     }
     }
     catch(e : any){

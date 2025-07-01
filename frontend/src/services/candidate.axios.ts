@@ -2,6 +2,7 @@ import { ICandidate } from "~/types/candidate";
 import axios from "./axios.customize";
 const token = localStorage.getItem('token');
 export const getDetailCandidate = (idAccount : String) =>{
+    console.log(token)
         return axios.get<IDataResponse<ICandidate>>(`candidates/${idAccount}`,{
         headers :  {
             'Authorization': `Bearer ${token}`

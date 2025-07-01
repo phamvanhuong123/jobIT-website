@@ -20,6 +20,7 @@ import LoginRecruiter from "~/pages/Login/LoginRecruiter";
 import RegisterRecruiter from "../pages/Register/RegisterRecruiter";
 import VerifyRecruiter from "~/pages/Register/VerifyRecruiter";
 import CompanyReviewForm from "~/pages/Company/CompanyReviewForm/CompanyReviewForm";
+import MyCVDocment from "~/pages/MyCVDocument/MyCVDocument";
 
 
 
@@ -35,6 +36,11 @@ function ClientRoute() {
           path: "",
           element: <Home />,
         },
+        {
+          path : "mau-cv",
+          element : <MyCVDocment/>
+        },
+
         {
           path: "viec-lam-it",
           element: <ListJobs />,

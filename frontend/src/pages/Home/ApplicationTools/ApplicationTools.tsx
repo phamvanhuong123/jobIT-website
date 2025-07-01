@@ -1,6 +1,6 @@
 import { Button, Card, Col, Row, Typography } from 'antd'
 import './style.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 function ApplicationTools() {
@@ -28,7 +28,7 @@ function ApplicationTools() {
                 <Col span={12}>
                     <Card title={<h3>Mẫu CV</h3>} >
                         <p className='box-content'>Nâng cấp CV với các mẫu CV IT chuyên nghiệp - được nhà tuyển dụng đề xuất.</p>
-                        <Button size='large' shape='round' type='primary'>Xem mẫu CV</Button>
+                        <Link to={'mau-cv'}><Button size='large' shape='round' type='primary'>Xem mẫu CV</Button></Link>
                     </Card>
                 </Col>
             </Row>
