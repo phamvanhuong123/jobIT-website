@@ -82,7 +82,10 @@ function ClientRoute() {
         },
         {
           path: "user",
-          element: <Account />,
+          element : <PriveRoutes/>,
+          children : [
+            {
+              element: <Account />,
           children: [
             {
               path: "tong-quan-ho-so",
@@ -109,6 +112,8 @@ function ClientRoute() {
               element: <Overview />,
             },
           ],
+            }
+          ]
         },
         {
           path: "xac-nhan-xoa",

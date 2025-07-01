@@ -5,12 +5,18 @@ import {verifitoken} from '~/services/account.axios'
 function PriveRoutes() {
     const navigate = useNavigate();
     const checkLogin  = async ()=>{
-        const resData = await verifitoken();
+       try{
+         const resData = await verifitoken();
         if (resData.status !== 200)
-            navigate('/dang-nhap')
         console.log(resData)
+       }
+       catch{
+            navigate('/dang-nhap')
+
+       }
     }
     checkLogin()
+    console.log("áds")
     return <Outlet/>
 }
 

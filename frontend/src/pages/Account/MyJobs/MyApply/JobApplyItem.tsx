@@ -3,7 +3,7 @@ import {  Col, Row, Tag } from "antd";
 import dayjs from "dayjs";
 
 import { Link } from "react-router";
-import timeAgo from "~/pages/utils/timeAgo";
+
 
 function JobApplyItem({item} : {item : AppliedCv}){
 
@@ -20,7 +20,7 @@ function JobApplyItem({item} : {item : AppliedCv}){
                             </div>
                         </Col>
                         <Col className="saved__job__box__right">
-                            {/* <p className="saved__job__box__right__posted">{timeAgo(dayjs(item.createdAt).format("DD/MM/YYYY"))}</p> */}
+                            <p className="saved__job__box__right__posted">Ngày nộp : {(dayjs(item.createdAt).format("DD/MM/YYYY"))}</p>
                             <div className="saved__job__box__right__content">
                                        <strong >Trạng thái:</strong>
                                         <Tag color="blue" style={{marginLeft : 10}}>{item.status.toUpperCase()}</Tag>
