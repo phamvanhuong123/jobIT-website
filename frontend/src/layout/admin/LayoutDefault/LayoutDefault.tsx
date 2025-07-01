@@ -72,16 +72,18 @@ function LayoutDefault() {
           </div>
         </header>
 
-        <Layout>
-          <Sider trigger={null} collapsible collapsed={collapsed}>
+        <Layout style={{marginTop : 50}}>
+          <Sider style={{height : "100vh ", backgroundColor : 'white', position : 'fixed',zIndex : 999 }} trigger={null} collapsible collapsed={collapsed}>
             <MenuSider />
           </Sider>
           <Content
             style={{
               margin: "24px 16px",
+              marginLeft : 220,
               padding: 24,
               backgroundColor: "white",
               borderRadius: 10,
+              
             }}
           >
             <Outlet />
