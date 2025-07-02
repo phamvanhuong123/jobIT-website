@@ -24,8 +24,7 @@ const candidateSchema = new mongoose.Schema(
       description: String,
     },
 
-    skills: [
-      {
+    skills:   {
         technicalSkill: [
           {
             name: String,
@@ -34,7 +33,6 @@ const candidateSchema = new mongoose.Schema(
         ],
         softSkill: [String],
       },
-    ],
     languages : [{
         name : String,
         level : String
