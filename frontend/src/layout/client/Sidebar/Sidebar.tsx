@@ -7,8 +7,10 @@ import { ConfigProvider, Layout, Menu } from "antd"
 import { NavLink } from "react-router";
 import './style.css'
 import { MailOutlined } from "@ant-design/icons";
+import { useAppSelector } from "~/store";
 const {Sider } = Layout;
 function Sidebar(){
+    const user = useAppSelector(state => state.userCandidate.candidate)
     const items  = [
         {
             key: 'sub1',
@@ -45,7 +47,7 @@ function Sidebar(){
                         <PiHandWavingBold color="red" />
                         <span>Xin chào</span>
                     </div>
-                    <h3>Unt pham</h3>
+                    <h3>{user?.fullName}</h3>
                 </div>
                 <ConfigProvider
                     theme={{

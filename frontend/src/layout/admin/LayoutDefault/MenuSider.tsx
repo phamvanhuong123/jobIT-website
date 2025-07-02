@@ -6,13 +6,9 @@ import { Link } from "react-router"
 function MenuSider(){
     return <>
     <Menu 
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={["2"]}
               items={[
-                {
-                  key: "1",
-                  icon: <DashboardOutlined />,
-                  label: <Link to={''}>Tổng quan</Link>,
-                },
+                
                 {
                   key: "2",
                   icon: <UserOutlined />,
