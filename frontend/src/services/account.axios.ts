@@ -34,6 +34,10 @@ export const registerOTP = (data: any) => {
   return axios.post<IDataResponse<any>>("register-employee-otp", data);
 };
 
+export const registerOTPUser = (data: any) => {
+  return axios.post<IDataResponse<any>>("register-otp", data);
+};
+
 export const login = (data : any) =>{
     return axios.post<IDataResponse<ILogin>>("login",data);
 }

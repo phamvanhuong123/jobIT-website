@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerifyCode.module.css";
 import Cookies from "js-cookie";
-import { registerUser, registerOTP } from "~/services/account.axios";
+import { registerUser, registerOTPUser } from "~/services/account.axios";
 
 const VerifyCode: React.FC = () => {
   const [code, setCode] = useState("");
@@ -36,7 +36,7 @@ const VerifyCode: React.FC = () => {
     }
 
     try {
-      await registerOTP({
+      await registerOTPUser({
         email,
         password,
         username: fullName,
