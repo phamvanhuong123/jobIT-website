@@ -78,9 +78,6 @@ module.exports.getAllJobs = async (req, res) => {
     const sort = {
       createdAt: 1,
     };
-    //Lọc lương từ khoảng min => max (CÒn lỗi fix sau)
-    
-
     const recordArr = await Job.aggregate([
       {
         $match: find,
@@ -142,7 +139,10 @@ module.exports.createJoByCompany = async (req, res) => {
     await Company.findOne({ _id: idCompany });
 
     req.body.idCompany = idCompany;
-    const job = new Job(req.body);
+    const job = new Job({
+      ...req.body,
+      idCompany : idCompany
+    });
     await job.save();
     res.json({
       status: 200,

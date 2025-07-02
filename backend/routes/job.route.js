@@ -1,6 +1,8 @@
 const express = require('express');
 const route = express.Router();
 const jobController = require('../controller/job.controller');
+const authMiddiware = require('../middleware/authMiddleware')
+
 // [Get] api/jobs
 route.get('/jobs',jobController.getAllJobs);
 
@@ -11,12 +13,12 @@ route.get("/jobs/:idCompany",jobController.getJobsbyCompany)
 route.get("/jobs/detail/:id",jobController.detailJob)
 
 // [Post] api/jobs/create/:idCompany
-route.post('/jobs/create/:idCompany',jobController.createJoByCompany)
+route.post('/jobs/create/:idCompany',authMiddiware.verifyJWT,jobController.createJoByCompany)
 
 // [Delete] api/jobs/delete/:id
-route.delete('/jobs/delete/:id',jobController.deleteJob)
+route.delete('/jobs/delete/:id',authMiddiware.verifyJWT,jobController.deleteJob)
 
 // [PATCH] api/jobs/update/:id
-route.patch("/jobs/update/:id",jobController.updateJob)
+route.patch("/jobs/update/:id",authMiddiware.verifyJWT,jobController.updateJob)
 
 module.exports = route;

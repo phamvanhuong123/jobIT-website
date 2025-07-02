@@ -1,6 +1,7 @@
 const express = require('express');
 const route = express.Router();
 const companyController = require('../controller/company.controller')
+const authMiddiware = require('../middleware/authMiddleware')
 
 // [Get] api/companies
 route.get('/companies',companyController.getAllCompany);
@@ -18,6 +19,6 @@ route.post("/companies/add",companyController.addCompany)
 route.delete("/companies/delete/:id",companyController.deleteCompany)
 
 // [Patch]api/companies/update/:id
-route.patch("/companies/update/:id",companyController.updateCompany)
+route.patch("/companies/update/:id",authMiddiware.verifyJWT,companyController.updateCompany)
 
 module.exports = route

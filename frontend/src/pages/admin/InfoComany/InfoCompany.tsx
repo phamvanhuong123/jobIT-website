@@ -26,15 +26,20 @@ function InfoCompany() {
   const onHandleSubmit: FormProps<any>["onFinish"] = async (
     values: ICompany
   ) => {
-    const response = await updateCompany(data?._id, values);
-    if (response.status === 200) {
+    try{
+      await updateCompany(data?._id, values);
+
       toast.success("Cật nhật thông tin thành công");
       setData({...values,_id : data?._id ? data._id : ""});
       setComponentDisabled(true);
+    
     }
-    else{
+    catch{
       toast.error("Cật nhật thất bại")
+
     }
+  
+    
   };
 
   useEffect(() => {
